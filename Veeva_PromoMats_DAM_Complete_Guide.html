@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Veeva Vault PromoMats — DAM Complete Learning Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Source+Sans+3:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0b1f4b;
+  --navy-mid: #1b3a6b;
+  --blue: #2563eb;
+  --blue-d: #1e40af;
+  --blue-l: #dbeafe;
+  --teal: #0e7490;
+  --teal-l: #cffafe;
+  --green: #15803d;
+  --green-l: #dcfce7;
+  --orange: #b45309;
+  --orange-l: #fef3e2;
+  --red: #b91c1c;
+  --red-l: #fee2e2;
+  --purple: #6d28d9;
+  --purple-l: #ede9fe;
+  --gold: #92400e;
+  --gold-l: #fffbeb;
+  --gray9: #0f172a;
+  --gray7: #334155;
+  --gray5: #64748b;
+  --gray3: #cbd5e1;
+  --gray1: #f1f5f9;
+  --white: #ffffff;
+  --sidebar-w: 270px;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Source Sans 3', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family:var(--font-body); font-size:15px; line-height:1.75; color:var(--gray9); background:#f8fafc; display:flex; }
+
+/* ── SIDEBAR ── */
+#sidebar {
+  width:var(--sidebar-w); min-height:100vh; background:var(--navy);
+  position:fixed; top:0; left:0; overflow-y:auto; z-index:200;
+  display:flex; flex-direction:column; border-right:1px solid rgba(255,255,255,0.07);
+}
+#sidebar-brand { padding:24px 20px 18px; border-bottom:1px solid rgba(255,255,255,0.1); }
+#sidebar-brand .name { font-family:var(--font-display); font-size:16px; color:#fff; line-height:1.3; }
+#sidebar-brand .sub { font-size:10px; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:2px; margin-top:4px; }
+#toc { padding:10px 0 40px; }
+.toc-cat { font-size:9.5px; text-transform:uppercase; letter-spacing:2.5px; color:rgba(255,255,255,0.25); padding:14px 20px 5px; font-weight:700; }
+#toc a {
+  display:block; padding:6px 20px; font-size:12.5px; color:rgba(255,255,255,0.55);
+  text-decoration:none; border-left:3px solid transparent; transition:all 0.18s;
+}
+#toc a:hover { color:#fff; background:rgba(255,255,255,0.06); border-left-color:#60a5fa; }
+#toc a.active { color:#fff; background:rgba(255,255,255,0.1); border-left-color:#60a5fa; }
+#toc a.sub { padding-left:32px; font-size:11.5px; color:rgba(255,255,255,0.38); }
+#toc a.sub:hover { color:rgba(255,255,255,0.75); }
+
+/* ── MAIN ── */
+#main { margin-left:var(--sidebar-w); flex:1; min-width:0; }
+
+/* ── HERO ── */
+#hero {
+  background: linear-gradient(135deg, #050e25 0%, #0b1f4b 45%, #0c3d5e 100%);
+  padding:72px 64px 60px; position:relative; overflow:hidden;
+}
+#hero::before {
+  content:''; position:absolute; width:700px; height:700px; border-radius:50%;
+  background:radial-gradient(circle, rgba(37,99,235,0.15) 0%, transparent 65%);
+  top:-250px; right:-150px; pointer-events:none;
+}
+#hero::after {
+  content:''; position:absolute; width:400px; height:400px; border-radius:50%;
+  background:radial-gradient(circle, rgba(14,116,144,0.18) 0%, transparent 65%);
+  bottom:-150px; left:280px; pointer-events:none;
+}
+.hero-eyebrow { font-size:11px; text-transform:uppercase; letter-spacing:3.5px; color:#60a5fa; margin-bottom:16px; font-weight:600; position:relative; z-index:1; }
+#hero h1 { font-family:var(--font-display); font-size:52px; color:#fff; line-height:1.1; margin-bottom:8px; position:relative; z-index:1; }
+#hero h1 em { color:#7dd3fc; font-style:italic; }
+.hero-sub { font-family:var(--font-display); font-size:24px; color:#93c5fd; margin-bottom:20px; font-weight:600; position:relative; z-index:1; }
+.hero-desc { font-size:16px; color:rgba(255,255,255,0.58); max-width:640px; margin-bottom:36px; position:relative; z-index:1; line-height:1.7; }
+.hero-tags { display:flex; gap:10px; flex-wrap:wrap; position:relative; z-index:1; }
+.htag {
+  padding:7px 16px; border-radius:6px; font-size:12.5px; font-weight:700;
+  letter-spacing:0.4px; cursor:default;
+}
+.ht-blue   { background:#1d4ed8; color:#fff; }
+.ht-teal   { background:#0e7490; color:#fff; }
+.ht-green  { background:#15803d; color:#fff; }
+.ht-orange { background:#b45309; color:#fff; }
+.ht-red    { background:#b91c1c; color:#fff; }
+.ht-purple { background:#6d28d9; color:#fff; }
+
+/* ── CONTENT ── */
+#content { max-width:860px; margin:0 auto; padding:48px 56px 80px; }
+
+/* ── SECTION BANNER ── */
+.sec-banner {
+  display:flex; align-items:stretch; border-radius:10px; overflow:hidden;
+  margin-bottom:28px; margin-top:8px;
+  box-shadow:0 2px 12px rgba(0,0,0,0.12);
+}
+.sec-banner .accent { width:6px; flex-shrink:0; }
+.sec-banner .label {
+  flex:1; padding:16px 24px; font-family:var(--font-display);
+  font-size:19px; font-weight:700; color:#fff; letter-spacing:0.3px;
+}
+
+/* ── HEADINGS ── */
+h1.page-title {
+  font-family:var(--font-display); font-size:36px; color:var(--navy);
+  padding-bottom:10px; margin-bottom:6px;
+  border-bottom:3px solid var(--blue);
+}
+h2.sec-h2 {
+  font-family:var(--font-display); font-size:22px; color:var(--blue-d);
+  margin:36px 0 12px;
+}
+h3.sec-h3 { font-size:16px; font-weight:700; color:var(--teal); margin:24px 0 10px; }
+h4.sec-h4 { font-size:14.5px; font-weight:700; color:var(--orange); margin:18px 0 8px; }
+.section { margin-bottom:64px; }
+p { color:var(--gray7); margin-bottom:12px; }
+
+/* ── TABLES ── */
+.tbl-wrap { overflow-x:auto; margin:18px 0; border-radius:10px; box-shadow:0 1px 8px rgba(0,0,0,0.09); }
+table { width:100%; border-collapse:collapse; font-size:13.5px; }
+thead tr { background:var(--navy); }
+thead th { color:#fff; padding:11px 15px; text-align:left; font-weight:600; font-size:12.5px; letter-spacing:0.3px; }
+tbody tr:nth-child(even) { background:var(--gray1); }
+tbody tr:nth-child(odd)  { background:#fff; }
+tbody td { padding:10px 15px; color:var(--gray7); border-bottom:1px solid #e2e8f0; vertical-align:top; }
+tbody tr:hover { background:#eff6ff; }
+td code, th code { font-family:var(--font-mono); font-size:11.5px; background:#e0e7ff; color:#3730a3; padding:2px 6px; border-radius:4px; }
+
+/* ── INFO BOXES ── */
+.ibox { border-radius:10px; padding:18px 22px; margin:18px 0; border-left:5px solid; }
+.ibox-title { font-weight:700; font-size:12.5px; margin-bottom:9px; text-transform:uppercase; letter-spacing:0.8px; }
+.ibox p, .ibox li { font-size:14px; margin-bottom:4px; }
+.ibox ul, .ibox ol { padding-left:18px; }
+.ibox-blue   { background:var(--blue-l);   border-color:var(--blue); }
+.ibox-blue .ibox-title   { color:var(--navy); }
+.ibox-teal   { background:var(--teal-l);   border-color:var(--teal); }
+.ibox-teal .ibox-title   { color:var(--teal); }
+.ibox-green  { background:var(--green-l);  border-color:var(--green); }
+.ibox-green .ibox-title  { color:var(--green); }
+.ibox-orange { background:var(--orange-l); border-color:var(--orange); }
+.ibox-orange .ibox-title { color:var(--orange); }
+.ibox-purple { background:var(--purple-l); border-color:var(--purple); }
+.ibox-purple .ibox-title { color:var(--purple); }
+.ibox-red    { background:var(--red-l);    border-color:var(--red); }
+.ibox-red .ibox-title    { color:var(--red); }
+.ibox-gold   { background:var(--gold-l);   border-color:var(--gold); }
+.ibox-gold .ibox-title   { color:var(--gold); }
+.ibox-gray   { background:var(--gray1);    border-color:var(--gray5); }
+.ibox-gray .ibox-title   { color:var(--gray7); }
+
+/* ── CODE BLOCK ── */
+.code-block {
+  background:#0f172a; color:#e2e8f0; font-family:var(--font-mono);
+  font-size:12.5px; padding:18px 22px; border-radius:10px; margin:14px 0;
+  overflow-x:auto; line-height:1.65;
+}
+
+/* ── QnA ── */
+.qna { margin:18px 0; border-radius:10px; overflow:hidden; box-shadow:0 1px 6px rgba(0,0,0,0.07); }
+.qna-q { background:var(--blue-l); padding:13px 18px; font-weight:700; color:var(--navy); font-size:14px; }
+.qna-q::before { content:"Q: "; }
+.qna-a { background:#fff; padding:13px 18px; border-left:4px solid var(--blue); font-size:13.5px; color:var(--gray7); }
+.qna-a::before { content:"A: "; font-weight:700; color:var(--green); }
+
+/* ── SCENARIO ── */
+.scenario { margin:18px 0; border-radius:10px; overflow:hidden; box-shadow:0 1px 6px rgba(0,0,0,0.07); }
+.scenario-t { background:var(--gold-l); padding:12px 18px; font-weight:700; color:var(--gold); font-size:13.5px; }
+.scenario-t::before { content:"📋 Scenario: "; }
+.scenario-b { background:#fff; padding:13px 18px; border-left:4px solid var(--gold); font-size:13.5px; color:var(--gray7); }
+
+/* ── ISSUE BOX ── */
+.issue { margin:18px 0; border-radius:10px; overflow:hidden; box-shadow:0 1px 6px rgba(0,0,0,0.07); }
+.issue-h { background:var(--red-l); padding:12px 18px; font-size:13.5px; }
+.issue-h .phase { font-weight:700; color:var(--red); }
+.issue-h .title { font-weight:700; color:var(--gray9); }
+.issue-b { background:#fff; padding:13px 18px; border-left:4px solid var(--red); font-size:13px; color:var(--gray7); }
+.issue-b .il { margin-bottom:5px; }
+.issue-b .il strong { color:var(--navy); }
+
+/* ── INTERVIEW Q ── */
+.iq { margin:14px 0; border-radius:10px; overflow:hidden; box-shadow:0 1px 5px rgba(0,0,0,0.06); }
+.iq-q { background:var(--teal-l); padding:12px 18px; font-weight:700; color:var(--teal); font-size:13.5px; }
+.iq-a { background:#fff; padding:12px 18px; border-left:4px solid var(--teal); font-size:13px; color:var(--gray7); }
+
+/* ── BULLETS ── */
+ul.bul { padding-left:22px; margin:10px 0; }
+ul.bul li { color:var(--gray7); margin-bottom:6px; font-size:14px; }
+ol.num { padding-left:24px; margin:10px 0; }
+ol.num li { color:var(--gray7); margin-bottom:7px; font-size:14px; }
+
+/* ── CATEGORY HEADER ── */
+.cat-hdr {
+  background:linear-gradient(90deg,var(--navy-mid),var(--blue-d));
+  color:#fff; padding:12px 20px; border-radius:8px;
+  font-weight:700; font-size:15px; margin:32px 0 18px;
+}
+
+/* ── GLOSSARY GRID ── */
+.glos-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:18px 0; }
+.glos-item { background:#fff; border:1px solid #e2e8f0; border-radius:8px; padding:11px 14px; }
+.glos-term { font-family:var(--font-mono); font-size:12px; font-weight:600; color:var(--blue); margin-bottom:3px; }
+.glos-def  { font-size:12.5px; color:var(--gray7); line-height:1.5; }
+
+/* ── SCROLL TOP ── */
+#stb {
+  position:fixed; bottom:28px; right:28px; width:42px; height:42px;
+  background:var(--blue); color:#fff; border:none; border-radius:50%;
+  cursor:pointer; font-size:18px; display:flex; align-items:center; justify-content:center;
+  box-shadow:0 4px 14px rgba(0,0,0,0.22); transition:all 0.2s;
+  opacity:0; pointer-events:none; z-index:300;
+}
+#stb.vis { opacity:1; pointer-events:all; }
+#stb:hover { background:var(--navy); transform:translateY(-2px); }
+
+/* ── DIVIDER ── */
+hr.div { border:none; border-top:2px solid #e2e8f0; margin:40px 0; }
+
+/* ── KEY TAKEAWAY ── */
+.takeaway {
+  background:linear-gradient(135deg,var(--navy),var(--navy-mid));
+  border-radius:12px; padding:28px 32px; margin:32px 0;
+  box-shadow:0 4px 20px rgba(11,31,75,0.25);
+}
+.takeaway h3 { font-family:var(--font-display); color:#fff; font-size:18px; margin-bottom:16px; }
+.takeaway ol { padding-left:20px; }
+.takeaway ol li { color:#bfdbfe; font-size:14px; margin-bottom:8px; line-height:1.6; }
+
+@media(max-width:900px){
+  #sidebar{display:none;}
+  #main{margin-left:0;}
+  #content{padding:28px 20px;}
+  #hero{padding:40px 20px;}
+  #hero h1{font-size:32px;}
+  .glos-grid{grid-template-columns:1fr;}
+}
+@media print{
+  #sidebar,#stb{display:none;}
+  #main{margin-left:0;}
+}
+</style>
+</head>
+<body>
+
+<nav id="sidebar">
+  <div id="sidebar-brand">
+    <div class="name">Veeva Vault<br>PromoMats DAM</div>
+    <div class="sub">Complete Learning Guide</div>
+  </div>
+  <div id="toc">
+    <div class="toc-cat">Foundations</div>
+    <a href="#s1">1. Introduction to DAM</a>
+    <a href="#s2">2. DAM Architecture</a>
+    <a href="#s3">3. Concepts &amp; Terminology</a>
+    <div class="toc-cat">Object Model</div>
+    <a href="#s4">4. Key Objects</a>
+    <a href="#s5">5. Object Relationships</a>
+    <div class="toc-cat">Process</div>
+    <a href="#s6">6. End-to-End Process</a>
+    <a href="#s7">7. Content Lifecycle</a>
+    <div class="toc-cat">Implementation</div>
+    <a href="#s8">8. Requirement Gathering</a>
+    <a href="#s9">9. Implementation Guide</a>
+    <a href="#s10">10. Implementation Issues</a>
+    <a href="#s11">11. Post-Go-Live Issues</a>
+    <a href="#s12">12. Integrations</a>
+    <div class="toc-cat">Reference</div>
+    <a href="#s13">13. Glossary</a>
+    <a href="#s14">14. QnA &amp; Scenarios</a>
+    <a href="#s15">15. Interview Questions (80+)</a>
+    <a href="#s15b" class="sub">A: DAM Fundamentals Q1–15</a>
+    <a href="#s15c" class="sub">B: Object Model Q16–35</a>
+    <a href="#s15d" class="sub">C: Implementation Q36–55</a>
+    <a href="#s15e" class="sub">D: Advanced Q56–80</a>
+  </div>
+</nav>
+
+<button id="stb" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<div id="main">
+<div id="hero">
+  <div class="hero-eyebrow">Veeva Vault · Life Sciences Platform</div>
+  <h1>PromoMats<br><em>Digital Asset Management</em></h1>
+  <div class="hero-sub">Complete Learning Guide</div>
+  <p class="hero-desc">End-to-end coverage of DAM architecture, object model, relationships, processes, requirement gathering, implementation, post-go-live issues, and 80+ interview questions — with real-world examples and scenarios.</p>
+  <div class="hero-tags">
+    <span class="htag ht-blue">DAM Architecture</span>
+    <span class="htag ht-teal">Object Model</span>
+    <span class="htag ht-green">E2E Process</span>
+    <span class="htag ht-orange">Implementation</span>
+    <span class="htag ht-red">Issues &amp; Fixes</span>
+    <span class="htag ht-purple">80+ Interview Qs</span>
+  </div>
+</div>
+
+<div id="content">
+
+<!-- ═══════════════ SECTION 1 ═══════════════ -->
+<div class="section" id="s1">
+<div class="sec-banner"><div class="accent" style="background:#3b82f6"></div><div class="label" style="background:#0b1f4b">SECTION 1: INTRODUCTION TO DAM AND PROMOMATS</div></div>
+<h1 class="page-title">1. Introduction to DAM and Veeva Vault PromoMats</h1>
+
+<h2 class="sec-h2">1.1 What is Digital Asset Management (DAM)?</h2>
+<p>Digital Asset Management (DAM) is a system, process, and strategy for storing, organising, finding, retrieving, and sharing digital assets — such as promotional materials, images, videos, documents, templates, and approved content — in a centralised, controlled, and auditable way.</p>
+<p><strong>Simple Analogy:</strong> Think of DAM as a super-organised, searchable, permission-controlled library for all your digital content. Instead of hunting through email attachments or shared drives, every approved asset lives in one place, with a full history of who changed what and when.</p>
+<div class="ibox ibox-blue"><div class="ibox-title">What qualifies as a Digital Asset?</div>
+<ul><li>Promotional brochures, detail aids, leave-behinds</li><li>Digital banners, social media creatives, email templates</li><li>Sales presentation decks and product one-pagers</li><li>Regulatory-approved labeling content and core visual aids</li><li>Training videos, webinar recordings</li><li>Photography, brand images, logos, icons</li><li>Reusable content fragments (modular content blocks)</li></ul></div>
+
+<h2 class="sec-h2">1.2 What is Veeva Vault PromoMats?</h2>
+<p>Veeva Vault PromoMats is Veeva's cloud-based promotional content management solution built specifically for life sciences companies (pharma, biotech, medical devices). It combines Document Management, DAM, Medical-Legal-Regulatory (MLR) Review, and Commercial Content Distribution in a single, fully integrated platform.</p>
+<div class="tbl-wrap"><table><thead><tr><th>Capability</th><th>What It Does</th></tr></thead><tbody>
+<tr><td>Document Management</td><td>Stores and versions all promotional documents with full audit trail</td></tr>
+<tr><td>DAM</td><td>Centralises approved digital assets for reuse across channels and markets</td></tr>
+<tr><td>MLR Review Workflow</td><td>Routes content through Medical, Legal, and Regulatory review and approval</td></tr>
+<tr><td>Modular Content</td><td>Manages reusable content fragments that can be assembled into new materials</td></tr>
+<tr><td>Distribution</td><td>Delivers approved assets to CRM systems (Veeva CRM), websites, portals</td></tr>
+<tr><td>Expiry Management</td><td>Tracks expiration dates and automatically retires outdated content</td></tr>
+<tr><td>Localisation</td><td>Manages translations and country-specific adaptations of global content</td></tr>
+<tr><td>Compliance</td><td>Maintains 21 CFR Part 11 electronic signatures and full audit trails</td></tr>
+</tbody></table></div>
+
+<h2 class="sec-h2">1.3 Why DAM in PromoMats vs. a Generic DAM?</h2>
+<div class="tbl-wrap"><table><thead><tr><th>Feature</th><th>Generic DAM</th><th>Veeva PromoMats DAM</th></tr></thead><tbody>
+<tr><td>Regulatory Compliance</td><td>Optional/add-on</td><td>Built-in, GxP ready</td></tr>
+<tr><td>MLR Workflow</td><td>Not native</td><td>Full MLR workflow out of the box</td></tr>
+<tr><td>Audit Trail</td><td>Limited</td><td>Tamper-proof, 21 CFR Part 11</td></tr>
+<tr><td>CRM Integration</td><td>Manual/custom</td><td>Native Veeva CRM connector</td></tr>
+<tr><td>Modular Content</td><td>Not available</td><td>Native (Approved Email, Slides)</td></tr>
+<tr><td>Expiry/Withdrawal</td><td>Manual</td><td>Automated with notifications</td></tr>
+<tr><td>Life Sciences Focus</td><td>Generic industry</td><td>Purpose-built for pharma/biotech</td></tr>
+</tbody></table></div>
+</div>
+
+<!-- ═══════════════ SECTION 2 ═══════════════ -->
+<div class="section" id="s2">
+<div class="sec-banner"><div class="accent" style="background:#3b82f6"></div><div class="label" style="background:#0b1f4b">SECTION 2: DAM ARCHITECTURE IN VEEVA VAULT</div></div>
+<h1 class="page-title">2. DAM Architecture in Veeva Vault PromoMats</h1>
+
+<h2 class="sec-h2">2.1 Architectural Overview</h2>
+<p>PromoMats DAM architecture consists of four interlocking layers: the Data Layer (objects and metadata), the Content Layer (documents and renditions), the Process Layer (lifecycles, workflows, reviews), and the Integration Layer (CRM, portals, external systems).</p>
+<div class="ibox ibox-blue"><div class="ibox-title">PromoMats DAM — Four Architectural Layers</div>
+<ul>
+<li><strong>Layer 1 — DATA LAYER:</strong> Vault Objects (Product, Country, Material Type, Campaign) that categorise and describe assets</li>
+<li><strong>Layer 2 — CONTENT LAYER:</strong> Vault Documents (the actual files) + Renditions (PDF, thumbnail, web-optimised versions)</li>
+<li><strong>Layer 3 — PROCESS LAYER:</strong> Document Lifecycles (Draft → Approved → Expired), MLR workflows, electronic signatures</li>
+<li><strong>Layer 4 — INTEGRATION LAYER:</strong> Veeva CRM connector, Approved Email, CLM player, external portal APIs</li>
+</ul></div>
+
+<h2 class="sec-h2">2.2 Core Architectural Components</h2>
+<div class="tbl-wrap"><table><thead><tr><th>Component</th><th>Role &amp; Description</th></tr></thead><tbody>
+<tr><td>Vault Tenant</td><td>A single, dedicated cloud instance of Veeva Vault for the customer. One company = typically one or more Vault tenants (Dev, QA, Prod)</td></tr>
+<tr><td>Document Library</td><td>The central repository where all promotional documents/assets are stored and versioned</td></tr>
+<tr><td>Object Layer</td><td>Structured data (Vault Objects) that serve as metadata containers and relationship anchors for documents</td></tr>
+<tr><td>Document Lifecycle</td><td>The state machine (Draft, In Review, Approved, Expired) governing each document's journey</td></tr>
+<tr><td>Rendition Engine</td><td>Auto-generates PDF renditions, thumbnails, and viewable web versions of uploaded source files</td></tr>
+<tr><td>MLR Workflow Engine</td><td>Routes documents through configurable Medical, Legal, Regulatory approval steps</td></tr>
+<tr><td>Vault Connect / CRM Connector</td><td>Real-time bridge between PromoMats and Veeva CRM for pushing approved CLM content to field reps</td></tr>
+<tr><td>Modular Content Engine</td><td>Manages reusable approved text and image modules for assembling new materials</td></tr>
+<tr><td>Vault API</td><td>REST API for programmatic access to documents, objects, metadata, and workflow triggers</td></tr>
+</tbody></table></div>
+
+<h2 class="sec-h2">2.3 Document vs. Object Architecture in DAM</h2>
+<div class="ibox ibox-green"><div class="ibox-title">Documents (the Assets themselves)</div>
+<ul><li>Physical files: PowerPoint, InDesign, JPEG, MP4, HTML5, PDF</li><li>Each has: versions (major/minor), a lifecycle state, metadata fields, renditions, and an audit trail</li><li>Example: A 32-slide detail aid PDF for a drug is a Document in Vault</li><li>Documents can be referenced by Objects (e.g., a Campaign Object can link to 50 documents)</li></ul></div>
+<div class="ibox ibox-purple"><div class="ibox-title">Objects (the Metadata &amp; Structure)</div>
+<ul><li>Structured records that describe, categorise, and link documents</li><li>Examples: Product Object, Campaign Object, Country Object, Content Module Object</li><li>Objects form a relationship web that makes content findable and reusable</li><li>Example: All detail aids for Product X in Country Y can be found via Product + Country Object lookups</li></ul></div>
+
+<h2 class="sec-h2">2.4 Vault Hierarchy in PromoMats</h2>
+<div class="ibox ibox-gray"><div class="ibox-title">Document Type Hierarchy (typical PromoMats)</div>
+<div class="code-block">Promotional Material
+  → Sales Tools
+      → Detail Aid
+      → Leave-Behind
+      → Patient Brochure
+  → Digital Assets
+      → Banner Ad
+      → Email Template
+      → Social Media Asset
+  → Training Materials
+      → Product Training Deck
+      → Field Training Video
+Medical Content
+  → Medical Letter
+  → Medical Education Slides</div></div>
+
+<h2 class="sec-h2">2.5 Rendition Architecture</h2>
+<div class="tbl-wrap"><table><thead><tr><th>Rendition Type</th><th>Purpose &amp; Behaviour</th></tr></thead><tbody>
+<tr><td>Viewable Rendition</td><td>Auto-generated PDF of the source file. Used for in-browser viewing and MLR annotation. Created automatically on upload</td></tr>
+<tr><td>Thumbnail</td><td>Small image preview (auto-generated). Displayed in list views, search results, and CLM slide thumbnails</td></tr>
+<tr><td>Approved Rendition</td><td>The final locked PDF after document reaches Approved state. This is what is distributed</td></tr>
+<tr><td>Source Rendition</td><td>The original uploaded file (e.g., PPTX, INDD). Protected behind download permissions</td></tr>
+<tr><td>Web Rendition</td><td>Optimised version for web/portal delivery (lower resolution, compressed)</td></tr>
+<tr><td>CLM Rendition</td><td>HTML5 or ZIP package formatted for Veeva CRM CLM delivery to iPads</td></tr>
+</tbody></table></div>
+</div>
+
+<!-- ═══════════════ SECTION 3 ═══════════════ -->
+<div class="section" id="s3">
+<div class="sec-banner"><div class="accent" style="background:#60a5fa"></div><div class="label" style="background:#1b3a6b">SECTION 3: CORE DAM CONCEPTS &amp; TERMINOLOGIES</div></div>
+<h1 class="page-title">3. Core DAM Concepts &amp; Terminologies</h1>
+
+<h2 class="sec-h2">3.1 Essential DAM Terminology</h2>
+<div class="tbl-wrap"><table><thead><tr><th>Term</th><th>Definition &amp; Easy Explanation</th></tr></thead><tbody>
+<tr><td>Asset</td><td>Any digital file with business value — a detail aid PDF, a product image, a video. In PromoMats, an asset is a Vault Document</td></tr>
+<tr><td>Metadata</td><td>Data about the asset — Product, Country, Audience, Expiry Date, Approval Status. Stored in Object fields. Without good metadata, assets cannot be found</td></tr>
+<tr><td>Lifecycle</td><td>The journey of a document from creation to retirement. States: Draft → In Review → Approved → Expired → Withdrawn. Like a passport through the review process</td></tr>
+<tr><td>Rendition</td><td>A version of the same asset in a different format. Original PPTX + auto-generated PDF + thumbnail are all renditions of the same document</td></tr>
+<tr><td>MLR Review</td><td>Medical-Legal-Regulatory review — the formal approval process before promotional content can be used. The heart of PromoMats compliance</td></tr>
+<tr><td>Claim</td><td>A specific statement made in promotional material (e.g., "Drug X reduces cholesterol by 30%"). Claims must be pre-approved and sourced</td></tr>
+<tr><td>Anchor Claim / Claim Link</td><td>A link between a piece of promotional content and the pre-approved claim it supports, proving the statement is backed by evidence</td></tr>
+<tr><td>Document Reference</td><td>A link from a document to a supporting document (e.g., a detail aid referencing the Clinical Study that supports a claim)</td></tr>
+<tr><td>Approved Email</td><td>A Veeva feature where MLR-approved email templates are delivered to field reps in Veeva CRM for compliant HCP communication</td></tr>
+<tr><td>CLM (Closed Loop Marketing)</td><td>The process of delivering approved digital content to sales reps on iPads, capturing interaction data, and feeding it back to Marketing</td></tr>
+<tr><td>Content Module / Fragment</td><td>A reusable, pre-approved chunk of content (text block, image, claim). Used in Modular Content to assemble new materials without re-approval</td></tr>
+<tr><td>DAM Taxonomy</td><td>The classification structure (document types, metadata fields, controlled vocabularies) that organises all assets in the DAM</td></tr>
+<tr><td>Expiry Date</td><td>The date after which an asset is no longer valid for use. PromoMats auto-retires assets at expiry</td></tr>
+<tr><td>Withdrawal</td><td>The active removal of an approved asset from distribution. Immediate and triggered manually — different from scheduled expiry</td></tr>
+<tr><td>Version Control</td><td>Every upload of a new file creates a new version (1.0, 1.1, 2.0). Prior versions are preserved but inactive</td></tr>
+<tr><td>Dynamic Access Control</td><td>Security mechanism restricting document visibility based on metadata values (e.g., Country field limits which users can see a document)</td></tr>
+<tr><td>Steady State</td><td>The lifecycle state where most daily business takes place (e.g., "Approved"). Content is distributable in this state</td></tr>
+<tr><td>Sandbox / UAT Vault</td><td>A non-production copy of the Vault used for testing configuration changes before deploying to the live system</td></tr>
+<tr><td>Distributive State</td><td>Any lifecycle state from which content can be pushed to Veeva CRM or other distribution channels</td></tr>
+<tr><td>Cross-Reference Document</td><td>A reference in a promotional document to the scientific evidence that supports a claim. Required for MLR sign-off</td></tr>
+</tbody></table></div>
+
+<h2 class="sec-h2">3.2 PromoMats-Specific Concepts</h2>
+
+<h3 class="sec-h3">3.2.1 Modular Content</h3>
+<p><strong>What it is:</strong> A methodology where promotional content is built from pre-approved, reusable modules (blocks of text, images, claims) rather than creating each piece from scratch.</p>
+<p><strong>Why it matters:</strong> Each module is individually approved through MLR. When you assemble a new piece using only pre-approved modules, the review cycle is dramatically shortened — you only review the combination, not each claim again.</p>
+<div class="scenario"><div class="scenario-t">Modular Content in Action</div><div class="scenario-b">A pharma company has 10 approved text modules and 5 approved image modules for Drug X. A new country wants a detail aid. Instead of writing new content and going through a full 8-week MLR, they select relevant pre-approved modules, assemble the detail aid, and submit only for a short review of layout/combination — saving 6 weeks of review time.</div></div>
+
+<h3 class="sec-h3">3.2.2 Claims Management</h3>
+<p>In pharma, every promotional statement (claim) must be substantiated by clinical evidence. PromoMats manages this through:</p>
+<ul class="bul">
+<li><strong>Claim Library:</strong> a repository of all pre-approved promotional claims</li>
+<li><strong>Claim Linking:</strong> each claim in a document is linked to its supporting evidence document</li>
+<li><strong>Claim Approval:</strong> claims go through their own approval process before being usable in materials</li>
+<li><strong>Claim Traceability:</strong> auditors can trace any statement back to the clinical study that supports it</li>
+</ul>
+<div class="scenario"><div class="scenario-t">Claims Management Scenario</div><div class="scenario-b">A medical writer states "Drug X reduces HbA1c by 1.2% vs placebo" in a detail aid. In PromoMats, this statement is linked to the Phase 3 trial publication stored in Vault. The Medical reviewer can instantly verify the claim is accurate. If the study is later updated, PromoMats flags all documents using that claim for re-review.</div></div>
+
+<h3 class="sec-h3">3.2.3 Country/Market Management</h3>
+<p>Global pharma companies have one global asset that must be adapted for 50+ countries. PromoMats manages this through:</p>
+<ul class="bul">
+<li><strong>Global-to-Local workflow:</strong> Global creates master → Local adapts for language, regulations, approved indications</li>
+<li><strong>Country Object:</strong> each country has its own Object record defining regulatory requirements</li>
+<li><strong>Country-specific Lifecycles:</strong> some markets have stricter review processes</li>
+<li><strong>Indication mapping:</strong> a product may have different approved indications per country</li>
+</ul>
+</div>
+
+<!-- ═══════════════ SECTION 4 ═══════════════ -->
+<div class="section" id="s4">
+<div class="sec-banner"><div class="accent" style="background:#60a5fa"></div><div class="label" style="background:#1b3a6b">SECTION 4: KEY OBJECTS IN PROMOMATS DAM</div></div>
+<h1 class="page-title">4. Key Objects in PromoMats DAM</h1>
+<p>PromoMats uses Vault Objects as the metadata and structural backbone of the DAM. Here are the most important objects and their roles:</p>
+
+<h2 class="sec-h2">4.1 Product Object <code>(product__v)</code></h2>
+<div class="ibox ibox-blue"><div class="ibox-title">Product Object</div>
+<p>Represents a pharmaceutical product or brand being promoted.</p>
+<p><strong>Key Fields:</strong> product_name__v (Text), therapeutic_area__v (Picklist), active_ingredient__c (Text), brand_name__c (Text), product_status__v (Picklist: Active/Discontinued), launch_date__c (Date)</p>
+<p><strong>Relationship to DAM:</strong> Every promotional document must be linked to at least one Product record. Enables filtering: "Show me all approved detail aids for Lipitor 40mg"</p></div>
+
+<h2 class="sec-h2">4.2 Country Object <code>(country__v)</code></h2>
+<div class="ibox ibox-green"><div class="ibox-title">Country Object</div>
+<p>Represents a market/country where promotional content is used.</p>
+<p><strong>Key Fields:</strong> country_name__v (Text), iso_code__c (Text), regulatory_body__c (Text), language__c (Picklist), review_requirements__c (Long Text)</p>
+<p><strong>Relationship to DAM:</strong> Documents are tagged to countries, enabling country-filtered distribution. Use: "Show all Approved assets for Germany that are currently active"</p></div>
+
+<h2 class="sec-h2">4.3 Campaign Object</h2>
+<div class="ibox ibox-purple"><div class="ibox-title">Campaign Object</div>
+<p>Groups multiple documents/assets that belong to the same promotional campaign.</p>
+<p><strong>Key Fields:</strong> campaign_name__c (Text), campaign_start_date__c (Date), campaign_end_date__c (Date), related_product__c (Lookup to Product), campaign_status__c (Picklist: Planning/Active/Closed), target_audience__c (Picklist)</p>
+<p><strong>Use:</strong> All 15 assets created for a Spring 2024 cardiovascular campaign are linked to this Campaign record. When the campaign ends, all linked assets can be batch-expired together.</p></div>
+
+<h2 class="sec-h2">4.4 Claim Object</h2>
+<div class="ibox ibox-orange"><div class="ibox-title">Claim Object</div>
+<p>A library of pre-approved promotional statements.</p>
+<p><strong>Key Fields:</strong> claim_text__c (Long Text), claim_category__c (Picklist: Efficacy/Safety/Dosing/Pharmacology), approval_status__c (Picklist), supporting_evidence__c (Document Lookup), approved_markets__c (Multi-select), expiry_date__c (Date)</p>
+<p><strong>Key Relationship:</strong> Claim records are linked to Document records that USE the claim. Creates full traceability from finished material back to clinical evidence.</p></div>
+
+<h2 class="sec-h2">4.5 Content Module Object</h2>
+<div class="ibox ibox-teal"><div class="ibox-title">Content Module Object</div>
+<p>A reusable, MLR-approved block of content (text, image, or both).</p>
+<p><strong>Key Fields:</strong> module_name__c (Text), module_type__c (Picklist: Text Only/Image Only/Text+Image), module_content__c (Long Text), related_claims__c (Lookup to Claim), applicable_products__c (Lookup), applicable_countries__c (Lookup), module_status__c (Picklist)</p>
+<p><strong>Use Case:</strong> When assembling a detail aid using modular content, each module is pre-approved. The assembled document goes through a shorter "combination review" rather than full MLR.</p></div>
+
+<h2 class="sec-h2">4.6 Material Type (Document Type hierarchy)</h2>
+<div class="tbl-wrap"><table><thead><tr><th>Material Type</th><th>Description &amp; Examples</th></tr></thead><tbody>
+<tr><td>Promotional Materials</td><td>Commercial content for HCPs or patients. Detail aids, brochures, patient education leaflets</td></tr>
+<tr><td>Digital Promotional</td><td>Web banners, email templates, social media content, mobile apps</td></tr>
+<tr><td>CLM Content</td><td>Closed Loop Marketing slides and HTML5 presentations for iPad use in sales calls</td></tr>
+<tr><td>Approved Email</td><td>Pre-approved email content sent by reps to HCPs via Veeva CRM</td></tr>
+<tr><td>Training Materials</td><td>Internal sales training decks, product knowledge videos, field training guides</td></tr>
+<tr><td>Medical Content</td><td>MSL materials, medical education slides, medical letters (non-promotional)</td></tr>
+<tr><td>Labeling</td><td>Official prescribing information, package inserts, patient information leaflets</td></tr>
+<tr><td>Reference Documents</td><td>Clinical study publications, meta-analyses supporting claims</td></tr>
+</tbody></table></div>
+
+<h2 class="sec-h2">4.7 User Roles in PromoMats</h2>
+<div class="tbl-wrap"><table><thead><tr><th>User Role</th><th>Responsibilities</th></tr></thead><tbody>
+<tr><td>Owner / Author</td><td>Creates and submits documents for review. Typically Marketing or Medical Writing team</td></tr>
+<tr><td>Coordinator</td><td>Manages the workflow — assigns reviewers, tracks deadlines, escalates delays</td></tr>
+<tr><td>Medical Reviewer</td><td>Reviews content for medical accuracy. Must approve for MLR sign-off</td></tr>
+<tr><td>Legal Reviewer</td><td>Reviews for legal compliance, IP issues, fair balance requirements</td></tr>
+<tr><td>Regulatory Reviewer</td><td>Ensures content meets regulatory standards (FDA/EMA/country-specific)</td></tr>
+<tr><td>Quality Manager</td><td>Oversees overall content governance and process compliance</td></tr>
+<tr><td>Vault Administrator</td><td>Configures the system — objects, fields, lifecycles, security, integrations</td></tr>
+<tr><td>Read-Only / Field User</td><td>Views and downloads approved content. Cannot create or approve</td></tr>
+</tbody></table></div>
+</div>
+
+<!-- ═══════════════ SECTION 5 ═══════════════ -->
+<div class="section" id="s5">
+<div class="sec-banner"><div class="accent" style="background:#60a5fa"></div><div class="label" style="background:#1b3a6b">SECTION 5: OBJECT RELATIONSHIPS &amp; DATA MODEL</div></div>
+<h1 class="page-title">5. Object Relationships &amp; Data Model</h1>
+
+<h2 class="sec-h2">5.1 Core Relationship Map</h2>
+<div class="ibox ibox-gray"><div class="ibox-title">Relationship Architecture</div>
+<div class="code-block">Campaign Object (1)
+  └─ has many → Documents (promotional materials in this campaign)
+
+Product Object (1)
+  └─ has many → Documents (all assets for this product)
+  └─ has many → Content Modules
+  └─ has many → Claims
+
+Country Object (1)
+  └─ has many → Documents (country-specific versions)
+  └─ has many → Product-Country Combinations
+
+Document (the Asset)
+  ├─ Lookup → Product
+  ├─ Lookup → Country
+  ├─ Lookup → Campaign
+  ├─ Lookup → Material Type (Document Type field)
+  ├─ Document References → supporting evidence docs
+  └─ Claim Links → Claim Objects
+
+Claim Object
+  ├─ Lookup → Product
+  ├─ Document Lookup → supporting clinical study
+  └─ has many → Documents that use this claim
+
+Content Module Object
+  ├─ Lookup → Product
+  ├─ Lookup → Country
+  ├─ Lookup → Claim(s)
+  └─ has many → Documents assembled from modules</div></div>
+
+<h2 class="sec-h2">5.2 Document-to-Object Relationships</h2>
+<div class="tbl-wrap"><table><thead><tr><th>Document Field</th><th>Object Linked To</th><th>What This Enables</th></tr></thead><tbody>
+<tr><td><code>product__v</code> (Lookup)</td><td>Product Object</td><td>Filter all documents by product. Essential for field reps to find content for their drug</td></tr>
+<tr><td><code>country__v</code> (Lookup)</td><td>Country Object</td><td>Distribute only country-approved content to the right market</td></tr>
+<tr><td><code>campaign__c</code> (Lookup)</td><td>Campaign Object</td><td>Group all campaign assets for batch review, expiry, withdrawal</td></tr>
+<tr><td><code>material_type__v</code></td><td>Document Type hierarchy</td><td>Navigate by content type (e.g., all Detail Aids)</td></tr>
+<tr><td><code>audience__c</code> (Picklist)</td><td>N/A (static values)</td><td>Target content to HCP, Patient, or Payer</td></tr>
+<tr><td><code>language__v</code> (Lookup)</td><td>Language reference</td><td>Find all Spanish-language materials</td></tr>
+<tr><td><code>owner__v</code> (User)</td><td>User Object</td><td>Track authorship and responsibility</td></tr>
+</tbody></table></div>
+
+<h2 class="sec-h2">5.3 Document-to-Document Relationships</h2>
+<div class="tbl-wrap"><table><thead><tr><th>Relationship Type</th><th>Description &amp; Example</th></tr></thead><tbody>
+<tr><td>Related Documents</td><td>A detail aid references the Prescribing Information document. If the PI is updated, all detail aids referencing it are flagged for review</td></tr>
+<tr><td>Source → Adaptation</td><td>A global master document spawns country adaptations. Parent-child relationship between global and local versions</td></tr>
+<tr><td>Supporting Evidence</td><td>A promotional document references the published clinical study that proves the claim. Required for MLR sign-off</td></tr>
+<tr><td>Translated Version</td><td>An English document has a Spanish translation as a related child document</td></tr>
+<tr><td>Previous Version</td><td>Vault automatically maintains the version chain (1.0 → 1.1 → 2.0) for every document</td></tr>
+</tbody></table></div>
+
+<h2 class="sec-h2">5.4 How the Relationship Model Powers the DAM</h2>
+<div class="scenario"><div class="scenario-t">Finding the Right Asset</div><div class="scenario-b">A Sales Rep needs the latest approved iPad CLM detail aid for Drug X in Germany. Because documents are tagged with Product = Drug X, Country = Germany, Material Type = CLM Content, and Status = Approved — a simple search instantly returns the correct asset. Without this relationship model, reps would search through thousands of files manually.</div></div>
+<div class="scenario"><div class="scenario-t">Impact Analysis on Claim Change</div><div class="scenario-b">A clinical study supporting a key efficacy claim is updated. In PromoMats, because the Claim Object is linked to both the study document AND every document that uses the claim — the system instantly generates a list of every affected promotional material across all countries and triggers review notifications. This would take weeks manually.</div></div>
+</div>
+
+<!-- ═══════════════ SECTION 6 ═══════════════ -->
+<div class="section" id="s6">
+<div class="sec-banner"><div class="accent" style="background:#4ade80"></div><div class="label" style="background:#14532d">SECTION 6: END-TO-END PROMOMATS PROCESS</div></div>
+<h1 class="page-title">6. End-to-End PromoMats Process</h1>
+
+<h2 class="sec-h2">6.1 Stage 1: Content Brief &amp; Initiation</h2>
+<ol class="num">
+<li>Marketing/Brand team identifies a content need (e.g., new detail aid for upcoming drug launch)</li>
+<li>A Content Brief is created — often as a Vault document or via a Job Bag request form</li>
+<li>The Coordinator creates the document record in PromoMats with initial metadata (Product, Country, Material Type, Campaign)</li>
+<li>The document enters the DRAFT lifecycle state</li>
+<li>The Author (medical writer, agency) is assigned as owner and begins creating the content</li>
+</ol>
+<div class="ibox ibox-blue"><div class="ibox-title">What happens in Vault at this stage</div>
+<ul><li>Document record created with status = Draft</li><li>Metadata fields completed: Product, Country, Type, Audience, Owner</li><li>Version 0.1 created (draft major version)</li><li>Document is visible only to the Author/Owner and Coordinator at this point</li></ul></div>
+
+<h2 class="sec-h2">6.2 Stage 2: Content Creation &amp; Claims Linking</h2>
+<ol class="num">
+<li>Author creates the promotional content (in agency tools like Adobe InDesign, PowerPoint, etc.)</li>
+<li>Content is uploaded to Vault as the source document</li>
+<li>Vault auto-generates a Viewable Rendition (PDF) for review</li>
+<li>Author links Claims to the document — every significant statement is linked to a pre-approved Claim record</li>
+<li>Supporting evidence documents (clinical publications, PI) are linked as Document References</li>
+<li>If using Modular Content: Author selects pre-approved modules instead of writing from scratch</li>
+</ol>
+<div class="ibox ibox-green"><div class="ibox-title">Claim Linking in practice</div>
+<ul><li>The author highlights "reduces HbA1c by 1.2%" in the document</li><li>Links it to Claim #CLM-0042 (pre-approved for US and EU)</li><li>Claim #CLM-0042 is already linked to the Phase 3 study publication in Vault</li><li>The evidence chain is now complete and traceable</li></ul></div>
+
+<h2 class="sec-h2">6.3 Stage 3: Internal Review &amp; Coordination (MLR)</h2>
+<ol class="num">
+<li>Author submits document for internal review ("Submit for Review" lifecycle action)</li>
+<li>Document moves to "In Review" state</li>
+<li>Coordinator assigns reviewers: Medical, Legal, Regulatory (and optionally Brand/Marketing)</li>
+<li>Each reviewer receives an in-app notification and task</li>
+<li>Reviewers annotate directly on the Viewable Rendition in Vault</li>
+<li>All annotations are captured in the audit trail</li>
+<li>Author responds to comments, makes edits, uploads a new minor version (0.2, 0.3...)</li>
+</ol>
+<div class="ibox ibox-orange"><div class="ibox-title">MLR Review cycle detail</div>
+<ul><li><strong>Medical Reviewer:</strong> checks scientific accuracy, claim substantiation</li><li><strong>Legal Reviewer:</strong> checks fair balance, IP, competitive statements</li><li><strong>Regulatory Reviewer:</strong> checks compliance with approved label, local regulations</li><li>Parallel or Sequential review — configurable per Vault workflow setup</li><li>Each reviewer clicks "Approve" or "Reject with Comments"</li><li>If ANY reviewer rejects — document goes back to Author for revision</li></ul></div>
+
+<h2 class="sec-h2">6.4 Stage 4: Approval &amp; Final Sign-Off</h2>
+<ol class="num">
+<li>Once all reviewers have approved, the Coordinator performs a final check</li>
+<li>Electronic signature is collected (21 CFR Part 11 compliant e-signature in Vault)</li>
+<li>Document transitions to "Approved" state (major version promoted: 0.3 → 1.0)</li>
+<li>Vault locks the Approved Rendition — it cannot be modified</li>
+<li>Expiry date is set (typically 2 years from approval for promotional materials)</li>
+<li>Document becomes visible and distributable to authorised users</li>
+</ol>
+<div class="ibox ibox-green"><div class="ibox-title">What changes at Approved state</div>
+<ul><li>Document version becomes 1.0 (major version)</li><li>Approved Rendition is generated and locked</li><li>Source document access restricted (based on permissions)</li><li>Content becomes visible in Veeva CRM (if configured)</li><li>Expiry date activates — countdown begins</li><li>All review annotations archived in audit trail</li></ul></div>
+
+<h2 class="sec-h2">6.5 Stage 5: Distribution &amp; Delivery</h2>
+<div class="tbl-wrap"><table><thead><tr><th>Distribution Channel</th><th>How PromoMats Delivers</th></tr></thead><tbody>
+<tr><td>Veeva CRM (Field Reps)</td><td>Approved CLM content automatically pushed to CRM via Vault Connect. Field reps see new content on iPads within hours of approval</td></tr>
+<tr><td>Approved Email</td><td>Approved email templates appear in the rep's CRM email composer. Rep cannot alter the approved text — they can only personalise the salutation</td></tr>
+<tr><td>Internal Portal / Intranet</td><td>Documents available for download by internal teams via the Vault interface or embedded portal</td></tr>
+<tr><td>External Agency Portal</td><td>Agencies can access Vault (with restricted permissions) to download approved templates for adaptation</td></tr>
+<tr><td>Print/Production</td><td>Approved source files released to print vendors with controlled access</td></tr>
+<tr><td>Regulatory Submission</td><td>Promotional materials submitted to regulatory bodies (FDA OPDP in the US) directly from Vault</td></tr>
+</tbody></table></div>
+
+<h2 class="sec-h2">6.6 Stage 6: Maintenance, Expiry &amp; Withdrawal</h2>
+<ol class="num">
+<li>The system monitors expiry dates and sends notifications 60/30/7 days before expiry</li>
+<li>Content owners review: extend, update, or let expire</li>
+<li>If an update is needed: document enters a new draft cycle with version increment (2.0 in progress)</li>
+<li>On expiry date: document automatically transitions to "Expired" state — pulled from all distribution channels</li>
+<li>If urgent withdrawal needed (safety signal): Coordinator manually triggers "Withdraw" action</li>
+<li>Withdrawn documents are immediately recalled from Veeva CRM and all channels</li>
+<li>All withdrawal actions are logged with timestamp and user in the audit trail</li>
+</ol>
+</div>
+
+<!-- ═══════════════ SECTION 7 ═══════════════ -->
+<div class="section" id="s7">
+<div class="sec-banner"><div class="accent" style="background:#4ade80"></div><div class="label" style="background:#14532d">SECTION 7: CONTENT LIFECYCLE MANAGEMENT</div></div>
+<h1 class="page-title">7. Content Lifecycle Management</h1>
+
+<h2 class="sec-h2">7.1 Standard PromoMats Document Lifecycle States</h2>
+<div class="tbl-wrap"><table><thead><tr><th>Lifecycle State</th><th>Description &amp; What Happens</th></tr></thead><tbody>
+<tr><td>Draft</td><td>Initial state. Document is being created. Only Author and Coordinator can see/edit. No distribution.</td></tr>
+<tr><td>In Review</td><td>Submitted for MLR review. Reviewers can annotate and approve/reject. Author can upload new versions. No distribution.</td></tr>
+<tr><td>Approved for Distribution</td><td>Full approval obtained. Document locked. Available for distribution to CRM and other channels. Expiry clock running.</td></tr>
+<tr><td>Approved for Use</td><td>Approved for internal use only (e.g., training materials). Not for external distribution.</td></tr>
+<tr><td>Superseded</td><td>A newer version has been approved. This version is archived. Displayed in history but not for current use.</td></tr>
+<tr><td>Expired</td><td>Expiry date passed. Automatically recalled from all channels. Visible in archive only.</td></tr>
+<tr><td>Withdrawn</td><td>Manually pulled from distribution immediately. Used for safety issues or compliance failures. Immediate recall.</td></tr>
+<tr><td>Cancelled</td><td>Document abandoned during creation — never completed the review process.</td></tr>
+<tr><td>Obsolete</td><td>Content permanently retired and archived. Long-term storage state.</td></tr>
+</tbody></table></div>
+
+<h2 class="sec-h2">7.2 Lifecycle Transition Triggers</h2>
+<div class="tbl-wrap"><table><thead><tr><th>Transition</th><th>Trigger &amp; Conditions</th></tr></thead><tbody>
+<tr><td>Draft → In Review</td><td>Author clicks "Submit for Review". Validation: all required metadata filled, at least one Claim linked (if required)</td></tr>
+<tr><td>In Review → Approved</td><td>All configured reviewers have approved. Electronic signatures collected. No unresolved comments</td></tr>
+<tr><td>In Review → Draft</td><td>Any reviewer rejects. Document returns to Author with reviewer comments</td></tr>
+<tr><td>Approved → Superseded</td><td>A new version of the same document is approved. Automatic transition of old version</td></tr>
+<tr><td>Approved → Expired</td><td>Expiry date reached. Automatic system transition. Expiry notifications sent in advance</td></tr>
+<tr><td>Approved → Withdrawn</td><td>Manual action by Coordinator or Admin. Immediate. Requires documented reason</td></tr>
+<tr><td>Expired → Draft (Re-open)</td><td>Owner initiates renewal. New review cycle begins. Version increments (1.0 → 2.0)</td></tr>
+</tbody></table></div>
+
+<h2 class="sec-h2">7.3 Versioning in PromoMats</h2>
+<div class="ibox ibox-gray"><div class="ibox-title">Version Number Convention</div>
+<div class="code-block">MINOR versions (0.1, 0.2, 0.3...): Draft iterations during review
+MAJOR versions (1.0, 2.0, 3.0...): Approved versions
+
+Example timeline:
+  0.1 — initial upload
+  0.2 — revised after Medical comments
+  0.3 — revised after Legal comments
+  1.0 — APPROVED (first major version)
+  1.1 — minor edit during next review cycle
+  1.2 — further revisions
+  2.0 — APPROVED (second major version, supersedes 1.0)
+
+All versions preserved in Vault. Approved renditions locked for 1.0, 2.0 etc.</div></div>
+</div>
+
+<!-- ═══════════════ SECTION 8 ═══════════════ -->
+<div class="section" id="s8">
+<div class="sec-banner"><div class="accent" style="background:#fb923c"></div><div class="label" style="background:#7c2d12">SECTION 8: REQUIREMENT GATHERING FOR DAM</div></div>
+<h1 class="page-title">8. Requirement Gathering for DAM Implementation</h1>
+
+<h2 class="sec-h2">8.1 Stakeholder Identification</h2>
+<div class="tbl-wrap"><table><thead><tr><th>Stakeholder Group</th><th>Key Questions to Ask Them</th></tr></thead><tbody>
+<tr><td>Brand/Marketing Teams</td><td>What content do you create? How many pieces per year? How do you currently find assets?</td></tr>
+<tr><td>Medical Affairs</td><td>What is your current review process? How many reviewers? What are the sign-off steps?</td></tr>
+<tr><td>Regulatory Affairs</td><td>What are the submission requirements for each market? What needs to be filed?</td></tr>
+<tr><td>Legal</td><td>What types of content need legal review? What is your current SLA for review?</td></tr>
+<tr><td>Commercial/Sales</td><td>How do reps currently access content? What devices do they use? What content is missing?</td></tr>
+<tr><td>IT/Systems</td><td>What systems need to integrate? What is the current tech stack? Any SSO requirements?</td></tr>
+<tr><td>Compliance/Quality</td><td>What are the record retention requirements? What audit trail is needed?</td></tr>
+<tr><td>External Agencies</td><td>How do you currently receive briefs and approved templates from the company?</td></tr>
+</tbody></table></div>
+
+<h2 class="sec-h2">8.2 Content Inventory Assessment</h2>
+<ul class="bul">
+<li><strong>Volume:</strong> How many assets currently exist? Where are they stored? (SharePoint, shared drives, email?)</li>
+<li><strong>Types:</strong> What are all the material types? Detail aids, digital banners, training decks, Approved Email, CLM?</li>
+<li><strong>Languages/Markets:</strong> How many countries? How many languages? Is content created globally then localised?</li>
+<li><strong>Products:</strong> How many products/brands? Are they all managed the same way?</li>
+<li><strong>Review processes:</strong> Are all products reviewed the same way, or do different products need different workflows?</li>
+<li><strong>Metadata currently used:</strong> What fields do people use today to find and organise assets?</li>
+</ul>
+
+<h2 class="sec-h2">8.3 Process Mapping Requirements</h2>
+<div class="tbl-wrap"><table><thead><tr><th>Process Area</th><th>Requirements to Document</th></tr></thead><tbody>
+<tr><td>Content Creation</td><td>Who creates content? Internal teams, agencies, or both? What tools do they use?</td></tr>
+<tr><td>Review &amp; Approval</td><td>How many review stages? Parallel or sequential? What is the SLA for each stage?</td></tr>
+<tr><td>Country/Local Review</td><td>Does each country have its own review team? Any country-specific additions to the global review?</td></tr>
+<tr><td>Distribution</td><td>Which channels? (CRM, email, web, print) How quickly must approved content be available?</td></tr>
+<tr><td>Expiry &amp; Renewal</td><td>What is the standard content validity period? Who is responsible for renewals?</td></tr>
+<tr><td>Emergency Withdrawal</td><td>What is the process when content must be urgently recalled? Who can authorise?</td></tr>
+<tr><td>Archive/Retention</td><td>How long must content be retained? What are the regulatory retention requirements?</td></tr>
+</tbody></table></div>
+
+<h2 class="sec-h2">8.4 Metadata &amp; Taxonomy Requirements</h2>
+<ul class="bul">
+<li><strong>Mandatory fields:</strong> What must every asset have? (Product, Country, Material Type, Expiry Date are typical)</li>
+<li><strong>Optional fields:</strong> What contextual fields add value? (Campaign, Target Audience, Indication, Channel)</li>
+<li><strong>Controlled vocabularies:</strong> For Picklist fields, what are all the values? Who owns and maintains them?</li>
+<li><strong>Search requirements:</strong> How do users search today? What search scenarios must the system support?</li>
+<li><strong>Reporting requirements:</strong> What DAM reports are needed? (Content pipeline, approval timelines, expiry reports, usage reports)</li>
+</ul>
+
+<h2 class="sec-h2">8.5 Integration Requirements</h2>
+<div class="tbl-wrap"><table><thead><tr><th>Integration Point</th><th>Key Requirements to Gather</th></tr></thead><tbody>
+<tr><td>Veeva CRM</td><td>Which CRM vaults? What content types go to CRM? How quickly after approval?</td></tr>
+<tr><td>Approved Email</td><td>Which products use Approved Email? What are the email template structures?</td></tr>
+<tr><td>SSO / Identity</td><td>What identity provider? (Okta, Azure AD, LDAP?) Is multi-factor authentication required?</td></tr>
+<tr><td>External Print/Production</td><td>Do print vendors need Vault access? Or just receive approved files via email/FTP?</td></tr>
+<tr><td>Regulatory Submission portals</td><td>Does content need to be submitted electronically to FDA eSub or similar?</td></tr>
+<tr><td>Analytics/Reporting tools</td><td>Does report data need to flow to BI tools (Power BI, Tableau)?</td></tr>
+<tr><td>Legacy DAM migration</td><td>Is there existing content to migrate? How much? What is the migration strategy?</td></tr>
+</tbody></table></div>
+
+<h2 class="sec-h2">8.6 Requirement Gathering Checklist</h2>
+<div class="tbl-wrap"><table><thead><tr><th>Category</th><th>Checklist Items</th></tr></thead><tbody>
+<tr><td>Scope</td><td>Number of products, markets, material types, users, languages</td></tr>
+<tr><td>Workflows</td><td>Number of distinct review workflows, SLAs per stage, parallel vs sequential</td></tr>
+<tr><td>Security</td><td>User roles needed, field-level security, country-based access restrictions</td></tr>
+<tr><td>Objects</td><td>Which custom objects are needed beyond the standard PromoMats configuration</td></tr>
+<tr><td>Metadata</td><td>Full field list for documents, picklist values, mandatory vs optional</td></tr>
+<tr><td>Integrations</td><td>System connections, data flow directions, real-time vs batch</td></tr>
+<tr><td>Migration</td><td>Volume of existing content, source systems, migration approach (big bang vs phased)</td></tr>
+<tr><td>Reporting</td><td>Standard and custom reports, dashboards, scheduled exports</td></tr>
+<tr><td>Training</td><td>Who needs training, by role, by region, format preferences</td></tr>
+<tr><td>Go-Live</td><td>Phased rollout vs big bang, pilot market selection, rollback plan</td></tr>
+</tbody></table></div>
+</div>
+
+<!-- ═══════════════ SECTION 9 ═══════════════ -->
+<div class="section" id="s9">
+<div class="sec-banner"><div class="accent" style="background:#fb923c"></div><div class="label" style="background:#7c2d12">SECTION 9: IMPLEMENTATION GUIDE &amp; BEST PRACTICES</div></div>
+<h1 class="page-title">9. Implementation Guide &amp; Best Practices</h1>
+
+<h2 class="sec-h2">9.1 Implementation Phases</h2>
+<div class="tbl-wrap"><table><thead><tr><th>Phase</th><th>Activities &amp; Deliverables</th></tr></thead><tbody>
+<tr><td>Phase 0: Discovery (2–4 wks)</td><td>Stakeholder workshops, current state assessment, requirement gathering, gap analysis, project charter</td></tr>
+<tr><td>Phase 1: Design (4–6 wks)</td><td>Data model design, lifecycle design, security model, integration architecture, metadata taxonomy, process flowcharts</td></tr>
+<tr><td>Phase 2: Build (8–16 wks)</td><td>Vault configuration: objects, fields, lifecycles, workflows, layouts, security profiles, integrations, email templates</td></tr>
+<tr><td>Phase 3: Testing (4–6 wks)</td><td>Unit testing, integration testing, user acceptance testing (UAT), performance testing</td></tr>
+<tr><td>Phase 4: Data Migration (4–8 wks)</td><td>Inventory existing assets, clean/classify data, load to Vault via API/Vault Loader, validate, reconcile</td></tr>
+<tr><td>Phase 5: Training (2–4 wks)</td><td>Role-based training materials, train-the-trainer sessions, end user training by role, admin training</td></tr>
+<tr><td>Phase 6: Go-Live &amp; Hypercare</td><td>Phased rollout (pilot market first), go/no-go decision, launch, 30-day intensive support, issue resolution</td></tr>
+<tr><td>Phase 7: Steady State</td><td>Ongoing admin, enhancement requests, periodic reviews, lifecycle expansions, new market onboarding</td></tr>
+</tbody></table></div>
+
+<h2 class="sec-h2">9.2 Configuration Best Practices</h2>
+<ul class="bul">
+<li><strong>Start with standard:</strong> Use PromoMats standard configuration as much as possible before customising. Every custom object/field adds maintenance burden.</li>
+<li><strong>Metadata before documents:</strong> Build out your Object taxonomy completely before loading any documents. Retro-fitting metadata is painful.</li>
+<li><strong>Lifecycle first:</strong> Design and test your lifecycle in a sandbox with real stakeholders walking through it manually before going live.</li>
+<li><strong>Security by role:</strong> Define your security model on paper before configuring. It is much harder to adjust security after users are live.</li>
+<li><strong>Picklist governance:</strong> Establish a picklist governance process from day one. Uncontrolled picklists explode into chaos quickly.</li>
+<li><strong>Document naming conventions:</strong> Enforce a naming standard via validation rules.</li>
+<li><strong>Test with real content:</strong> UAT must use actual promotional documents, not dummy files.</li>
+<li><strong>Train before go-live:</strong> Role-specific training is critical. A Medical Reviewer needs different training from a Marketing Author.</li>
+</ul>
+</div>
+
+<!-- ═══════════════ SECTION 10 ═══════════════ -->
+<div class="section" id="s10">
+<div class="sec-banner"><div class="accent" style="background:#f87171"></div><div class="label" style="background:#7f1d1d">SECTION 10: IMPLEMENTATION ISSUES &amp; HOW TO RESOLVE</div></div>
+<h1 class="page-title">10. Implementation Issues &amp; How to Resolve Them</h1>
+
+<h2 class="sec-h2">10.1 Metadata &amp; Taxonomy Issues</h2>
+<div class="issue"><div class="issue-h"><span class="phase">[Design] </span><span class="title">Incomplete metadata model — required fields not identified during requirements</span></div><div class="issue-b"><div class="il"><strong>Impact:</strong> Documents uploaded without key metadata. Assets unfindable. MLR process cannot enforce completeness.</div><div class="il"><strong>Resolution:</strong> Go back to requirements. Add missing fields. Use validation rules to enforce mandatory metadata before documents can be submitted for review. Run a retroactive data cleanup exercise.</div></div></div>
+<div class="issue"><div class="issue-h"><span class="phase">[Design] </span><span class="title">Uncontrolled picklist values — no governance for who adds values</span></div><div class="issue-b"><div class="il"><strong>Impact:</strong> Duplicate values proliferate ("Detail Aid", "DetailAid", "Detail aid" are all different). Reports inconsistent. Filtering breaks.</div><div class="il"><strong>Resolution:</strong> Establish a Picklist Governance Board. Use a Change Request process for adding/modifying values. Consolidate duplicates via data cleanup. Add descriptions to each picklist value.</div></div></div>
+<div class="issue"><div class="issue-h"><span class="phase">[Build] </span><span class="title">Document type hierarchy too deep or too flat</span></div><div class="issue-b"><div class="il"><strong>Impact:</strong> Too deep: Users cannot find the right type. Too flat: No meaningful categorisation. Both lead to mis-filed documents.</div><div class="il"><strong>Resolution:</strong> Best practice: 2–3 levels of hierarchy. Run a card-sort exercise with representative end users to validate the taxonomy before building.</div></div></div>
+
+<h2 class="sec-h2">10.2 Lifecycle &amp; Workflow Issues</h2>
+<div class="issue"><div class="issue-h"><span class="phase">[Build] </span><span class="title">Lifecycle is too complex with too many states and transitions</span></div><div class="issue-b"><div class="il"><strong>Impact:</strong> Users do not understand the process. Documents get "stuck" in states. Adoption fails.</div><div class="il"><strong>Resolution:</strong> Simplify first. Start with 5–6 states maximum. Draw the lifecycle as a flowchart and walk every stakeholder through it before building.</div></div></div>
+<div class="issue"><div class="issue-h"><span class="phase">[Build] </span><span class="title">Parallel vs Sequential review not correctly configured</span></div><div class="issue-b"><div class="il"><strong>Impact:</strong> All three reviewers configured as sequential when stakeholders expected parallel, tripling review time.</div><div class="il"><strong>Resolution:</strong> During requirements, explicitly ask: "Do all three reviewers review at the same time, or does Legal review only after Medical approves?" Document the decision in writing with sign-off from all stakeholders.</div></div></div>
+<div class="issue"><div class="issue-h"><span class="phase">[UAT] </span><span class="title">Entry criteria too strict — users cannot progress documents even when they should</span></div><div class="issue-b"><div class="il"><strong>Impact:</strong> Documents stuck in Draft. Blocks testing progress.</div><div class="il"><strong>Resolution:</strong> Test every lifecycle transition independently with a test record. Create a test script that explicitly tests each combination of field values against each transition. Fix formula errors before UAT begins.</div></div></div>
+
+<h2 class="sec-h2">10.3 Integration Issues</h2>
+<div class="issue"><div class="issue-h"><span class="phase">[Build] </span><span class="title">Vault-to-CRM connector sync failures — content not appearing on rep iPads</span></div><div class="issue-b"><div class="il"><strong>Impact:</strong> Sales reps cannot access newly approved CLM content. Commercial launch delayed.</div><div class="il"><strong>Resolution:</strong> Verify: (1) Document type is in the CRM-distributable list, (2) Document is in a distributive lifecycle state, (3) Product field value matches a CRM product record exactly (case-sensitive), (4) Rep user has the correct CRM profile. Check Vault sync logs for error messages.</div></div></div>
+<div class="issue"><div class="issue-h"><span class="phase">[Migration] </span><span class="title">Legacy content migration — documents loaded without correct metadata</span></div><div class="issue-b"><div class="il"><strong>Impact:</strong> Thousands of migrated documents have blank Product or Country fields. System appears broken.</div><div class="il"><strong>Resolution:</strong> Pre-migration: run metadata enrichment on source content before loading. Use Vault Loader upsert to add metadata post-load. Never migrate without a field mapping spreadsheet validated by business owners.</div></div></div>
+<div class="issue"><div class="issue-h"><span class="phase">[Build] </span><span class="title">SSO integration failure — users cannot log in after go-live</span></div><div class="issue-b"><div class="il"><strong>Impact:</strong> All users locked out. Business operations halted.</div><div class="il"><strong>Resolution:</strong> Always maintain at least 2 Vault native user accounts (not SSO) as emergency break-glass accounts. Test SSO thoroughly in UAT with real production IdP settings. Have a rollback plan for the first 48 hours post-go-live.</div></div></div>
+
+<h2 class="sec-h2">10.4 Security &amp; Access Issues</h2>
+<div class="issue"><div class="issue-h"><span class="phase">[Build] </span><span class="title">Over-permissioned roles — users can see content they should not</span></div><div class="issue-b"><div class="il"><strong>Impact:</strong> Country A users can see unapproved drafts intended for Country B. Compliance risk.</div><div class="il"><strong>Resolution:</strong> Implement country-based sharing rules from day one. Design security with "least privilege" principle. Use Dynamic Access Control to restrict access based on metadata values.</div></div></div>
+<div class="issue"><div class="issue-h"><span class="phase">[Build] </span><span class="title">Under-permissioned roles — users blocked from necessary actions</span></div><div class="issue-b"><div class="il"><strong>Impact:</strong> Medical Reviewers cannot see the Viewable Rendition to annotate. Review process halted.</div><div class="il"><strong>Resolution:</strong> Walk through every user role's daily tasks and verify each action is permitted. Use a Security Configuration Matrix spreadsheet mapping every role to every permission before building.</div></div></div>
+</div>
+
+<!-- ═══════════════ SECTION 11 ═══════════════ -->
+<div class="section" id="s11">
+<div class="sec-banner"><div class="accent" style="background:#f87171"></div><div class="label" style="background:#7f1d1d">SECTION 11: POST-IMPLEMENTATION ISSUES</div></div>
+<h1 class="page-title">11. Post-Implementation Issues</h1>
+
+<h2 class="sec-h2">11.1 Adoption &amp; Change Management Issues</h2>
+<div class="issue"><div class="issue-h"><span class="phase">[Post Go-Live] </span><span class="title">Low user adoption — teams reverting to old processes (email, SharePoint)</span></div><div class="issue-b"><div class="il"><strong>Impact:</strong> DAM is underutilised. Content still circulated informally. Compliance risk from unapproved content being distributed.</div><div class="il"><strong>Resolution:</strong> (1) Make Vault the only authorised source of truth — communicate this clearly from leadership. (2) Identify champions in each team. (3) Create quick-start guides for each role. (4) Monitor adoption metrics (login frequency, documents created, workflow completions).</div></div></div>
+<div class="issue"><div class="issue-h"><span class="phase">[Post Go-Live] </span><span class="title">Reviewers not completing reviews on time — SLA breaches</span></div><div class="issue-b"><div class="il"><strong>Impact:</strong> Document approval pipeline backs up. Content launch dates missed.</div><div class="il"><strong>Resolution:</strong> (1) Configure automated reminder emails at Day 3, Day 5 before SLA breach. (2) Set up escalation notifications to managers. (3) Review if the review process is too burdensome. (4) Create a dashboard showing pending tasks and average turnaround time per reviewer.</div></div></div>
+
+<h2 class="sec-h2">11.2 Data Quality Issues</h2>
+<div class="issue"><div class="issue-h"><span class="phase">[Post Go-Live] </span><span class="title">Metadata degradation — fields left blank or incorrectly filled over time</span></div><div class="issue-b"><div class="il"><strong>Impact:</strong> Search and filtering becomes unreliable. Reports inaccurate. Content becomes unfindable.</div><div class="il"><strong>Resolution:</strong> (1) Implement stronger validation rules (required fields at submission, not just at upload). (2) Run quarterly metadata audit reports. (3) Assign metadata stewardship responsibility to specific roles.</div></div></div>
+<div class="issue"><div class="issue-h"><span class="phase">[Post Go-Live] </span><span class="title">Content duplication — multiple versions of same asset stored separately</span></div><div class="issue-b"><div class="il"><strong>Impact:</strong> Users unsure which version is current. Risk of distributing outdated content.</div><div class="il"><strong>Resolution:</strong> (1) Enforce the document naming convention strictly. (2) Before creating a new document, users must search for an existing one. (3) Run de-duplication reports periodically. (4) Use the "Superseded" lifecycle state correctly.</div></div></div>
+
+<h2 class="sec-h2">11.3 Expiry &amp; Withdrawal Management Issues</h2>
+<div class="issue"><div class="issue-h"><span class="phase">[Post Go-Live] </span><span class="title">Content expiring without renewal — distribution gaps for field force</span></div><div class="issue-b"><div class="il"><strong>Impact:</strong> Reps have no current approved content for a product. Sales calls impacted.</div><div class="il"><strong>Resolution:</strong> (1) Configure expiry notifications far in advance (90, 60, 30, 7 days). (2) Assign explicit ownership to every document. (3) Create a dashboard showing all documents expiring in the next 90 days. (4) Build a quarterly review of upcoming expirations.</div></div></div>
+<div class="issue"><div class="issue-h"><span class="phase">[Post Go-Live] </span><span class="title">Withdrawn content still accessible via direct link or cached in CRM</span></div><div class="issue-b"><div class="il"><strong>Impact:</strong> Compliance risk — reps may use withdrawn content in HCP meetings.</div><div class="il"><strong>Resolution:</strong> (1) Verify the Vault-CRM connector removes content immediately on withdrawal (near real-time sync). (2) Educate reps on the withdrawal process. (3) After every withdrawal, send a formal notification to all affected rep users.</div></div></div>
+
+<h2 class="sec-h2">11.4 System Performance Issues</h2>
+<div class="issue"><div class="issue-h"><span class="phase">[Post Go-Live] </span><span class="title">Slow document load times — rendition generation taking too long</span></div><div class="issue-b"><div class="il"><strong>Impact:</strong> Reviewers frustrated waiting for large PowerPoint files to render as PDFs.</div><div class="il"><strong>Resolution:</strong> (1) Check document file sizes — encourage optimised source files (compress images before upload). (2) Set guidelines for source file format. (3) Contact Vault support if systemic. (4) Consider a file size limit policy enforced by validation rules.</div></div></div>
+<div class="issue"><div class="issue-h"><span class="phase">[Post Go-Live] </span><span class="title">Search returning too many irrelevant results</span></div><div class="issue-b"><div class="il"><strong>Impact:</strong> Users cannot find relevant content quickly. Perceived as DAM failure.</div><div class="il"><strong>Resolution:</strong> (1) Review and improve metadata quality (richer metadata = better search). (2) Train users on advanced search filters (Product + Country + Status combination). (3) Create saved search templates. (4) Create curated content collections for key user groups.</div></div></div>
+</div>
+
+<!-- ═══════════════ SECTION 12 ═══════════════ -->
+<div class="section" id="s12">
+<div class="sec-banner"><div class="accent" style="background:#a78bfa"></div><div class="label" style="background:#3b0764">SECTION 12: INTEGRATIONS &amp; CONNECTORS</div></div>
+<h1 class="page-title">12. Integrations &amp; Connectors</h1>
+
+<h2 class="sec-h2">12.1 PromoMats to Veeva CRM (Vault Connect)</h2>
+<div class="tbl-wrap"><table><thead><tr><th>Aspect</th><th>Detail</th></tr></thead><tbody>
+<tr><td>What syncs</td><td>CLM presentations, Approved Email templates, product detail pages, and related media assets</td></tr>
+<tr><td>Trigger</td><td>Document reaches a distributive lifecycle state (typically "Approved for Distribution")</td></tr>
+<tr><td>Frequency</td><td>Near real-time (typically within 1–4 hours of state change)</td></tr>
+<tr><td>Direction</td><td>Primarily PromoMats → CRM (one-way). Usage/interaction data flows back CRM → PromoMats for CLM analytics</td></tr>
+<tr><td>Configuration</td><td>Document type, lifecycle state, and CRM product mapping must be configured for each asset type</td></tr>
+<tr><td>Requirements</td><td>Document must have correct Product field matching CRM product, must be in CRM-distributable type</td></tr>
+</tbody></table></div>
+
+<h2 class="sec-h2">12.2 Approved Email Integration</h2>
+<div class="tbl-wrap"><table><thead><tr><th>Step</th><th>What Happens</th></tr></thead><tbody>
+<tr><td>1. Template creation</td><td>Author creates email template in PromoMats with approved content, subject line, and optional personalisation tokens</td></tr>
+<tr><td>2. MLR Review</td><td>Email template goes through full or abbreviated MLR review</td></tr>
+<tr><td>3. Approval</td><td>Template approved in PromoMats. Vault Connect pushes to CRM</td></tr>
+<tr><td>4. Rep usage</td><td>Rep selects template in CRM, can only personalise specific approved fields (salutation, rep signature)</td></tr>
+<tr><td>5. Tracking</td><td>Send data (opened, clicked) flows back to CRM and can be visible in PromoMats reports</td></tr>
+</tbody></table></div>
+
+<h2 class="sec-h2">12.3 Other Key Integrations</h2>
+<div class="tbl-wrap"><table><thead><tr><th>Integration</th><th>Purpose</th></tr></thead><tbody>
+<tr><td>SSO (Okta/Azure AD)</td><td>Single sign-on — users log in with corporate credentials</td></tr>
+<tr><td>Regulatory Submission (DITA/eCTD)</td><td>Archiving approved promotional content alongside submission dossiers</td></tr>
+<tr><td>Print Management Systems</td><td>Sending approved source files to print vendors with controlled access and watermarking</td></tr>
+<tr><td>Translation Management Systems (TMS)</td><td>Sending content out for translation and receiving translated files back directly into Vault</td></tr>
+<tr><td>Marketing Automation (SFMC)</td><td>Approved email templates and digital assets pushed to marketing automation platforms</td></tr>
+<tr><td>DAM Analytics platforms</td><td>Usage data from CLM and Approved Email fed into analytics dashboards</td></tr>
+<tr><td>Veeva Medical (Medical Vault)</td><td>Cross-vault references between PromoMats and Medical publications/study data in a connected Medical Vault</td></tr>
+</tbody></table></div>
+</div>
+
+<!-- ═══════════════ SECTION 13 ═══════════════ -->
+<div class="section" id="s13">
+<div class="sec-banner"><div class="accent" style="background:#60a5fa"></div><div class="label" style="background:#1b3a6b">SECTION 13: GLOSSARY OF DAM &amp; PROMOMATS TERMS</div></div>
+<h1 class="page-title">13. Glossary of DAM &amp; PromoMats Terms</h1>
+<div class="glos-grid">
+<div class="glos-item"><div class="glos-term">Asset</div><div class="glos-def">Any digital file stored in the DAM with business value — document, image, video, template</div></div>
+<div class="glos-item"><div class="glos-term">Approved Email (AE)</div><div class="glos-def">Veeva feature for MLR-approved email templates sent by reps to HCPs via Veeva CRM</div></div>
+<div class="glos-item"><div class="glos-term">CLM</div><div class="glos-def">Closed Loop Marketing — delivering approved iPad content to sales reps and capturing interaction data</div></div>
+<div class="glos-item"><div class="glos-term">Claim</div><div class="glos-def">A specific promotional statement about a drug (efficacy, safety, dosing). Must be pre-approved and substantiated</div></div>
+<div class="glos-item"><div class="glos-term">Content Module</div><div class="glos-def">Pre-approved, reusable chunk of content (text/image) used in modular content assembly</div></div>
+<div class="glos-item"><div class="glos-term">DAM</div><div class="glos-def">Digital Asset Management — system and process for organising, storing, and distributing digital assets</div></div>
+<div class="glos-item"><div class="glos-term">Document Lifecycle</div><div class="glos-def">The state machine governing a document's journey from Draft to Expired/Withdrawn</div></div>
+<div class="glos-item"><div class="glos-term">Document Reference</div><div class="glos-def">A link from a promotional document to its supporting evidence (clinical study, PI)</div></div>
+<div class="glos-item"><div class="glos-term">Dynamic Access Control</div><div class="glos-def">Security mechanism restricting document visibility based on metadata values (e.g., Country field)</div></div>
+<div class="glos-item"><div class="glos-term">Electronic Signature</div><div class="glos-def">21 CFR Part 11 compliant digital signature captured in Vault for regulatory approval steps</div></div>
+<div class="glos-item"><div class="glos-term">Expiry Date</div><div class="glos-def">Date after which a document is automatically transitioned to Expired state and recalled</div></div>
+<div class="glos-item"><div class="glos-term">Fair Balance</div><div class="glos-def">Regulatory requirement that promotional materials must present risks alongside benefits with equal prominence</div></div>
+<div class="glos-item"><div class="glos-term">Global-to-Local</div><div class="glos-def">Workflow where a global master document is adapted by local/country teams for their market</div></div>
+<div class="glos-item"><div class="glos-term">HCP</div><div class="glos-def">Healthcare Professional — doctors, pharmacists, nurses — primary audience for pharma promotional materials</div></div>
+<div class="glos-item"><div class="glos-term">Job Bag</div><div class="glos-def">A project record used to manage and track all documents and tasks in a single promotional project</div></div>
+<div class="glos-item"><div class="glos-term">Localisation</div><div class="glos-def">Adapting global content for a specific country — language translation, regulatory requirement adaptation</div></div>
+<div class="glos-item"><div class="glos-term">Major Version</div><div class="glos-def">An approved version of a document (1.0, 2.0). Locked rendition created. Visible in CRM</div></div>
+<div class="glos-item"><div class="glos-term">Metadata</div><div class="glos-def">Descriptive data about an asset — Product, Country, Type, Expiry Date. Makes content findable</div></div>
+<div class="glos-item"><div class="glos-term">Minor Version</div><div class="glos-def">A draft iteration of a document (0.1, 0.2). Work in progress. Not distributed</div></div>
+<div class="glos-item"><div class="glos-term">MLR</div><div class="glos-def">Medical-Legal-Regulatory — the three departments that must approve promotional content before distribution</div></div>
+<div class="glos-item"><div class="glos-term">Modular Content</div><div class="glos-def">Approach where content is assembled from pre-approved blocks, reducing review time for new materials</div></div>
+<div class="glos-item"><div class="glos-term">OPDP</div><div class="glos-def">FDA Office of Prescription Drug Promotion — reviews pharma promotional materials in the US</div></div>
+<div class="glos-item"><div class="glos-term">Prescribing Information (PI)</div><div class="glos-def">The official FDA-approved full label for a drug. All promotional claims must be consistent with the PI</div></div>
+<div class="glos-item"><div class="glos-term">PromoMats</div><div class="glos-def">Veeva's promotional content management Vault application, combining DAM + MLR + CRM distribution</div></div>
+<div class="glos-item"><div class="glos-term">Rendition</div><div class="glos-def">An alternative format of the same document — PDF, thumbnail, approved version, web-optimised version</div></div>
+<div class="glos-item"><div class="glos-term">SLA</div><div class="glos-def">Service Level Agreement — agreed timeframe for completing a review step</div></div>
+<div class="glos-item"><div class="glos-term">Taxonomy</div><div class="glos-def">The hierarchical classification system used to organise assets (Document Type hierarchy + metadata fields)</div></div>
+<div class="glos-item"><div class="glos-term">Vault Connect</div><div class="glos-def">Native integration module linking PromoMats Vault to Veeva CRM for content distribution</div></div>
+<div class="glos-item"><div class="glos-term">Viewable Rendition</div><div class="glos-def">Auto-generated PDF version of a document used for review and annotation in the browser</div></div>
+<div class="glos-item"><div class="glos-term">Withdrawal</div><div class="glos-def">Immediate recall of approved content from all channels. Used for urgent safety or compliance issues</div></div>
+</div>
+</div>
+
+<!-- ═══════════════ SECTION 14 ═══════════════ -->
+<div class="section" id="s14">
+<div class="sec-banner"><div class="accent" style="background:#60a5fa"></div><div class="label" style="background:#1b3a6b">SECTION 14: QnA &amp; SCENARIOS</div></div>
+<h1 class="page-title">14. QnA &amp; Scenarios</h1>
+
+<div class="qna"><div class="qna-q">What is the difference between DAM and a Document Management System (DMS)?</div><div class="qna-a">A Document Management System focuses on version control, audit trails, and lifecycle for official documents (SOPs, regulatory submissions). A DAM focuses on organising, finding, distributing, and reusing digital promotional assets. PromoMats combines both: it has DMS-grade compliance and audit trail plus DAM capabilities for promotional content discovery, reuse, and distribution to commercial channels.</div></div>
+
+<div class="qna"><div class="qna-q">Why would you put a document in "Withdrawn" vs letting it "Expire"?</div><div class="qna-a">Expiry is a planned, scheduled event — the document has reached its validity end date and is retired normally. Withdrawal is an emergency, unplanned recall triggered by a specific problem (safety signal discovered, incorrect claim found, regulatory feedback). Withdrawal is immediate and must be accompanied by a documented reason. Expiry is automatic; withdrawal is manual and requires authorisation.</div></div>
+
+<div class="qna"><div class="qna-q">A rep calls saying they cannot see the new detail aid on their iPad. How do you troubleshoot this?</div><div class="qna-a">1. Verify the document is in "Approved for Distribution" state in Vault. 2. Check the document type — is it in the list of CRM-distributable types? 3. Check the Product field matches exactly the CRM product name (case-sensitive). 4. Check the Vault Connect sync log for error messages. 5. Check the rep user has the correct CRM profile with access to this product. 6. Verify the sync has run since the approval. 7. Check if the rep's iPad is connected and has synced.</div></div>
+
+<div class="qna"><div class="qna-q">What is modular content and why does it matter for review cycle time?</div><div class="qna-a">Modular content is the practice of building promotional materials from pre-approved, reusable content blocks (modules). Each module is individually approved through full MLR review. When assembling a new piece from pre-approved modules, only the layout/combination is reviewed — not the content of each module again. A traditional full MLR review takes 6–10 weeks. A modular content combination review can take 1–2 weeks, dramatically accelerating time-to-market.</div></div>
+
+<div class="qna"><div class="qna-q">What are the regulatory implications of expiry date management in PromoMats?</div><div class="qna-a">FDA OPDP requires that promotional materials reflect the current approved label. If a PI (Prescribing Information) is updated, materials based on the old PI must be recalled or updated. PromoMats manages this through expiry dates and document references — when the PI is updated, all documents referencing it can be flagged for review. Appropriate expiry dates (typically 2 years max) and a renewal process ensure the company never distributes content that contradicts the current approved label — which carries significant regulatory risk.</div></div>
+
+<div class="scenario"><div class="scenario-t">Claim Change Cascade</div><div class="scenario-b">A pivotal clinical study is updated, changing the endpoint from 1.2% to 1.1% HbA1c reduction. In PromoMats: (1) The updated study publication is uploaded as a new version. (2) The Claim record CLM-0042 is updated with the new figure and goes back through approval. (3) Once the updated claim is approved, PromoMats generates a report of all 47 documents across 12 countries that use CLM-0042. (4) Each document owner is notified and a new review cycle begins. Without PromoMats, this impact analysis would take weeks and likely miss some materials.</div></div>
+
+<div class="scenario"><div class="scenario-t">Global-to-Local Localisation</div><div class="scenario-b">The global Medical Affairs team creates a new detail aid for Drug Y targeting cardiologists. The global document is approved in PromoMats. The French affiliate needs a French version compliant with ANSM (French regulator) requirements. Process: (1) French team creates a child document linked to the global parent. (2) Sent to a TMS for translation. (3) Translated French content comes back to Vault linked to the original. (4) French version goes through French-specific review. (5) French version approved and distributed to French CRM users only, controlled by the Country field.</div></div>
+</div>
+
+<!-- ═══════════════ SECTION 15 ═══════════════ -->
+<div class="section" id="s15">
+<div class="sec-banner"><div class="accent" style="background:#a78bfa"></div><div class="label" style="background:#3b0764">SECTION 15: INTERVIEW QUESTIONS — 80+ WITH ANSWERS</div></div>
+<h1 class="page-title">15. Interview Questions — 80+ with Answers</h1>
+
+<div class="cat-hdr" id="s15b">Category A: DAM Fundamentals (Q1–Q15)</div>
+<div class="iq"><div class="iq-q">Q1. What is DAM and how does it differ from a traditional file storage system?</div><div class="iq-a">DAM (Digital Asset Management) is a system for organising, storing, and distributing digital assets with rich metadata, controlled access, lifecycle management, and audit trails. Unlike a file storage system (SharePoint, network drive), a DAM enforces metadata, provides advanced search, tracks version history, manages approval workflows, supports rights/expiry management, and integrates with distribution channels. In Veeva PromoMats, DAM is further specialised for regulatory compliance in life sciences.</div></div>
+<div class="iq"><div class="iq-q">Q2. Why is Veeva Vault PromoMats preferred over a generic DAM in pharma?</div><div class="iq-a">PromoMats is purpose-built for life sciences. It has native MLR (Medical-Legal-Regulatory) review workflows, 21 CFR Part 11 compliant electronic signatures, tamper-proof audit trails, native Veeva CRM integration for field content delivery, built-in claims management and evidence linking, expiry and withdrawal management for regulatory compliance, and modular content capabilities. Generic DAM solutions would require significant customisation to achieve any of these capabilities and would still lack the regulatory depth.</div></div>
+<div class="iq"><div class="iq-q">Q3. Explain the concept of a Document Lifecycle in PromoMats.</div><div class="iq-a">A Document Lifecycle is the state machine that governs a document's journey from creation to retirement. In PromoMats, typical states are: Draft (creation/editing), In Review (MLR process), Approved for Distribution (ready for field use), Superseded (replaced by newer version), Expired (validity period ended), and Withdrawn (emergency recall). Each transition is controlled by specific rules and permissions — e.g., only a Regulatory Reviewer can transition from "In Review" to "Approved." Every state change is audit-logged with timestamp and user identity.</div></div>
+<div class="iq"><div class="iq-q">Q4. What is a rendition in Vault PromoMats and why are multiple renditions needed?</div><div class="iq-a">A rendition is an alternative format representation of the same document. Multiple renditions serve different purposes: the Viewable Rendition (PDF) is used for in-browser review and annotation by MLR reviewers; the Thumbnail is used in search results and list views; the Approved Rendition is the final locked version for distribution; the Source Rendition is the original editable file (protected); the CLM Rendition is the HTML5/ZIP package for iPad delivery. This separation ensures reviewers always see a consistent format, and that the source file is protected from the distributed version.</div></div>
+<div class="iq"><div class="iq-q">Q5. What is MLR review and what are the three components?</div><div class="iq-a">MLR stands for Medical, Legal, and Regulatory review — the three mandatory approval functions for pharmaceutical promotional content. Medical review: verifies scientific accuracy, data integrity, claim substantiation against clinical evidence. Legal review: checks for intellectual property issues, competitive claims, fair balance requirements, legal language. Regulatory review: ensures content complies with the approved product label (PI), meets country-specific regulations, and is appropriate for the approved indication. All three must approve before content can be distributed.</div></div>
+<div class="iq"><div class="iq-q">Q6. What is the difference between version 0.1 and 1.0 in PromoMats?</div><div class="iq-a">0.1 (and 0.2, 0.3...) are minor versions representing draft iterations during the review process — work in progress. These are not distributable and cannot be pushed to CRM. 1.0 is the first major (approved) version — created when a document successfully completes the MLR review process and reaches the Approved lifecycle state. Major versions (1.0, 2.0, 3.0) have locked Approved Renditions and are distributable. When a document is revised and re-approved, it becomes 2.0, superseding 1.0.</div></div>
+<div class="iq"><div class="iq-q">Q7. Explain what Claims Management is in PromoMats.</div><div class="iq-a">Claims Management is the process of maintaining a library of pre-approved promotional statements (claims) with full evidence linkage. Each claim is individually approved and linked to the clinical study or data source that substantiates it. When a claim is used in a promotional document, a link is created between that document and the Claim record. This creates full traceability: any auditor can trace a statement in a detail aid back through the Claim record to the clinical publication that proves it. If the underlying evidence changes, all documents using the affected claim are automatically flagged for review.</div></div>
+<div class="iq"><div class="iq-q">Q8. What is Approved Email and how does it work end-to-end?</div><div class="iq-a">Approved Email (AE) is a Veeva feature that lets pharmaceutical companies create MLR-approved email templates that sales reps send to HCPs via Veeva CRM. End-to-end: (1) Author creates the email template in PromoMats with approved content and subject line. (2) Template goes through MLR review. (3) On approval, Vault Connect pushes the template to Veeva CRM. (4) Rep selects the approved template in CRM, can only customise specific approved fields (typically salutation). (5) Rep sends the email. (6) Engagement data (open, click) flows back to CRM. The rep cannot modify the approved content — ensuring compliance.</div></div>
+<div class="iq"><div class="iq-q">Q9. What is the difference between content Expiry and Withdrawal in PromoMats?</div><div class="iq-a">Expiry is a planned, time-based event — the document reaches its pre-set validity end date and is automatically transitioned to Expired state. It is expected and managed proactively. Withdrawal is an emergency, manual action taken when approved content must be immediately recalled due to an unexpected problem — a safety signal, a discovered error, regulatory feedback. Withdrawal is immediate and triggered by a Coordinator or Admin with documented justification. Both result in content removal from distribution, but withdrawal is reactive and urgent while expiry is planned.</div></div>
+<div class="iq"><div class="iq-q">Q10. What is CLM (Closed Loop Marketing) in the context of PromoMats?</div><div class="iq-a">CLM is a commercial model where sales reps present digital content (slides, interactive presentations) to HCPs on iPads during sales calls, using Veeva CRM. The "closed loop" refers to: content approved in PromoMats is pushed to rep iPads → rep presents to HCP and the CRM captures which slides were shown and for how long → this interaction data flows back to Marketing in PromoMats → Marketing uses this data to improve future content. PromoMats manages the CLM content lifecycle and distribution; Veeva CRM handles the presentation and data capture.</div></div>
+<div class="iq"><div class="iq-q">Q11. How does PromoMats support Global-to-Local content management?</div><div class="iq-a">PromoMats supports global-to-local through: parent-child document relationships (global master → local adaptation), country-specific lifecycles (different review requirements per market), dynamic access control based on Country metadata (French users only see French-approved content), country-specific picklist values and mandatory fields configured per country, and localisation workflow routing that ensures only the relevant country's reviewers receive a local adaptation for review. Global teams publish a master; local affiliates create related child documents that inherit core metadata but have country-specific review and approval.</div></div>
+<div class="iq"><div class="iq-q">Q12. What is modular content and why is it important?</div><div class="iq-a">Modular content is the practice of building promotional materials from pre-approved, individually reviewed content blocks (modules). Each module — a claim statement, a chart, an efficacy table, an image — is approved once through MLR. When a new piece is assembled from pre-approved modules, only the combination/layout needs review rather than every content element. This reduces review cycle time from 6–10 weeks to 1–2 weeks. It also ensures consistent, approved messaging across all materials and markets.</div></div>
+<div class="iq"><div class="iq-q">Q13. What metadata is typically required on every promotional document in PromoMats?</div><div class="iq-a">Core mandatory metadata typically includes: Product (which drug), Country/Market (which geography), Document Type/Material Type (what kind of asset), Audience (HCP, Patient, Payer), Language, Owner/Author, Expiry Date. Secondary metadata includes: Campaign, Indication, Target Specialty, Distribution Channel, Creation Date, Approval Date. Metadata is enforced through Required field settings and Validation Rules that prevent submission until all mandatory fields are completed.</div></div>
+<div class="iq"><div class="iq-q">Q14. Explain the concept of Document References in PromoMats.</div><div class="iq-a">Document References are formal links from a promotional document to other documents that support or relate to it. The most critical use is linking a promotional piece to its supporting clinical evidence. For example, a detail aid claiming "Drug X reduces event risk by 25%" is linked to the published clinical trial that proves this. Regulatory reviewers can instantly navigate to the source evidence. If the source document is updated or withdrawn, all promotional documents referencing it are flagged for re-review.</div></div>
+<div class="iq"><div class="iq-q">Q15. What is Dynamic Access Control (DAC) in PromoMats?</div><div class="iq-a">Dynamic Access Control is a security mechanism that restricts document visibility based on metadata values rather than (or in addition to) user roles. For example, if a document has Country = Germany, DAC can be configured so only users with Germany in their user profile can see that document — even if they have the same system role as a US user. This is critical in global PromoMats implementations where different affiliates must not see each other's unapproved drafts.</div></div>
+
+<div class="cat-hdr" id="s15c">Category B: Object Model &amp; Configuration (Q16–Q35)</div>
+<div class="iq"><div class="iq-q">Q16. What are the key Vault Objects in a PromoMats DAM implementation?</div><div class="iq-a">Core objects include: Product Object (the promoted drug/brand), Country Object (markets), Campaign Object (promotional project grouping), Claim Object (approved promotional statements), Content Module Object (reusable approved content blocks), and Material Type (Document Type classification). Supporting objects include User, Language, Therapeutic Area, and any custom objects built for client-specific needs like Job Bag, Content Brief, Regulatory Submission Record, or Distribution Channel.</div></div>
+<div class="iq"><div class="iq-q">Q17. How does the Product Object relate to Documents in PromoMats?</div><div class="iq-a">Every promotional document should have a lookup to the Product Object. The document has a Product metadata field (a Lookup field pointing to Product__v). This creates a relationship: navigate to a Product record and see all documents related to that product in a Related Documents section. Conversely, on a document, click the Product lookup to navigate to the Product record. This enables product-based content filtering — "show all approved detail aids for Drug X."</div></div>
+<div class="iq"><div class="iq-q">Q18. What is the purpose of the Campaign Object in PromoMats DAM?</div><div class="iq-a">The Campaign Object groups all documents and assets created for a specific promotional campaign. It stores: campaign name, dates, product association, target audience, budget, status, and the responsible brand manager. Documents created within a campaign are linked to the Campaign record. This enables: viewing all assets in a campaign, batch operations (expire all campaign assets when campaign ends), campaign-level reporting (how many pieces in review, approved, expired), and cross-functional alignment on campaign timelines.</div></div>
+<div class="iq"><div class="iq-q">Q19. Explain how Claims are linked to Documents in PromoMats.</div><div class="iq-a">Claims are linked to documents through a Document-Claim relationship. When an author submits a document for review, they annotate specific statements in the document and link each statement to a Claim record from the Claim Library. The relationship is stored as a document relationship object or a cross-reference field. Medical reviewers can see each claim in the document and immediately navigate to the Claim record, verify it is approved, and see the linked clinical evidence. This creates a fully traceable evidence chain.</div></div>
+<div class="iq"><div class="iq-q">Q20. How is the Document Type hierarchy configured in PromoMats?</div><div class="iq-a">The Document Type hierarchy is configured in Admin > Configuration > Document Types in Vault. It is a tree structure where each level narrows the classification: top level (Promotional Materials) → second level (Sales Tools) → third level (Detail Aid). Each Document Type node can have its own metadata schema (fields), lifecycle assignment, security profile, and rendition settings. Best practice is 2–3 levels of hierarchy to balance specificity with usability.</div></div>
+<div class="iq"><div class="iq-q">Q21. What is the difference between document-level metadata and object-level data in PromoMats?</div><div class="iq-a">Document-level metadata is information stored directly on the document record itself — fields like Product, Country, Expiry Date, Document Type, Owner. These are properties of the asset itself. Object-level data refers to information stored in related Vault Objects — the Product Object stores product description, therapeutic area, and launch date. The document is linked to these objects via lookup fields, inheriting context from them. Changing the Product Object description automatically changes how the product appears when viewing any linked document.</div></div>
+<div class="iq"><div class="iq-q">Q22. How would you configure a PromoMats system to support multiple products with different review requirements?</div><div class="iq-a">Use a combination of: (1) Document Types per product type or material type, each with its own lifecycle. (2) Object Types to differentiate behaviour per product. (3) Workflow configuration with product-specific reviewer assignment rules (if Product = Drug X, assign to Medical Reviewer Group X). (4) Document creation profiles per product that pre-fill metadata and assign the correct lifecycle. (5) Security profiles that restrict who can create/review content for each product.</div></div>
+<div class="iq"><div class="iq-q">Q23. What validation rules would you implement on PromoMats documents?</div><div class="iq-a">Essential validation rules: (1) Expiry Date must be in the future when submitting for review. (2) Expiry Date must not be more than 2 years from today. (3) Product field is required before submitting. (4) Country field is required before submitting. (5) At least one Claim must be linked for Promotional Material document types. (6) Document name must follow the naming convention pattern (enforce via REGEX). (7) Approved Email templates must have a subject line field completed.</div></div>
+<div class="iq"><div class="iq-q">Q24. Explain how security is configured for a multi-country PromoMats implementation.</div><div class="iq-a">Multi-country security uses several layers: (1) Application Roles define what users can do. (2) Dynamic Access Control restricts which documents users can see based on Country metadata matching the user's assigned country. (3) Security profiles per country-role combination. (4) Document sharing rules for cross-country collaboration (global teams see all; local teams see only their country). (5) Object permissions ensure country teams can create/edit documents for their market but not others.</div></div>
+<div class="iq"><div class="iq-q">Q25. What is the role of the Content Module Object in PromoMats?</div><div class="iq-a">The Content Module Object is the backbone of a modular content strategy. It stores individual pre-approved content blocks — each with its approved text, associated images, linked claims, applicable products and countries, and its own lifecycle status (Approved/Retired). When building new promotional materials using modular content, authors select from the approved module library instead of writing new content. If a module is retired or updated, all documents using it can be flagged. The module itself has gone through full MLR review; the assembled document only needs a combination/layout review.</div></div>
+<div class="iq"><div class="iq-q">Q26. How does PromoMats handle document versioning when a major update is needed after approval?</div><div class="iq-a">When an approved document (v1.0) needs updating: (1) The owner initiates a new draft cycle — a new minor version (1.1) is created. (2) The new version goes through the same MLR review process. (3) When approved, it becomes v2.0 — a new major version. (4) Vault automatically transitions the previous approved version (1.0) to "Superseded" state. (5) v2.0 is now the active version in distribution. The CRM is updated to show only v2.0 to field reps.</div></div>
+<div class="iq"><div class="iq-q">Q27. What is a Job Bag in PromoMats?</div><div class="iq-a">A Job Bag is a project record used to manage and track all components of a single promotional project. It acts as the umbrella for all documents, tasks, reviews, and approvals related to one piece of promotional content from brief to distribution. A Job Bag Object typically contains fields for: project name, product, campaign, material type, target audience, brief description, agency assigned, timeline milestones, status, and links to all the documents created within the project.</div></div>
+<div class="iq"><div class="iq-q">Q28. How do you configure the Vault Connect integration between PromoMats and Veeva CRM?</div><div class="iq-a">Configuration steps: (1) Configure the CRM Vault as a connected Distribution Target in PromoMats. (2) Define the CRM Sync Rule — which Document Types and lifecycle states trigger sync. (3) Map PromoMats Product fields to CRM Product fields. (4) Configure the CRM Distribution User Profile. (5) Define the sync frequency (near real-time recommended). (6) In CRM Vault, configure receiving settings. (7) Test with a pilot document. (8) Monitor the sync log for errors.</div></div>
+<div class="iq"><div class="iq-q">Q29. What are the key reports you would configure in a PromoMats DAM implementation?</div><div class="iq-a">Essential reports: (1) Content Pipeline Report — all documents in each lifecycle state by product/country/type. (2) Expiry Dashboard — documents expiring in next 30/60/90 days by owner. (3) MLR Cycle Time Report — average days in each review stage. (4) SLA Breach Report — tasks overdue beyond their SLA. (5) Approved Content Inventory — all currently approved content by product and country. (6) Content Withdrawal Report — all withdrawn documents with reason and impact. (7) CRM Sync Status — content successfully pushed to field reps.</div></div>
+<div class="iq"><div class="iq-q">Q30. What is the purpose of the Viewable Rendition in PromoMats?</div><div class="iq-a">The Viewable Rendition is an automatically generated PDF version of the uploaded source document. Its purpose: (1) It is the standard format used by all MLR reviewers for annotation — regardless of whether the source file is a PPTX, INDD, or other format. (2) Annotations (reviewer comments) are made directly on it in Vault's annotation tool. (3) It protects the source file — reviewers see and comment on the PDF, not the editable source. (4) It is generated fresh with each new document version. Key distinction: the Viewable Rendition is for review; the Approved Rendition is the locked final version for distribution.</div></div>
+<div class="iq"><div class="iq-q">Q31. How would you set up expiry management for promotional documents in PromoMats?</div><div class="iq-a">Setup: (1) Add Expiry Date as a required date field on promotional document types. (2) Add a lifecycle entry action that sets expiry date when document is approved (TODAY() + 730 days = 2 years). (3) Configure automated notifications: 90, 60, 30, 7 days before expiry. (4) Create an Expiry Dashboard visible to all content owners. (5) Configure the lifecycle to automatically transition documents to Expired state on the expiry date. (6) Ensure the Vault Connect CRM sync removes expired content immediately on state transition.</div></div>
+<div class="iq"><div class="iq-q">Q32. What is the difference between the Approved Rendition and the Source Rendition?</div><div class="iq-a">The Source Rendition is the original file uploaded by the author — the editable source (e.g., InDesign file, PowerPoint). It contains all editing layers and is typically restricted to authors and design teams. The Approved Rendition is a locked PDF generated when the document reaches Approved state — it represents exactly what was reviewed and approved and cannot be modified. The Approved Rendition is what is distributed to field reps via CRM and preserved for compliance audit.</div></div>
+<div class="iq"><div class="iq-q">Q33. How do you handle the retirement of a Content Module in modular content management?</div><div class="iq-a">When a Content Module needs to be retired: (1) Change the Module status to "Under Review" — it can still be used in existing approved documents but cannot be selected for new materials. (2) Run a Module Usage Report to identify all documents that use this module. (3) Notify document owners that their materials will need updating. (4) Update the module with new approved content through its own review cycle. (5) When the updated module is approved, retire the old version. (6) Trigger re-review of all documents using the old module.</div></div>
+<div class="iq"><div class="iq-q">Q34. What are the most important fields to include in a PromoMats document type configuration?</div><div class="iq-a">Mandatory fields: Product (Lookup to Product Object), Country (Lookup or multi-select picklist), Document Type (part of type hierarchy), Language (Picklist), Audience (Picklist: HCP/Patient/Payer), Expiry Date (Date), Owner (User Lookup). Important optional fields: Campaign (Lookup), Indication (Picklist), Target Specialty (Picklist), Regulatory Reference Number, Global/Local flag, Parent Document (for adaptations), Distribution Channels. System fields (auto-populated): Created Date, Modified Date, Created By, Approved Date, Version.</div></div>
+<div class="iq"><div class="iq-q">Q35. How would you configure parallel vs sequential MLR review in PromoMats?</div><div class="iq-a">Sequential review: the document routes first to Medical, Medical must approve before Legal receives it, Legal must approve before Regulatory. Total time = sum of all review times. Parallel review: all three reviewers receive the review task simultaneously when the document enters "In Review." Total time = the longest individual review time. Hybrid (most common): Medical and Regulatory review in parallel; Legal joins in a second parallel phase. Configuration: in the Vault Workflow configuration, define participant assignment rules, step sequence (parallel = same step number for all participants), and the "all approve" condition.</div></div>
+
+<div class="cat-hdr" id="s15d">Category C: Implementation &amp; Issues (Q36–Q55)</div>
+<div class="iq"><div class="iq-q">Q36. What are the most common mistakes made during a PromoMats DAM implementation?</div><div class="iq-a">Top mistakes: (1) Insufficient requirement gathering — building without fully understanding the MLR process. (2) Over-complex metadata model — too many fields that users ignore. (3) No picklist governance — uncontrolled values proliferate. (4) Lifecycle designed in isolation — not walked through with actual reviewers before build. (5) Skipping UAT with real content — dummy documents hide real edge cases. (6) Poor migration planning — documents migrated without metadata. (7) Inadequate training — especially for reviewers who must use annotation tools. (8) No expiry management process — documents expire without warning.</div></div>
+<div class="iq"><div class="iq-q">Q37. How do you approach data migration from a legacy system to PromoMats?</div><div class="iq-a">Migration approach: (1) Inventory: catalogue all existing content — count, types, metadata available. (2) Assess: decide what to migrate (everything? last 3 years? approved only?). (3) Map: create a field mapping document — legacy field to PromoMats field. (4) Clean: fix metadata issues in source before migrating. (5) Deactivate validation rules in target Vault. (6) Load: use Vault Loader for documents + metadata in batches. (7) Verify: spot-check records, run count reconciliation. (8) Re-enable validation rules. Key rule: never migrate and go live on the same day — leave a validation period.</div></div>
+<div class="iq"><div class="iq-q">Q38. A document is stuck in the "In Review" state and the reviewer has left the company. What do you do?</div><div class="iq-a">Steps: (1) Admin opens the document and reviews the current workflow step — identify which reviewer task is stuck. (2) Use the Admin workflow override capability to reassign the task to a different user (the departed reviewer's manager or backup). (3) If the workflow does not have a built-in reassignment, an admin can force-transition the document state using lifecycle admin override. (4) Document the action in the audit trail with a reason. (5) Longer-term: implement an escalation path when a reviewer is inactive for X days. (6) Review your user offboarding process — departing users should have their tasks reassigned as part of offboarding.</div></div>
+<div class="iq"><div class="iq-q">Q39. How do you handle the situation where the same content is needed in 15 different countries?</div><div class="iq-a">Best approach: (1) Create the global master document first — full MLR review. (2) Once approved globally, create a Child Document for each country that references the global parent. (3) For translation: use a Translation workflow — source document out to TMS, translated content returns as a new document version linked to the source. (4) Each country version undergoes its own local review (which may be shorter if the global review covered the core claims). (5) Country versions are tagged with their Country metadata and only distributed to CRM users in that country. (6) When the global master is updated, all 15 country versions are automatically flagged for review.</div></div>
+<div class="iq"><div class="iq-q">Q40. What is your approach to testing a PromoMats Lifecycle before go-live?</div><div class="iq-a">Test approach: (1) Create a test script documenting every transition, every entry criteria, every notification. (2) Create test documents for each Document Type. (3) Walk through every transition with a test user for each role. (4) Verify notifications are received correctly for each step. (5) Test rejection and re-routing scenarios. (6) Test edge cases: reviewer reassignment, document revision during review, simultaneous reviewers approving at the same time. (7) Test expiry automation with a document with today's date as expiry. (8) Test withdrawal and verify CRM content is recalled. (9) Run UAT with actual business users using real content.</div></div>
+<div class="iq"><div class="iq-q">Q41. How do you calculate and report on MLR cycle time in PromoMats?</div><div class="iq-a">MLR cycle time is measured from: document submission (entry to "In Review" state) to final approval (entry to "Approved" state). In Vault, the Audit Trail records a timestamp for every state transition. Using VQL or Vault reports: query the audit trail for documents, find the "In Review" entry date and "Approved" entry date, calculate the difference. Break down by sub-stages: how long in Medical Review vs Legal vs Regulatory. Segment by product, material type, country, and reviewer to identify bottlenecks.</div></div>
+<div class="iq"><div class="iq-q">Q42. What is the impact of a clinical study update on existing promotional materials in PromoMats?</div><div class="iq-a">A clinical study update can affect the claims it supports. In PromoMats: (1) The updated study is uploaded as a new version. (2) The Claim record linked to this study must be reviewed — if the data changes, the claim text must be updated. (3) The updated Claim goes through its own approval cycle. (4) Once the claim is re-approved, a report identifies all documents using the old claim. (5) Each affected document must go through a new review cycle. PromoMats' Claims Management infrastructure makes this cascade manageable; without it, identifying all affected materials would be a manual, weeks-long effort.</div></div>
+<div class="iq"><div class="iq-q">Q43. How do you manage the handoff between a global content team and a local affiliate team in PromoMats?</div><div class="iq-a">Global-to-Local handoff process: (1) Global team creates and approves the global master document. (2) The master has a "Global Baseline" flag — local teams are notified it is available for localisation. (3) Local team creates a linked child document for their market, inheriting global metadata but adding local metadata (Country, Language, Local Regulatory Reference). (4) Local team adapts content for their market. (5) Local document goes through the local review workflow. (6) When approved, it distributes only to that country's CRM users. (7) If global master is updated, child documents are flagged automatically.</div></div>
+<div class="iq"><div class="iq-q">Q44. What are the key KPIs for a PromoMats DAM system?</div><div class="iq-a">Key KPIs: (1) MLR Cycle Time — average days from submission to approval. (2) On-Time Approval Rate — % of materials approved by their target date. (3) First-Time Approval Rate — % of materials approved without any rejections. (4) SLA Compliance Rate — % of review tasks completed within SLA. (5) Active Asset Coverage — % of promoted products with current approved content in all target markets. (6) Expiry Risk — % of active assets within 60 days of expiry without a renewal initiated. (7) CRM Content Sync Rate — % of approved CLM content successfully available on rep devices.</div></div>
+<div class="iq"><div class="iq-q">Q45. Explain what a Vault sandbox is and how it is used in a PromoMats project.</div><div class="iq-a">A Vault sandbox is a non-production copy of the Vault environment used for development, testing, and training. There are typically 3 environments: Development (Dev/Build) — where admins build and test configuration changes; UAT (User Acceptance Testing) — where business users validate the configuration with real scenarios; Production (Prod) — the live system. Configuration changes are built and tested in Dev, promoted to UAT for business sign-off, then deployed to Production. Sandboxes are refreshed periodically from Production to keep their configuration current.</div></div>
+<div class="iq"><div class="iq-q">Q46. How would you handle the requirement for an emergency content withdrawal across all channels?</div><div class="iq-a">Emergency withdrawal process: (1) Coordinator or Admin triggers the "Withdraw" action on the document. (2) A mandatory reason field must be completed. (3) The document transitions to "Withdrawn" state immediately. (4) Vault Connect triggers an immediate sync to Veeva CRM — the content is removed from all rep iPads. (5) If Approved Email templates are involved, they are immediately disabled in CRM. (6) Vault generates a notification to all users who had accessed the document. (7) A Withdrawal Report is generated for the compliance record. (8) The audit trail records all actions.</div></div>
+<div class="iq"><div class="iq-q">Q47. What is Vault Loader and when would you use it in a PromoMats implementation?</div><div class="iq-a">Vault Loader is Veeva's desktop application for bulk operations on Vault data using CSV files and the Vault API. In PromoMats, it is used for: (1) Data migration — bulk upload of documents and metadata from legacy systems. (2) Bulk metadata updates — updating the Product or Expiry Date field on hundreds of documents simultaneously. (3) Mass document status updates — transitioning multiple documents to a new lifecycle state. (4) Bulk user creation or role assignment. Key caution: Vault Loader operations still enforce validation rules, security permissions, and lifecycle entry criteria. Always deactivate relevant validation rules before a bulk migration load.</div></div>
+<div class="iq"><div class="iq-q">Q48. What is the difference between a Vault Workflow and a Lifecycle in PromoMats?</div><div class="iq-a">In Vault, a Lifecycle is the state machine — it defines the states a document can be in (Draft, In Review, Approved) and the rules for transitioning between them. A Workflow is a structured task-routing process — it defines who does what, in what order, with what deadlines. The Lifecycle controls the document state; the Workflow routes tasks to reviewers during the "In Review" state. They are separate but connected: the Workflow completion triggers the Lifecycle transition from "In Review" to "Approved."</div></div>
+<div class="iq"><div class="iq-q">Q49. How do you manage reviewer capacity and workload in PromoMats?</div><div class="iq-a">Workload management: (1) Configure SLA notifications so reviewers see their approaching deadlines. (2) Create a "My Pending Tasks" report showing each reviewer their current queue. (3) Set up a Manager Dashboard showing team task load and SLA status. (4) Configure escalation workflows — if a reviewer has not acted within X days, their manager is notified. (5) Use Reviewer Groups instead of individual users — allows flexible assignment and load distribution. (6) Build a Workload Report for Coordinators showing tasks per reviewer with average completion times.</div></div>
+<div class="iq"><div class="iq-q">Q50. What are the regulatory requirements that drive PromoMats configuration in the United States?</div><div class="iq-a">US regulatory drivers: (1) FDA 21 CFR Part 11 — electronic records and signatures must be trustworthy, reliable, auditable. Drives: audit trail, electronic signatures in Vault, access controls. (2) FDA OPDP oversight — all prescription drug promotional materials should be submitted to FDA. Drives: material type classification, submission workflows. (3) Fair Balance requirement — risk information must be presented with equal prominence to benefits. (4) "Consistent with labeling" — all claims must be within the approved PI. Drives: claims management. (5) Record retention — FDA requires promotional materials to be retained for 2+ years.</div></div>
+<div class="iq"><div class="iq-q">Q51. How would you configure PromoMats to support an upcoming product launch?</div><div class="iq-a">Product launch configuration: (1) Create the new Product Object record. (2) Configure Document Types specific to launch materials. (3) Set up a Launch Campaign Object record. (4) Configure a pre-launch lifecycle state for materials ready before launch date but not yet distributable. (5) Set distribution start date logic — Vault Connect sync to CRM activates only on/after launch date. (6) Build a launch readiness dashboard. (7) Ensure CRM product record exists and matches PromoMats product name exactly for Vault Connect sync. (8) Set expiry dates from launch date, not approval date, for launch materials.</div></div>
+<div class="iq"><div class="iq-q">Q52. How do you ensure content tagging consistency across a large team of authors?</div><div class="iq-a">Consistency mechanisms: (1) Mandatory fields with validation rules — enforce Product, Country, Type before submission. (2) Document templates (creation profiles) that pre-fill standard metadata. (3) Controlled picklists — no free-text where a standard value exists. (4) Auto-populate fields — if a user is in the French affiliate group, Country auto-populates as France. (5) Conditional required fields — if Document Type = Detail Aid, then Indication is required. (6) Training covering metadata entry with real examples. (7) Quarterly metadata quality audit report.</div></div>
+<div class="iq"><div class="iq-q">Q53. What is the role of a PromoMats Vault Administrator?</div><div class="iq-a">The Vault Admin is responsible for: (1) Configuration — building and maintaining objects, fields, lifecycles, workflows, security profiles, layouts, validation rules. (2) User management — creating users, assigning roles and profiles, managing SSO. (3) Integration management — monitoring Vault Connect sync, managing API credentials. (4) Data quality — running metadata audit reports, correcting data issues. (5) Change management — managing the sandbox-to-production deployment process. (6) Support — resolving user issues, escalating bugs to Veeva support. (7) Governance — enforcing picklist governance, naming conventions. (8) Upgrade readiness — reviewing Veeva release notes and testing new features.</div></div>
+<div class="iq"><div class="iq-q">Q54. How do you handle a situation where a regulatory reviewer approves content they should have rejected?</div><div class="iq-a">Process: (1) Immediately assess the distribution status — is the content already in CRM? (2) If distributed: initiate a Withdrawal action to recall content from all channels. (3) Return the document to In Review state using admin lifecycle override. (4) Document the error with a formal CAPA record. (5) Re-route to a new Regulatory Reviewer for proper review. (6) Review permissions — should the approving reviewer have had access to this material? (7) All corrective actions must be documented in the audit trail for regulatory inspection readiness.</div></div>
+<div class="iq"><div class="iq-q">Q55. What is your approach to testing a PromoMats configuration before go-live?</div><div class="iq-a">Testing approach: (1) Create a test script documenting every user action, every field validation, every workflow step. (2) Test each Document Type separately with a test document. (3) Walk through every lifecycle transition with test users for each role. (4) Test every validation rule — both positive and negative cases. (5) Test integration: push a test document through approval and verify it appears in CRM. (6) Test security: log in as each role and verify access is correct. (7) Test expiry automation with a near-term expiry date. (8) Run UAT with actual business users using real promotional documents.</div></div>
+
+<div class="cat-hdr" id="s15e">Category D: Advanced &amp; Scenario-Based (Q56–Q80)</div>
+<div class="iq"><div class="iq-q">Q56. How does PromoMats support a multi-vault architecture for global pharma companies?</div><div class="iq-a">Large global companies often use multiple Vault tenants: a Global Vault for centrally managed content and a separate Vault per major region or affiliate. PromoMats supports this through Vault-to-Vault (V2V) integration — approved global content can be transferred or referenced across Vault tenants. Cross-vault document references link a local affiliate document to the global master in a different Vault. Vault Connect can be configured to distribute from a master Vault to CRM serving all regions. Key consideration: each Vault has its own configuration, security, and lifecycle — cross-vault governance requires careful coordination.</div></div>
+<div class="iq"><div class="iq-q">Q57. Explain the end-to-end flow of an Approved Email from creation in PromoMats to delivery by a rep.</div><div class="iq-a">End-to-end: (1) Author creates the email template in PromoMats — subject line, body content (approved text, compliant claims, fair balance), and permitted personalisation tokens. (2) Template goes through MLR review. (3) On approval, document reaches distributive state. (4) Vault Connect picks up the template and syncs it to Veeva CRM (typically within 1–2 hours). (5) The template appears in the CRM Approved Email library. (6) A sales rep selects the template in CRM, fills in the personalisation fields. (7) Rep sends the email directly from CRM. (8) Email engagement data (open, click) flows back to CRM. (9) Rep notes the interaction in the CRM call log.</div></div>
+<div class="iq"><div class="iq-q">Q58. What would you do if the business requested 50 new custom fields on a PromoMats document type?</div><div class="iq-a">This is a classic scope creep situation. Response: (1) Do not immediately build all 50. (2) Workshop each field: Why is it needed? Who will fill it in? Who will search/report on it? (3) Categorise: Mandatory, Should Have, Could Have, Won't Have. (4) Propose using existing standard fields where possible. (5) Assess the user experience impact — 50 additional fields on a creation form will severely hurt adoption. (6) Recommend phasing: build core fields in Phase 1, add "Should Have" fields in Phase 2 based on user feedback. (7) Establish a field governance process.</div></div>
+<div class="iq"><div class="iq-q">Q59. How would you configure PromoMats to support a regulated market that requires government pre-approval before any promotional material can be published?</div><div class="iq-a">For markets like Brazil, China, or Saudi Arabia where materials need pre-approval: (1) Add a "Regulatory Submission" lifecycle state before "Approved for Distribution." (2) Create a Regulatory Submission Object linked to the document tracking the submission reference, authority name, and expected approval date. (3) Add a "Government Approval Received" step that triggers the transition to "Approved for Distribution." (4) Store the government approval letter as a linked document. (5) Ensure only documents with Country = [regulated market] follow this extended lifecycle. (6) Set CRM distribution trigger to only activate after the "Government Approval Received" step.</div></div>
+<div class="iq"><div class="iq-q">Q60. What is the impact of a Veeva platform upgrade on a PromoMats implementation?</div><div class="iq-a">Veeva releases major upgrades twice a year (April and September general releases). Impact assessment process: (1) Review Veeva release notes for breaking changes, deprecated features, new features. (2) Test the upgrade in a Sandbox environment before it hits Production. (3) Review any custom configuration — API name changes, new required fields, changed lifecycle behaviours. (4) Check integration compatibility — Vault Connect, API versions. (5) Update user training materials if UI has changed. (6) Communicate change to end users before the upgrade deploys. Proactive sandbox testing is the best protection.</div></div>
+<div class="iq"><div class="iq-q">Q61. How do you measure the ROI of a PromoMats DAM implementation?</div><div class="iq-a">ROI measurement areas: (1) Review cycle time reduction — if MLR cycle time drops from 8 weeks to 4 weeks, calculate the value of content being available 4 weeks earlier. (2) Rework reduction — track first-time approval rate improvement. (3) Compliance cost reduction — fewer regulatory citations, reduced risk of fines. (4) Content reuse — track how often modular content is reused vs new content created. (5) Rep productivity — content is always current and instantly available. (6) Legal/withdrawal cost avoidance — faster, more controlled withdrawals reduce the risk of non-compliant content distribution.</div></div>
+<div class="iq"><div class="iq-q">Q62. What is a PromoMats "Configuration Migration" and how is it done?</div><div class="iq-a">Configuration migration is the process of promoting configuration changes from a sandbox to production. Process: (1) Build and test configuration in Dev sandbox. (2) Create a Configuration Migration Package in Vault — this bundles all changes (objects, fields, lifecycles, security profiles). (3) Deploy the package to UAT. (4) Business UAT sign-off. (5) Schedule a change window in Production. (6) Deploy the package to Production. (7) Smoke test key functions post-deployment. (8) Communicate changes to affected users. Best practice: never make configuration changes directly in Production without sandbox testing first.</div></div>
+<div class="iq"><div class="iq-q">Q63. How do you ensure regulatory inspection readiness for PromoMats-managed content?</div><div class="iq-a">Inspection readiness: (1) Audit trail is enabled and captures all document state changes, field changes, and user actions. (2) Electronic signatures are configured to FDA 21 CFR Part 11 standards. (3) Periodic audit trail reviews are conducted. (4) Every withdrawn or expired document is preserved — never deleted. (5) All approval workflows are documented with SOP references. (6) A mock regulatory inspection exercise is conducted annually. (7) Vault access logs are available to prove who accessed what documents. (8) Version history is complete and accessible — every draft version preserved.</div></div>
+<div class="iq"><div class="iq-q">Q64. What is content re-use rate and why does it matter in PromoMats DAM?</div><div class="iq-a">Content re-use rate measures how often approved content assets (modules, templates, images, claims) are reused in new materials vs being recreated from scratch. It matters because: (1) Every piece of content going through MLR review has a cost. (2) If 70% of a new detail aid reuses pre-approved modular content, only 30% needs full review — dramatically cutting time and cost. (3) High reuse ensures messaging consistency across markets and materials. (4) It is a key metric for justifying investment in modular content strategy. In PromoMats, track reuse via the Content Module relationship to documents.</div></div>
+<div class="iq"><div class="iq-q">Q65. How do you configure PromoMats to enforce the naming convention for documents?</div><div class="iq-a">Use a Validation Rule on the Document object. Example naming convention: [ProductCode]-[CountryCode]-[MaterialType]-[Year]-[SeqNumber]. Validation rule using REGEX: REGEX(name__v, "^[A-Z]{2,5}-[A-Z]{2}-[A-Z]{2,4}-[0-9]{4}-[0-9]{3}$") — this fires if the name does not match the pattern. Additionally: create help text on the Name field explaining the convention, create a Quick Reference card for users, and consider auto-populating the name from metadata fields (ProductCode + CountryCode + Type + Year + sequential number) to remove manual entry entirely.</div></div>
+<div class="iq"><div class="iq-q">Q66. What are the key differences between PromoMats and Vault Medical?</div><div class="iq-a">PromoMats is the commercial/promotional content platform: used by Marketing, Medical Affairs (commercial), Sales Operations to manage promotional materials, CLM content, and approved emails. Built around MLR review and CRM distribution. Vault Medical is the medical information content management platform: used by Medical Science Liaisons (MSLs), Medical Affairs (medical), to manage medical letters, medical education materials, and unsolicited request responses. Key differences: PromoMats content must pass promotional regulatory review (FDA OPDP); Medical content is for scientific exchange, not promotion. PromoMats integrates with Veeva CRM for sales reps; Vault Medical integrates with Veeva MedInquiry for MSL interactions.</div></div>
+<div class="iq"><div class="iq-q">Q67. How would you design the security model for an agency that creates content on behalf of your company?</div><div class="iq-a">Agency security model: (1) Create a dedicated "External Agency" security profile with minimal permissions. (2) Agencies can CREATE documents and upload files in specific Document Types only. (3) Agencies cannot: view documents from other agencies, see internal review comments until officially shared, access approved/confidential documents outside their scope. (4) Agencies can: upload source files, view their own documents in all states, receive reviewer feedback comments. (5) Use Dynamic Access Control to restrict agency users to documents with "Agency = [Their Agency Name]." (6) Set up a formal handoff workflow: Agency submits → status changes to "Ready for Coordinator Review."</div></div>
+<div class="iq"><div class="iq-q">Q68. What is the MLR Coordinator role and why is it critical to PromoMats success?</div><div class="iq-a">The MLR Coordinator is the process owner within PromoMats — they manage the logistics of moving content through the review and approval process. Critical responsibilities: (1) Creating and configuring document records correctly at initiation. (2) Assigning reviewers and managing their task queues. (3) Monitoring SLA compliance and escalating delays. (4) Facilitating reviewer communication when there are conflicting comments. (5) Managing the agency relationship and briefing process. (6) Maintaining the content calendar. (7) Managing the expiry management process. (8) Coordinating emergency withdrawals. The Coordinator is the person who makes the PromoMats process actually work day-to-day.</div></div>
+<div class="iq"><div class="iq-q">Q69. Explain the role of audit trail in regulatory compliance for PromoMats.</div><div class="iq-a">The audit trail is the compliance backbone of PromoMats DAM. It provides: (1) Evidence that every document went through the required review and approval steps. (2) Proof of who reviewed what, when, and what their decision was. (3) A record of all field changes with old and new values. (4) Evidence for electronic signature validity. (5) A record of every withdrawal and documented justification. (6) Proof that content was not distributed before receiving all required approvals. In a regulatory inspection (FDA, EMA), the inspector may ask: "Show me the review history for this detail aid." PromoMats audit trail provides this instantly in a tamper-proof format.</div></div>
+<div class="iq"><div class="iq-q">Q70. How do you handle a requirement for content to have different expiry dates in different countries?</div><div class="iq-a">This is a common requirement in global implementations. Solutions: (1) Use a multi-value expiry structure — create separate expiry date fields per region. However, this is messy at scale. (2) Better approach: Create separate document records per country/region — each with its own expiry date field and country tag. (3) Most scalable: Create a Product-Country-Document junction object that stores a country-specific expiry date for each document-country combination. The lifecycle automation reads the expiry date from this junction for each market.</div></div>
+<div class="iq"><div class="iq-q">Q71. What is your first 30-60-90 day plan as a newly hired PromoMats Vault Administrator?</div><div class="iq-a">Days 1–30 (Learn): Shadow current users (Author, Reviewer, Coordinator) to understand day-to-day workflows. Review all existing configuration documentation. Map the current lifecycle for each Document Type. Understand all active integrations. Review open support tickets/issues. Days 31–60 (Assess): Audit the current configuration for gaps. Review metadata quality. Interview stakeholders on pain points. Review picklist governance. Map all security profiles to actual business needs. Days 61–90 (Improve): Prioritise and implement 3–5 quick-win improvements. Establish a regular admin rhythm: weekly monitoring, monthly quality reports, quarterly picklist governance review. Build a Configuration Documentation library.</div></div>
+<div class="iq"><div class="iq-q">Q72. How would you handle the situation where the business wants PromoMats to auto-approve content after a certain time if no reviewer has acted?</div><div class="iq-a">This is a compliance red flag. Response: (1) Clearly explain the regulatory risk — auto-approval of promotional content without human review violates the intent of MLR governance. FDA would view auto-approved content as lacking appropriate sign-off. (2) Understand the underlying need — is the real problem that reviewers are slow? (3) Propose compliant alternatives: automated SLA escalation notifications, reviewer reassignment after X days, task delegation capability. (4) If the business still insists, escalate to Compliance and Legal — this decision must involve them. (5) Document the request and the advice given, regardless of outcome.</div></div>
+<div class="iq"><div class="iq-q">Q73. What are the key performance indicators (KPIs) for a PromoMats DAM system?</div><div class="iq-a">Key KPIs: (1) MLR Cycle Time — average days from submission to approval, by material type and product. (2) On-Time Approval Rate. (3) First-Time Approval Rate — % approved without rejections. (4) SLA Compliance Rate — % of review tasks completed within SLA. (5) Active Asset Coverage — % of promoted products with current approved content in all target markets. (6) Expiry Risk — % of active assets within 60 days of expiry without renewal. (7) CRM Content Sync Rate — % of approved CLM content available on rep devices. (8) User Adoption — active monthly users as % of licensed users.</div></div>
+<div class="iq"><div class="iq-q">Q74. How do you handle time zones in a global PromoMats implementation?</div><div class="iq-a">Time zone considerations: (1) All timestamps in Vault are stored in UTC — consistent and audit-safe. (2) Display time zones are set at the user profile level. (3) For SLA calculations: define SLAs in business days (not hours) to avoid timezone confusion. (4) For expiry dates: use Date fields (not DateTime) for expiry — this prevents edge cases where a document expires at 3am in one timezone. (5) For global notifications: send notifications in the recipient's local timezone. (6) Document all timezone assumptions in the configuration documentation.</div></div>
+<div class="iq"><div class="iq-q">Q75. What is the impact of a rep downloading an approved document vs accessing it directly from CRM?</div><div class="iq-a">Access method matters: Direct CRM access (online viewing) — the rep sees the current approved version; if the document expires or is withdrawn, it disappears from the next CRM sync. Downloading the approved document — the rep now has a local copy. If the document is subsequently withdrawn, the local copy does not disappear. Mitigation: (1) Configure CRM settings to discourage/prevent downloads of sensitive promotional materials (view-only access in CLM). (2) Educate reps that downloaded documents may become out-of-date. (3) Include "downloaded version" statements on materials.</div></div>
+<div class="iq"><div class="iq-q">Q76. How do you configure document creation templates (profiles) in PromoMats to speed up the authoring process?</div><div class="iq-a">Document profiles (creation templates) pre-fill metadata and set defaults when a user creates a new document. Configuration: (1) Define which Document Types can use which profiles. (2) In the profile, set default values for key fields (e.g., for a US Detail Aid profile: Country = US, Language = English, Audience = HCP). (3) Set which fields are mandatory at creation time vs at submission time. (4) Define the default lifecycle assigned to this document type. (5) Optionally pre-attach branded templates as the starting source file. Result: when an Author clicks "Create New Detail Aid," Country, Language, and Audience are pre-filled.</div></div>
+<div class="iq"><div class="iq-q">Q77. What are the most important questions to ask in a PromoMats requirements workshop?</div><div class="iq-a">Critical questions: (1) Walk me through the exact MLR review steps for each type of material — who reviews, in what order, and what is the SLA? (2) What happens when a reviewer disagrees with another reviewer? (3) Who is the final decision-maker when reviewers conflict? (4) Which document types need Legal review and which do not? (5) How do you manage content for markets with different approved indications for the same product? (6) What is your process today when a piece of content needs to be urgently recalled? (7) What are your content volume projections for Year 1, Year 2? (8) Which integrations are must-have vs nice-to-have at go-live?</div></div>
+<div class="iq"><div class="iq-q">Q78. How would you prioritise a backlog of enhancement requests for a live PromoMats system?</div><div class="iq-a">Prioritisation framework: (1) Compliance/Regulatory issues — any item that creates a compliance risk or audit finding is P0, implemented immediately. (2) Business-blocking issues — functionality that prevents users from doing their work is P1. (3) High-value improvements — items with broad user impact or significant time savings are P2. (4) Nice-to-have enhancements — low-risk improvements with limited impact are P3. For each request: assess effort (Low/Medium/High), assess impact (Low/Medium/High), calculate a value/effort score. Present a prioritised roadmap to stakeholders quarterly. Ensure all configuration changes go through the sandbox → UAT → production process regardless of size.</div></div>
+<div class="iq"><div class="iq-q">Q79. Describe the relationship between Vault PromoMats, Veeva CRM, and a sales rep's iPad.</div><div class="iq-a">The relationship: PromoMats is the authoring, review, and approval system — all content is created, reviewed, and approved here. Vault Connect is the integration layer that monitors PromoMats for newly approved content and syncs it to Veeva CRM. Veeva CRM is the delivery system — it stores the approved content library and makes it available to field reps. The CRM Align module manages which reps see which content based on their territory and assigned products. The rep's iPad runs the Veeva CRM app — when connected (with a sync), it downloads the latest approved content from CRM. The rep presents CLM content during HCP visits; CRM captures which slides were viewed and for how long. This interaction data flows back through CRM to reporting in PromoMats — closing the loop.</div></div>
+<div class="iq"><div class="iq-q">Q80. How do you build a business case for investing in a PromoMats DAM system?</div><div class="iq-a">Business case framework: (1) Current state pain points — quantify: How long does an average MLR review take? How many hours per month does legal spend on review? How often is incorrect/outdated content distributed? How long does it take to find a specific asset? (2) Projected improvements — benchmark against industry averages: PromoMats customers typically reduce MLR cycle time by 30–50%. (3) Cost of non-compliance — what is the cost of a single FDA citation? A single content recall? This quantifies the risk reduction value. (4) Content reuse savings — if modular content saves 6 weeks of review per piece, and you create 100 pieces per year, calculate the saving. (5) Rep productivity — faster access to current content means more time selling. (6) Total cost of ownership vs current fragmented tools (SharePoint + email + spreadsheets + manual tracking).</div></div>
+
+<hr class="div">
+<div class="takeaway">
+  <h3>Key Takeaways — PromoMats DAM Essentials</h3>
+  <ol>
+    <li>PromoMats is the life sciences-specific DAM built for MLR compliance, CRM distribution, and regulatory auditability</li>
+    <li>Every asset (Document) is enriched with Object metadata (Product, Country, Campaign) that makes it findable and traceable</li>
+    <li>The Document Lifecycle governs the journey from Draft to Approved to Expired — with full audit trail at every step</li>
+    <li>MLR Review is the heart of the process — Medical, Legal, and Regulatory must all approve promotional content</li>
+    <li>Claims Management links every statement in a promotional piece back to its clinical evidence</li>
+    <li>Vault Connect delivers approved content to field reps on iPads in near real-time</li>
+    <li>Expiry and Withdrawal management prevent outdated or unsafe content from reaching HCPs</li>
+    <li>Modular content dramatically reduces review cycle time by enabling reuse of pre-approved content blocks</li>
+    <li>Requirement gathering is the most critical phase — invest time here to avoid expensive rework</li>
+    <li>The audit trail is the compliance backbone — it is what makes PromoMats regulatory-inspection ready</li>
+  </ol>
+</div>
+
+<p style="text-align:center;color:var(--gray5);margin-top:48px;font-style:italic;">End of Document — Veeva Vault PromoMats DAM Complete Learning Guide</p>
+
+</div><!-- /s15 -->
+</div><!-- /content -->
+</div><!-- /main -->
+
+<script>
+window.addEventListener('scroll', function() {
+  document.getElementById('stb').classList.toggle('vis', window.scrollY > 400);
+});
+const sections = document.querySelectorAll('.section[id]');
+const links = document.querySelectorAll('#toc a');
+window.addEventListener('scroll', function() {
+  let cur = '';
+  sections.forEach(function(s) { if (window.scrollY >= s.offsetTop - 120) cur = s.id; });
+  links.forEach(function(a) { a.classList.toggle('active', a.getAttribute('href') === '#' + cur); });
+});
+</script>
+</body>
+</html>
