@@ -1,0 +1,2129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Veeva Vault Quality – Complete Learning Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Fraunces:ital,wght@0,300;0,600;0,700;1,300&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg2: #131920;
+    --bg3: #1a2332;
+    --bg4: #1e2d42;
+    --card: #162032;
+    --border: #243548;
+    --accent: #00d4aa;
+    --accent2: #4f9cf9;
+    --accent3: #f7c948;
+    --accent4: #e05a7d;
+    --accent5: #a78bfa;
+    --text: #e2eaf4;
+    --text2: #8fa3bc;
+    --text3: #5a7596;
+    --code: #0d1f17;
+    --code-text: #7efdd4;
+    --heading: #Fraunces, Georgia, serif;
+    --mono: 'IBM Plex Mono', monospace;
+    --body: 'DM Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 15px;
+    line-height: 1.75;
+  }
+
+  /* ── SIDEBAR ── */
+  #sidebar {
+    position: fixed;
+    top: 0; left: 0;
+    width: 280px;
+    height: 100vh;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+  }
+  #sidebar::-webkit-scrollbar { width: 4px; }
+  #sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .sidebar-header {
+    padding: 24px 20px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg3);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .sidebar-logo {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .sidebar-title {
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.3;
+  }
+
+  .toc-section {
+    padding: 8px 0;
+  }
+  .toc-group-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--text3);
+    text-transform: uppercase;
+    padding: 12px 20px 4px;
+  }
+  .toc-item {
+    display: block;
+    padding: 6px 20px 6px 20px;
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--text2);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    transition: all 0.15s;
+  }
+  .toc-item:hover {
+    color: var(--accent);
+    border-left-color: var(--accent);
+    background: rgba(0,212,170,0.04);
+  }
+  .toc-item.active {
+    color: var(--accent);
+    border-left-color: var(--accent);
+    background: rgba(0,212,170,0.07);
+    font-weight: 500;
+  }
+  .toc-sub {
+    padding-left: 34px;
+    font-size: 12px;
+    color: var(--text3);
+  }
+  .toc-sub:hover { color: var(--accent2); border-left-color: var(--accent2); }
+
+  /* ── MAIN CONTENT ── */
+  #main {
+    margin-left: 280px;
+    min-height: 100vh;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(135deg, #0d2035 0%, #0d1117 40%, #0d1f17 100%);
+    padding: 80px 60px 60px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(0,212,170,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: 200px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(79,156,249,0.06) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--text);
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero-sub {
+    font-size: 16px;
+    color: var(--text2);
+    max-width: 600px;
+    margin-bottom: 32px;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    position: relative;
+    z-index: 1;
+  }
+  .badge {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .badge-green { border-color: var(--accent); color: var(--accent); background: rgba(0,212,170,0.08); }
+  .badge-blue { border-color: var(--accent2); color: var(--accent2); background: rgba(79,156,249,0.08); }
+  .badge-yellow { border-color: var(--accent3); color: var(--accent3); background: rgba(247,201,72,0.08); }
+  .badge-pink { border-color: var(--accent4); color: var(--accent4); background: rgba(224,90,125,0.08); }
+  .badge-purple { border-color: var(--accent5); color: var(--accent5); background: rgba(167,139,250,0.08); }
+
+  /* ── SECTIONS ── */
+  .content { padding: 0 60px 80px; }
+
+  .section {
+    padding-top: 64px;
+  }
+
+  .section-number {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  h2.section-title {
+    font-family: 'Fraunces', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+    margin-bottom: 8px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-intro {
+    font-size: 16px;
+    color: var(--text2);
+    max-width: 800px;
+    margin-bottom: 40px;
+    margin-top: 12px;
+  }
+
+  h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text);
+    margin: 36px 0 12px;
+    padding-left: 14px;
+    border-left: 3px solid var(--accent);
+  }
+  h4 {
+    font-family: var(--body);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--accent2);
+    margin: 24px 0 8px;
+    letter-spacing: 0.3px;
+  }
+
+  p { color: var(--text2); margin-bottom: 14px; max-width: 860px; }
+  p strong { color: var(--text); }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px 28px;
+    margin: 16px 0;
+  }
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .card-icon {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  .card h4 { margin-top: 0; }
+
+  /* ── CALLOUTS ── */
+  .callout {
+    border-radius: 8px;
+    padding: 18px 22px;
+    margin: 20px 0;
+    border-left: 4px solid;
+    max-width: 860px;
+  }
+  .callout-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .callout p { margin: 0; font-size: 14px; max-width: none; }
+  .callout-scenario {
+    background: rgba(0,212,170,0.05);
+    border-color: var(--accent);
+  }
+  .callout-scenario .callout-title { color: var(--accent); }
+  .callout-tip {
+    background: rgba(79,156,249,0.05);
+    border-color: var(--accent2);
+  }
+  .callout-tip .callout-title { color: var(--accent2); }
+  .callout-warning {
+    background: rgba(247,201,72,0.05);
+    border-color: var(--accent3);
+  }
+  .callout-warning .callout-title { color: var(--accent3); }
+  .callout-key {
+    background: rgba(167,139,250,0.05);
+    border-color: var(--accent5);
+  }
+  .callout-key .callout-title { color: var(--accent5); }
+  .callout-critical {
+    background: rgba(224,90,125,0.05);
+    border-color: var(--accent4);
+  }
+  .callout-critical .callout-title { color: var(--accent4); }
+
+  /* ── TABLES ── */
+  .table-wrap { overflow-x: auto; margin: 20px 0; max-width: 100%; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  thead tr { background: var(--bg3); }
+  th {
+    text-align: left;
+    padding: 10px 14px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--accent);
+    text-transform: uppercase;
+    border-bottom: 2px solid var(--border);
+    white-space: nowrap;
+  }
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text2);
+    vertical-align: top;
+  }
+  td strong { color: var(--text); }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+
+  /* ── CODE BLOCKS ── */
+  pre {
+    background: var(--code);
+    border: 1px solid #1a3d2b;
+    border-radius: 8px;
+    padding: 20px 24px;
+    overflow-x: auto;
+    margin: 16px 0;
+    max-width: 860px;
+  }
+  code {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--code-text);
+    line-height: 1.6;
+  }
+  p code, li code {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: var(--accent);
+  }
+
+  /* ── LIFECYCLE FLOW ── */
+  .lifecycle {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0;
+    margin: 20px 0;
+    max-width: 860px;
+  }
+  .lc-state {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    white-space: nowrap;
+    position: relative;
+  }
+  .lc-state.lc-start { border-color: var(--accent); color: var(--accent); }
+  .lc-state.lc-end { border-color: var(--accent4); color: var(--accent4); }
+  .lc-state.lc-approved { border-color: var(--accent3); color: var(--accent3); }
+  .lc-arrow {
+    color: var(--text3);
+    font-size: 18px;
+    padding: 0 6px;
+    line-height: 1;
+  }
+  .lc-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--text3);
+    letter-spacing: 1px;
+    position: absolute;
+    top: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+  }
+
+  /* ── FIELD TABLE (special styling) ── */
+  .field-table th { color: var(--accent3); }
+  .field-req { color: var(--accent4); font-size: 11px; font-family: var(--mono); }
+  .field-opt { color: var(--text3); font-size: 11px; font-family: var(--mono); }
+
+  /* ── RELATIONSHIP DIAGRAM ── */
+  .rel-diagram {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    margin: 24px 0;
+    text-align: center;
+  }
+  .rel-center {
+    display: inline-block;
+    background: linear-gradient(135deg, #0d3329, #0d2035);
+    border: 2px solid var(--accent);
+    color: var(--accent);
+    border-radius: 10px;
+    padding: 16px 24px;
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin: 16px;
+    box-shadow: 0 0 24px rgba(0,212,170,0.15);
+  }
+  .rel-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin: 8px 0;
+  }
+  .rel-node {
+    background: var(--bg4);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 13px;
+    color: var(--text);
+    font-weight: 500;
+  }
+  .rel-node.blue { border-color: var(--accent2); color: var(--accent2); }
+  .rel-node.yellow { border-color: var(--accent3); color: var(--accent3); }
+  .rel-node.pink { border-color: var(--accent4); color: var(--accent4); }
+  .rel-node.purple { border-color: var(--accent5); color: var(--accent5); }
+  .rel-node.green { border-color: var(--accent); color: var(--accent); }
+  .rel-connector {
+    color: var(--text3);
+    font-size: 20px;
+    line-height: 1;
+  }
+  .rel-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text3);
+    letter-spacing: 1px;
+    text-align: center;
+    margin: 4px 0;
+  }
+
+  /* ── STEP LIST ── */
+  .steps { margin: 20px 0; max-width: 860px; }
+  .step {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    align-items: flex-start;
+  }
+  .step-num {
+    flex-shrink: 0;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--bg3);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+  }
+  .step-content h4 { margin-top: 0; margin-bottom: 4px; }
+  .step-content p { margin: 0; font-size: 14px; }
+
+  /* ── LISTS ── */
+  ul, ol {
+    padding-left: 20px;
+    margin: 12px 0;
+    max-width: 860px;
+  }
+  li {
+    color: var(--text2);
+    margin-bottom: 6px;
+    font-size: 15px;
+  }
+  li strong { color: var(--text); }
+
+  /* ── DIVIDER ── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 48px 0;
+  }
+
+  /* ── Q&A BLOCK ── */
+  .qa-block {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin: 16px 0;
+    overflow: hidden;
+    max-width: 860px;
+  }
+  .qa-q {
+    padding: 16px 20px;
+    background: var(--bg3);
+    border-bottom: 1px solid var(--border);
+    font-weight: 600;
+    color: var(--accent3);
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .qa-q-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    background: var(--accent3);
+    color: var(--bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .qa-a {
+    padding: 16px 20px;
+    font-size: 14px;
+    color: var(--text2);
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .qa-a-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    background: var(--accent);
+    color: var(--bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  /* ── PRINT / EDIT NOTE ── */
+  .edit-note {
+    background: rgba(167,139,250,0.05);
+    border: 1px dashed var(--accent5);
+    border-radius: 8px;
+    padding: 12px 18px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent5);
+    margin: 24px 0;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    #sidebar { display: none; }
+    #main { margin-left: 0; }
+    .hero { padding: 40px 24px 32px; }
+    .content { padding: 0 24px 60px; }
+    .hero h1 { font-size: 32px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════
+     SIDEBAR
+════════════════════════════════════════ -->
+<nav id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo">Veeva Vault Quality</div>
+    <div class="sidebar-title">Complete Learning Guide</div>
+  </div>
+
+  <div class="toc-section">
+    <div class="toc-group-label">Foundations</div>
+    <a class="toc-item" href="#intro">1. Introduction to Veeva Vault</a>
+    <a class="toc-item" href="#platform">2. Platform Fundamentals</a>
+    <a class="toc-item" href="#object-model">3. Vault Object Model</a>
+    <a class="toc-item toc-sub" href="#object-relationships">↳ Object Relationships (Deep Dive)</a>
+    <a class="toc-item" href="#gxp">4. GxP Concepts</a>
+    <a class="toc-item" href="#cfr">5. 21 CFR Part 11</a>
+
+    <div class="toc-group-label">Applications</div>
+    <a class="toc-item" href="#qualitydocs">6. QualityDocs</a>
+    <a class="toc-item" href="#qms">7. QMS (Full Deep-Dive)</a>
+    <a class="toc-item toc-sub" href="#qms-setup">↳ Setting Up QMS from Scratch</a>
+    <a class="toc-item toc-sub" href="#deviations">↳ Deviations</a>
+    <a class="toc-item toc-sub" href="#capa">↳ CAPA</a>
+    <a class="toc-item toc-sub" href="#change-control">↳ Change Control</a>
+    <a class="toc-item toc-sub" href="#complaints">↳ Customer Complaints</a>
+    <a class="toc-item toc-sub" href="#oos">↳ OOS / OOT</a>
+    <a class="toc-item toc-sub" href="#audits">↳ Audit Management</a>
+    <a class="toc-item toc-sub" href="#risk">↳ Risk Management</a>
+    <a class="toc-item toc-sub" href="#qms-relationships">↳ QMS Object Relationships</a>
+    <a class="toc-item" href="#training">8. Vault Training</a>
+
+    <div class="toc-group-label">Technical</div>
+    <a class="toc-item" href="#connections">9. Connections & Integrations</a>
+    <a class="toc-item" href="#admin">10. Advanced Administration</a>
+    <a class="toc-item" href="#reports">11. Audit Trails & Reporting</a>
+
+    <div class="toc-group-label">Reference</div>
+    <a class="toc-item" href="#glossary">12. Glossary A–Z</a>
+    <a class="toc-item" href="#scenarios">13. Real-Life Scenarios</a>
+    <a class="toc-item" href="#interview">14. Interview Q&A</a>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════════
+     MAIN
+════════════════════════════════════════ -->
+<main id="main">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-tag">Professional Learning Guide · v2.0</div>
+    <h1>Veeva Vault <span>Quality</span><br>Complete Learning Guide</h1>
+    <p class="hero-sub">From fundamentals to advanced implementation — QualityDocs, QMS, Vault Training, Object Model, Integrations, GxP, and 21 CFR Part 11 — with real-life scenarios throughout.</p>
+    <div class="hero-badges">
+      <span class="badge badge-green">QualityDocs</span>
+      <span class="badge badge-blue">QMS</span>
+      <span class="badge badge-yellow">Vault Training</span>
+      <span class="badge badge-pink">21 CFR Part 11</span>
+      <span class="badge badge-purple">Object Model</span>
+      <span class="badge badge-green">GxP / GAMP 5</span>
+      <span class="badge badge-blue">Integrations</span>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <div class="edit-note">
+      📝 This document is designed for iterative updates. Each section is independently structured. Add new sections by copying the &lt;div class="section"&gt; pattern. Version 2.0 — expanded QMS deep-dive + Object Relationships.
+    </div>
+
+    <!-- ══════════════════════════════════
+         SECTION 1 — INTRODUCTION
+    ══════════════════════════════════ -->
+    <div class="section" id="intro">
+      <div class="section-number">Section 01</div>
+      <h2 class="section-title">Introduction to Veeva Vault</h2>
+      <p class="section-intro">A cloud-based content management and business process platform built exclusively for life sciences — the operating system for pharmaceutical quality.</p>
+
+      <h3>1.1 What is Veeva Vault?</h3>
+      <p>Veeva Vault is a cloud-based <strong>Enterprise Content Management (ECM)</strong> and <strong>Business Process Management</strong> platform designed from the ground up for life sciences (pharma, biotech, medical devices). It combines document management, workflow automation, and regulatory compliance in one platform.</p>
+
+      <div class="callout callout-scenario">
+        <div class="callout-title">🧠 Real-Life Analogy</div>
+        <p>Think of Vault as a super-intelligent, regulatory-compliant filing cabinet in the cloud — but instead of just storing papers, it tracks who touched them, when, why, enforces approvals, prevents tampering, and proves all of this to the FDA.</p>
+      </div>
+
+      <h3>1.2 Vault Product Suite</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Application</th><th>Purpose</th><th>Focus of this Guide</th></tr></thead>
+          <tbody>
+            <tr><td><strong>QualityDocs</strong></td><td>Controlled document management (SOPs, policies, specs)</td><td><span class="badge badge-green">✓ Covered</span></td></tr>
+            <tr><td><strong>QMS</strong></td><td>Deviations, CAPAs, change control, complaints, audits</td><td><span class="badge badge-green">✓ Deep Dive</span></td></tr>
+            <tr><td><strong>Vault Training</strong></td><td>Training assignments, curricula, compliance tracking</td><td><span class="badge badge-green">✓ Covered</span></td></tr>
+            <tr><td><strong>eTMF</strong></td><td>Clinical Trial Master File</td><td><span class="badge badge-blue">Referenced</span></td></tr>
+            <tr><td><strong>RegulatoryDocs</strong></td><td>Regulatory submissions management</td><td><span class="badge badge-blue">Referenced</span></td></tr>
+            <tr><td><strong>PromoMats</strong></td><td>Promotional materials review</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>1.3 Key Differentiators</h3>
+      <div class="card-grid">
+        <div class="card"><div class="card-icon">🏗️</div><h4>Built for Life Sciences</h4><p>Not adapted from generic ECM — purpose-built for FDA/EMA regulated environments.</p></div>
+        <div class="card"><div class="card-icon">🔐</div><h4>Native 21 CFR Part 11</h4><p>E-signatures, audit trails, and access controls built-in, not bolted on.</p></div>
+        <div class="card"><div class="card-icon">☁️</div><h4>SaaS / Multi-tenant</h4><p>No infrastructure to manage. Automatic upgrades. Always current.</p></div>
+        <div class="card"><div class="card-icon">🔗</div><h4>Unified Platform</h4><p>Quality, clinical, and regulatory on the same data model — no integration required.</p></div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ══════════════════════════════════
+         SECTION 2 — PLATFORM FUNDAMENTALS
+    ══════════════════════════════════ -->
+    <div class="section" id="platform">
+      <div class="section-number">Section 02</div>
+      <h2 class="section-title">Platform Fundamentals</h2>
+      <p class="section-intro">Understanding how Vault is structured before diving into specific modules. This forms the mental model for everything else.</p>
+
+      <h3>2.1 Architecture & Environments</h3>
+      <p>Vault runs on AWS. Each customer gets their own isolated Vault instance at a unique URL:</p>
+      <pre><code>https://[company-name].veevavault.com</code></pre>
+
+      <div class="card-grid">
+        <div class="card"><div class="card-icon">🚀</div><h4>Production (PROD)</h4><p>Live environment — real users, real data, real regulatory records.</p></div>
+        <div class="card"><div class="card-icon">🧪</div><h4>UAT</h4><p>User Acceptance Testing — validate changes before they go live.</p></div>
+        <div class="card"><div class="card-icon">🔧</div><h4>Sandbox / Dev</h4><p>Configuration development and testing. Safe to break things here.</p></div>
+      </div>
+
+      <h3>2.2 Documents vs. Objects</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Concept</th><th>Documents</th><th>Objects</th></tr></thead>
+          <tbody>
+            <tr><td><strong>What it is</strong></td><td>Files (PDFs, Word, Excel) with metadata</td><td>Structured database records (forms with workflows)</td></tr>
+            <tr><td><strong>Examples</strong></td><td>SOP, Policy, Specification, Form</td><td>CAPA, Deviation, Change Control, Audit</td></tr>
+            <tr><td><strong>Lifecycle</strong></td><td>Draft → Approved → Effective → Obsolete</td><td>Custom states per process (e.g., Open → Investigation → Closed)</td></tr>
+            <tr><td><strong>E-signature</strong></td><td>Applied at approval/effective state</td><td>Applied at key state transitions</td></tr>
+            <tr><td><strong>Analogy</strong></td><td>Paper file in a cabinet</td><td>Database row in a spreadsheet with a form on top</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>2.3 Roles & Permissions</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Role Type</th><th>Scope</th><th>Examples</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Application Role</strong></td><td>Entire Vault</td><td>Vault Owner, Business Admin, Read-Only</td></tr>
+            <tr><td><strong>Document Role</strong></td><td>Specific document</td><td>Owner, Editor, Reviewer, Viewer, Co-Author</td></tr>
+            <tr><td><strong>Object Role</strong></td><td>Specific object record</td><td>CAPA Owner, Investigator, Approver</td></tr>
+            <tr><td><strong>Security Profile</strong></td><td>Bundled permissions</td><td>"QA Manager" profile = approve docs + initiate CAPAs</td></tr>
+            <tr><td><strong>Permission Set</strong></td><td>Granular field/object level</td><td>Allow editing "Risk Assessment" field only for QA users</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ══════════════════════════════════
+         SECTION 3 — OBJECT MODEL + RELATIONSHIPS
+    ══════════════════════════════════ -->
+    <div class="section" id="object-model">
+      <div class="section-number">Section 03</div>
+      <h2 class="section-title">Vault Object Model & Relationships</h2>
+      <p class="section-intro">The Object Model is the backbone of Vault. Every quality record — CAPA, Deviation, Audit, Change Control — is an Object. Understanding objects and their relationships is essential for implementation.</p>
+
+      <h3>3.1 Anatomy of a Vault Object</h3>
+      <p>Every object in Vault has five core components:</p>
+      <div class="card-grid">
+        <div class="card"><div class="card-icon">📋</div><h4>Fields</h4><p>Individual data points — text, dates, lookups, picklists, formulas. Together they make up the "form."</p></div>
+        <div class="card"><div class="card-icon">🔄</div><h4>Lifecycle</h4><p>The defined states a record passes through — and the transitions between them (with rules and e-sigs).</p></div>
+        <div class="card"><div class="card-icon">⚙️</div><h4>Workflows</h4><p>Automated task sequences triggered by lifecycle transitions — assignments, notifications, approvals.</p></div>
+        <div class="card"><div class="card-icon">🔗</div><h4>Relationships</h4><p>How this object connects to other objects or documents — parent/child, lookup, many-to-many.</p></div>
+        <div class="card"><div class="card-icon">🛡️</div><h4>Security</h4><p>Who can see, edit, or act on this record — controlled by roles, groups, and permission sets.</p></div>
+      </div>
+
+      <h3>3.2 Field Types — Complete Reference</h3>
+      <div class="table-wrap">
+        <table class="field-table">
+          <thead><tr><th>Field Type</th><th>Use Case</th><th>Example in QMS</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Text (short)</strong></td><td>Short single-line entries</td><td>CAPA Title, Deviation Number</td><td>Max 255 chars</td></tr>
+            <tr><td><strong>Long Text</strong></td><td>Descriptive narratives</td><td>Root Cause Description, CAPA Summary</td><td>No char limit; not searchable like text</td></tr>
+            <tr><td><strong>Picklist (Single)</strong></td><td>Choose one option from a list</td><td>Severity (Critical/Major/Minor)</td><td>Values managed in Admin → Picklists</td></tr>
+            <tr><td><strong>Picklist (Multi)</strong></td><td>Choose multiple options</td><td>Affected Products, Impact Areas</td><td>Stored as comma-separated internally</td></tr>
+            <tr><td><strong>Date</strong></td><td>Specific date entry</td><td>Occurrence Date, Due Date, Closure Date</td><td>No time component</td></tr>
+            <tr><td><strong>Date/Time</strong></td><td>Date + time entry</td><td>Event Timestamp, Detection Time</td><td>Stored in UTC</td></tr>
+            <tr><td><strong>Number</strong></td><td>Numeric values</td><td>Risk Score, Batch Number, Days Open</td><td>Supports decimals; can be formula-calculated</td></tr>
+            <tr><td><strong>Checkbox (Boolean)</strong></td><td>Yes/No toggle</td><td>"Is Regulatory Reportable?", "Is Critical?"</td><td>True/False values</td></tr>
+            <tr><td><strong>URL</strong></td><td>Web links</td><td>Link to external ERP record</td><td>Rendered as clickable link</td></tr>
+            <tr><td><strong>User</strong></td><td>Reference to a Vault user</td><td>CAPA Owner, Investigator, Approver</td><td>Lookup to User object</td></tr>
+            <tr><td><strong>Object Reference</strong></td><td>Link to another object record</td><td>CAPA linked to Deviation, Action Item linked to CAPA</td><td>Creates parent-child or lookup relationship</td></tr>
+            <tr><td><strong>Document Reference</strong></td><td>Link to a Vault document</td><td>Supporting SOP, Evidence Attachment</td><td>Points to specific document version</td></tr>
+            <tr><td><strong>Formula</strong></td><td>Auto-calculated value</td><td>RPN = Probability × Severity × Detectability</td><td>Cannot be manually edited; updates dynamically</td></tr>
+            <tr><td><strong>Rich Text</strong></td><td>Formatted text with HTML</td><td>Investigation Report body</td><td>Supports bold, bullets, tables</td></tr>
+            <tr><td><strong>Auto-Number</strong></td><td>System-generated unique ID</td><td>DEV-2024-{0001}, CAPA-{00001}</td><td>Configured with prefix, suffix, padding</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="object-relationships">3.3 Object Relationships — Deep Dive</h3>
+      <p>This is one of the most important and often misunderstood aspects of Vault. Relationships define how records connect to each other and enable traceability across the quality system.</p>
+
+      <h4>Relationship Type 1: Parent–Child (One-to-Many)</h4>
+      <p>One parent record owns multiple child records. The child cannot exist without the parent. The parent record shows a related list of all its children.</p>
+      <div class="callout callout-tip">
+        <div class="callout-title">📘 Example</div>
+        <p><strong>CAPA (Parent) → CAPA Action Items (Children)</strong><br>
+        One CAPA has multiple action items: "Replace pump seal," "Retrain maintenance staff," "Update PM schedule." Each action item belongs to exactly one CAPA. Deleting the CAPA deletes all its action items.</p>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Parent Object</th><th>Child Object</th><th>Relationship Name</th></tr></thead>
+          <tbody>
+            <tr><td>CAPA</td><td>CAPA Action Items</td><td>CAPA to Action Items</td></tr>
+            <tr><td>Audit</td><td>Audit Findings</td><td>Audit to Findings</td></tr>
+            <tr><td>Change Control</td><td>Change Tasks / Activities</td><td>Change Control to Tasks</td></tr>
+            <tr><td>Customer Complaint</td><td>Complaint Investigation Lines</td><td>Complaint to Investigations</td></tr>
+            <tr><td>Risk Assessment</td><td>Risk Line Items</td><td>Risk Assessment to Items</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>Relationship Type 2: Lookup (Many-to-One)</h4>
+      <p>A record references another record but doesn't "own" it. The referenced record can exist independently. Multiple records can reference the same target.</p>
+      <div class="callout callout-tip">
+        <div class="callout-title">📘 Example</div>
+        <p><strong>Deviation → Product (Lookup)</strong><br>
+        A Deviation references which Product was affected. The Product exists independently in the Product catalog. Many Deviations can reference the same Product. Deleting a Deviation does NOT delete the Product.</p>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Source Object</th><th>Lookup Target</th><th>Field Name</th></tr></thead>
+          <tbody>
+            <tr><td>Deviation</td><td>Product</td><td>Affected Product</td></tr>
+            <tr><td>CAPA</td><td>Site / Facility</td><td>Site</td></tr>
+            <tr><td>Change Control</td><td>Supplier</td><td>Affected Supplier</td></tr>
+            <tr><td>Customer Complaint</td><td>Customer / Account</td><td>Complainant</td></tr>
+            <tr><td>Training Assignment</td><td>Document</td><td>Training Item</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>Relationship Type 3: Object Reference (Cross-Object Link)</h4>
+      <p>A bidirectional reference between two equal-level objects. Neither owns the other — they simply point to each other, enabling cross-navigation and reporting.</p>
+      <div class="callout callout-tip">
+        <div class="callout-title">📘 Example</div>
+        <p><strong>Deviation ↔ CAPA (Cross-Reference)</strong><br>
+        A Deviation record has a field "Linked CAPA" that points to a CAPA record. The CAPA record has a field "Source Deviation" that points back. You can navigate from either direction. This is the most common relationship type in QMS.</p>
+      </div>
+
+      <h4>Relationship Type 4: Many-to-Many (Junction Object)</h4>
+      <p>When multiple records of Type A can relate to multiple records of Type B, a "junction object" sits in between.</p>
+      <div class="callout callout-tip">
+        <div class="callout-title">📘 Example</div>
+        <p><strong>Employee ↔ Training Curriculum (Many-to-Many)</strong><br>
+        One employee can be enrolled in many curricula. One curriculum can be assigned to many employees. The "Curriculum Assignment" record is the junction object storing the relationship for each employee-curriculum pair.</p>
+      </div>
+
+      <h3>3.4 Vault QMS Object Relationship Map</h3>
+      <p>The diagram below shows how all QMS objects relate to each other:</p>
+
+      <div class="rel-diagram">
+        <div class="rel-label">MASTER DATA (Referenced by all QMS objects)</div>
+        <div class="rel-row">
+          <div class="rel-node blue">Product / Material</div>
+          <div class="rel-node blue">Site / Facility</div>
+          <div class="rel-node blue">Supplier</div>
+          <div class="rel-node blue">Person / Employee</div>
+        </div>
+        <div class="rel-connector">↕ lookup</div>
+
+        <div class="rel-label">QUALITY EVENTS (Core QMS Objects)</div>
+        <div class="rel-row">
+          <div class="rel-node pink">Deviation</div>
+          <div class="rel-connector">→ triggers →</div>
+          <div class="rel-node" style="border-color:var(--accent);color:var(--accent);">CAPA</div>
+          <div class="rel-connector">→ contains →</div>
+          <div class="rel-node green">Action Items</div>
+        </div>
+        <div class="rel-connector">↕ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↕</div>
+        <div class="rel-row">
+          <div class="rel-node yellow">Change Control</div>
+          <div class="rel-connector">————</div>
+          <div class="rel-node purple">Audit / Audit Finding</div>
+        </div>
+        <div class="rel-connector">↕ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↕</div>
+        <div class="rel-row">
+          <div class="rel-node pink">Customer Complaint</div>
+          <div class="rel-connector">————</div>
+          <div class="rel-node blue">OOS / OOT Record</div>
+        </div>
+
+        <div class="rel-connector">↕ links to ↕</div>
+        <div class="rel-label">DOCUMENTS (QualityDocs)</div>
+        <div class="rel-row">
+          <div class="rel-node">SOPs</div>
+          <div class="rel-node">Specifications</div>
+          <div class="rel-node">Investigation Reports</div>
+          <div class="rel-node">Validation Protocols</div>
+        </div>
+
+        <div class="rel-connector">↕ triggers ↕</div>
+        <div class="rel-label">TRAINING (Vault Training)</div>
+        <div class="rel-row">
+          <div class="rel-node green">Training Assignments</div>
+          <div class="rel-node green">Curriculum Assignments</div>
+        </div>
+      </div>
+
+      <h3>3.5 Configuring Object Relationships — Step by Step</h3>
+      <p>Here is how you configure an object relationship in Vault (e.g., linking Deviation to CAPA):</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h4>Navigate to Business Admin → Objects</h4>
+            <p>Go to the object that will hold the reference field (e.g., Deviation object).</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h4>Add a new Field → Type: Object Reference</h4>
+            <p>Select field type "Object Reference." This tells Vault this field links to another object.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h4>Select the Target Object</h4>
+            <p>Choose "CAPA" as the target object. Optionally filter by lifecycle state (e.g., only show active CAPAs).</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <h4>Set Relationship Type</h4>
+            <p><strong>Reference</strong> = peer link (no cascade delete). <strong>Parent</strong> = child-owns relationship (cascade delete). Choose "Reference" for Deviation→CAPA.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-content">
+            <h4>Configure Related List on Target Object</h4>
+            <p>On the CAPA object, configure the "Related Objects" section to show all linked Deviations. This creates the bidirectional navigation experience.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">6</div>
+          <div class="step-content">
+            <h4>Set Field-Level Security</h4>
+            <p>Control who can see/edit this relationship field. E.g., only QA roles can link a CAPA to a Deviation.</p>
+          </div>
+        </div>
+      </div>
+
+      <h3>3.6 Document-to-Object Relationships</h3>
+      <p>Documents (SOPs, reports, evidence files) can be linked to Object records in three ways:</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Method</th><th>How It Works</th><th>Use Case</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Document Reference Field</strong></td><td>A field on the object points to a specific document in QualityDocs</td><td>CAPA references the SOP that was violated</td></tr>
+            <tr><td><strong>Related Documents Section</strong></td><td>The object record has a "Related Documents" tab showing linked docs</td><td>Change Control shows all documents being revised</td></tr>
+            <tr><td><strong>Document Binder</strong></td><td>Group related documents into a binder linked to an object</td><td>Audit binder contains all audit evidence documents</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-warning">
+        <div class="callout-title">⚠️ Important: Version Pinning</div>
+        <p>When a Document Reference field points to a document, it typically links to a <strong>specific version</strong>. If the SOP is revised, the CAPA still points to the version that was current at the time of the event — preserving the historical record. You can configure whether references auto-update to the latest version or remain pinned.</p>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ══════════════════════════════════
+         SECTION 4 — GxP
+    ══════════════════════════════════ -->
+    <div class="section" id="gxp">
+      <div class="section-number">Section 04</div>
+      <h2 class="section-title">GxP Concepts for Veeva Vault</h2>
+      <p class="section-intro">GxP is the regulatory DNA that governs how Vault must be configured and used. Understanding these principles is non-negotiable.</p>
+
+      <h3>4.1 ALCOA+ Data Integrity Principles</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Principle</th><th>Meaning</th><th>How Vault Addresses It</th></tr></thead>
+          <tbody>
+            <tr><td><strong>A — Attributable</strong></td><td>Who created/modified the record?</td><td>Audit trail ties every action to a specific user ID</td></tr>
+            <tr><td><strong>L — Legible</strong></td><td>Can it be read clearly?</td><td>PDF renditions, text fields, structured display</td></tr>
+            <tr><td><strong>C — Contemporaneous</strong></td><td>Created at the time of the event?</td><td>System timestamps cannot be backdated</td></tr>
+            <tr><td><strong>O — Original</strong></td><td>Is this the primary record?</td><td>Vault stores the original; all versions preserved</td></tr>
+            <tr><td><strong>A — Accurate</strong></td><td>Does it reflect reality?</td><td>Validation, input validation, mandatory fields</td></tr>
+            <tr><td><strong>+C — Complete</strong></td><td>Is nothing missing?</td><td>Mandatory fields, entry criteria on lifecycle transitions</td></tr>
+            <tr><td><strong>+C — Consistent</strong></td><td>Units, dates, formats consistent?</td><td>Field type enforcement, picklists, date formats</td></tr>
+            <tr><td><strong>+E — Enduring</strong></td><td>Retained for required period?</td><td>Retention schedules, no user deletion of approved records</td></tr>
+            <tr><td><strong>+A — Available</strong></td><td>Accessible when needed?</td><td>Cloud availability, role-based access, search/reports</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>4.2 GAMP 5 & Computer System Validation (CSV)</h3>
+      <p>Before any regulated company goes live with Vault, the system must be <strong>validated</strong>. GAMP 5 (Good Automated Manufacturing Practice) provides the industry framework.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Phase</th><th>Document</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Planning</strong></td><td>Validation Plan</td><td>Defines scope, approach, responsibilities</td></tr>
+            <tr><td><strong>Requirements</strong></td><td>User Requirements Specification (URS)</td><td>What the system must do — business language</td></tr>
+            <tr><td><strong>Design</strong></td><td>Functional Requirements Spec (FRS), Config Spec</td><td>How the system will work technically</td></tr>
+            <tr><td><strong>Testing</strong></td><td>IQ, OQ, PQ protocols + reports</td><td>Documented evidence of correct functioning</td></tr>
+            <tr><td><strong>Release</strong></td><td>Validation Summary Report</td><td>Summary conclusion that system is validated</td></tr>
+            <tr><td><strong>Operations</strong></td><td>Change Control, Periodic Review</td><td>Maintaining validated state post go-live</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ══════════════════════════════════
+         SECTION 5 — 21 CFR PART 11
+    ══════════════════════════════════ -->
+    <div class="section" id="cfr">
+      <div class="section-number">Section 05</div>
+      <h2 class="section-title">21 CFR Part 11 — Electronic Records & Signatures</h2>
+      <p class="section-intro">The FDA regulation that makes Vault signatures and records legally equivalent to paper. Every pharma professional must understand this deeply.</p>
+
+      <h3>5.1 What is 21 CFR Part 11?</h3>
+      <p><strong>21 CFR Part 11</strong> is an FDA regulation establishing criteria under which electronic records and electronic signatures are considered trustworthy and equivalent to paper records and handwritten signatures.</p>
+      <ul>
+        <li><strong>CFR</strong> = Code of Federal Regulations</li>
+        <li><strong>Title 21</strong> = Food and Drugs</li>
+        <li><strong>Part 11</strong> = Electronic Records; Electronic Signatures</li>
+      </ul>
+
+      <h3>5.2 Key Requirements & How Vault Meets Them</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Requirement</th><th>Section</th><th>Vault Implementation</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Validation</strong></td><td>11.10(a)</td><td>Veeva validates platform; customers validate their configuration</td></tr>
+            <tr><td><strong>Audit Trails</strong></td><td>11.10(e)</td><td>Auto-generated, immutable, user-independent audit trail on all records</td></tr>
+            <tr><td><strong>Access Control</strong></td><td>11.10(d)</td><td>Unique user IDs, role-based access, automatic session timeout</td></tr>
+            <tr><td><strong>Authority Checks</strong></td><td>11.10(g)</td><td>Only users with correct roles can perform state transitions or sign</td></tr>
+            <tr><td><strong>Operational Checks</strong></td><td>11.10(f)</td><td>Lifecycle enforces valid state sequences; invalid transitions blocked</td></tr>
+            <tr><td><strong>Training</strong></td><td>11.10(i)</td><td>Vault Training module tracks all training on SOPs and system use</td></tr>
+            <tr><td><strong>Signature Manifestation</strong></td><td>11.50</td><td>E-sig block shows: full name, timestamp, meaning (Author/Reviewer/Approver)</td></tr>
+            <tr><td><strong>Sig–Record Linking</strong></td><td>11.70</td><td>Signatures cryptographically linked to specific record/version</td></tr>
+            <tr><td><strong>Unique Sig Components</strong></td><td>11.200</td><td>Username + password; each user has unique credentials</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>5.3 E-Signature in Vault — How It Works</h3>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-content"><h4>User triggers a state transition</h4><p>E.g., clicking "Approve" on a CAPA or document.</p></div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-content"><h4>Vault prompts for credentials</h4><p>Username + Password dialog appears. User must re-authenticate.</p></div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-content"><h4>User selects signature meaning</h4><p>Approved / Reviewed / Authored — configured by admin per transition.</p></div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-content"><h4>Vault records the signature</h4><p>Full name, title, date/time (UTC), meaning, IP address — permanently in audit trail.</p></div></div>
+        <div class="step"><div class="step-num">5</div><div class="step-content"><h4>Signature block generated</h4><p>A signature block is appended to the record/document showing all signature data.</p></div></div>
+      </div>
+
+      <div class="callout callout-scenario">
+        <div class="callout-title">🔍 FDA Inspection Scenario</div>
+        <p>An FDA investigator asks: "Who approved SOP-MFG-0042 version 3.0 and when?" The QA team opens Vault, navigates to the document audit trail, and shows: <em>"Sarah Johnson, QA Director — Approved — March 15, 2024, 14:32 EST — Meaning: Approved."</em> The investigator accepts this as 21 CFR Part 11 compliant evidence.</p>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ══════════════════════════════════
+         SECTION 6 — QUALITYDOCS
+    ══════════════════════════════════ -->
+    <div class="section" id="qualitydocs">
+      <div class="section-number">Section 06</div>
+      <h2 class="section-title">QualityDocs — Controlled Document Management</h2>
+      <p class="section-intro">The document management module of Vault Quality. Manages SOPs, policies, work instructions, specifications, and all other controlled documents.</p>
+
+      <h3>6.1 Document Lifecycle</h3>
+      <div class="lifecycle">
+        <div class="lc-state lc-start">Draft</div>
+        <div class="lc-arrow">→</div>
+        <div class="lc-state" style="position:relative">In Review</div>
+        <div class="lc-arrow">→</div>
+        <div class="lc-state lc-approved">Approved</div>
+        <div class="lc-arrow">→</div>
+        <div class="lc-state" style="border-color:var(--accent);color:var(--accent)">Effective</div>
+        <div class="lc-arrow">→</div>
+        <div class="lc-state">Superseded</div>
+        <div class="lc-arrow">→</div>
+        <div class="lc-state lc-end">Obsolete</div>
+      </div>
+
+      <h3>6.2 Document Type Hierarchy</h3>
+      <p>Documents are organized in a 3-level hierarchy:</p>
+      <pre><code>Type
+  └── Subtype
+        └── Classification
+
+Example:
+Quality Document
+  ├── Standard Operating Procedure (SOP)
+  │     ├── Manufacturing SOP
+  │     ├── Quality Control SOP
+  │     └── Quality Assurance SOP
+  ├── Work Instruction
+  │     ├── Equipment Work Instruction
+  │     └── Process Work Instruction
+  └── Policy
+        ├── Corporate Policy
+        └── Site Policy</code></pre>
+
+      <h3>6.3 Versioning</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Version</th><th>Meaning</th><th>State</th></tr></thead>
+          <tbody>
+            <tr><td><strong>0.1, 0.2, 0.3…</strong></td><td>Initial draft iterations</td><td>Draft</td></tr>
+            <tr><td><strong>1.0</strong></td><td>First approved version</td><td>Effective</td></tr>
+            <tr><td><strong>1.1</strong></td><td>Minor revision (approved again)</td><td>Effective</td></tr>
+            <tr><td><strong>2.0</strong></td><td>Major revision</td><td>Effective</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>6.4 Effective Date Management</h3>
+      <div class="card-grid">
+        <div class="card"><h4>Scheduled Effective Date</h4><p>Document transitions to Effective automatically on a future date set at approval.</p></div>
+        <div class="card"><h4>Immediate Effective</h4><p>Document goes effective the moment final approval is given.</p></div>
+        <div class="card"><h4>Training-Contingent</h4><p>Document only goes effective after all required training is completed for the assigned roles.</p></div>
+      </div>
+
+      <h3>6.5 Rendition (Locked PDF)</h3>
+      <p>Upon approval, Vault automatically generates a <strong>rendition</strong> — a locked, watermarked PDF that is the official controlled copy. Users read this for training and reference, not the original Word/Excel file.</p>
+
+      <div class="callout callout-scenario">
+        <div class="callout-title">📋 Full SOP Lifecycle Scenario</div>
+        <p>PharmaCo needs a new gowning SOP. The coordinator creates it in QualityDocs (Type: SOP, Classification: Manufacturing). Author writes it, submits for review. Manufacturing Lead and QA both review — QA sends it back with comments. Author revises, resubmits. QA Director approves with e-signature. Effective date: 15 days out. Vault auto-assigns training to all 200 manufacturing staff. On Day 15, Vault transitions the document to Effective — and the previous version to Superseded simultaneously. 195/200 trained on time. 5 on approved leave with extended deadlines tracked in Vault.</p>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ══════════════════════════════════
+         SECTION 7 — QMS DEEP DIVE
+    ══════════════════════════════════ -->
+    <div class="section" id="qms">
+      <div class="section-number">Section 07</div>
+      <h2 class="section-title">Quality Management System (QMS) — Complete Deep Dive</h2>
+      <p class="section-intro">The most critical section for QMS practitioners and implementers. Covers every QMS process in full detail — from business requirements through configuration, field design, lifecycle, workflow, and real-world implementation — so you can build it from scratch.</p>
+
+      <!-- ── QMS SETUP FROM SCRATCH ── -->
+      <div class="section" id="qms-setup">
+        <h3>7.0 Setting Up Vault QMS from Scratch — Implementation Roadmap</h3>
+        <p>Before building individual processes, you need a solid foundation. This roadmap applies whether you are configuring an existing Vault QMS or building from scratch.</p>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <h4>Phase 1: Discovery & Requirements (Weeks 1–3)</h4>
+              <p>Interview process owners for each quality process (Deviations, CAPAs, Change Control, etc.). Document current state (paper-based or legacy system). Define future state requirements. Map out all object types needed. Document required fields, lifecycle states, workflows, roles, and integrations. Create a <strong>Business Requirements Document (BRD)</strong>.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <h4>Phase 2: Master Data Setup (Week 3–4)</h4>
+              <p>Configure master data objects that are referenced by all processes: <strong>Product, Site, Supplier, Material, Person/Employee, Department, Equipment</strong>. These must exist before any QMS objects are configured, since they are lookup targets. Load master data from source systems (ERP, HR).</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <h4>Phase 3: Picklist Configuration (Week 4)</h4>
+              <p>Build all picklist values before configuring object fields. Key picklists: Severity (Critical/Major/Minor), CAPA Type, Deviation Category, Change Type, Complaint Category, Root Cause Categories, Risk Level, Investigation Phase.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-content">
+              <h4>Phase 4: Security Model Design (Week 4–5)</h4>
+              <p>Define user groups (QA, Manufacturing, QC, Regulatory, Management). Create Security Profiles for each group. Define permission sets for sensitive fields. Map Application Roles to user types. This is the most critical foundational decision — poor security design is very hard to undo.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">5</div>
+            <div class="step-content">
+              <h4>Phase 5: Object Configuration (Weeks 5–10)</h4>
+              <p>Configure each QMS object one at a time: (a) Create the object, (b) Add all fields, (c) Configure the lifecycle, (d) Build workflows, (e) Configure relationships to other objects, (f) Set up security on each state. Recommended order: <strong>Deviation → CAPA → Action Items → Change Control → Complaint → OOS → Audit → Audit Findings</strong>.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">6</div>
+            <div class="step-content">
+              <h4>Phase 6: Document Integration (Week 10–11)</h4>
+              <p>Configure QualityDocs-QMS integration. Set up document reference fields on QMS objects. Configure automatic training triggers from QualityDocs to Vault Training. Configure effective date triggers.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">7</div>
+            <div class="step-content">
+              <h4>Phase 7: Reports & Dashboards (Week 11–12)</h4>
+              <p>Build standard QMS reports: Open Events by Type/Site, CAPA Aging, Overdue Events, Training Compliance, Complaint Trends, Change Control Cycle Time. Build Quality KPI dashboards for management review.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">8</div>
+            <div class="step-content">
+              <h4>Phase 8: Validation (Weeks 12–16)</h4>
+              <p>Write and execute IQ/OQ/PQ test scripts. Document all test results. Resolve defects. Get sign-off from QA and business owners. Prepare Validation Summary Report.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">9</div>
+            <div class="step-content">
+              <h4>Phase 9: Training & Go-Live (Week 16–18)</h4>
+              <p>Train all users. Migrate historical records if required. Cut-over from legacy system. Go live. Hypercare support period (2–4 weeks of intensive support post go-live).</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout callout-critical">
+          <div class="callout-title">🔴 Critical Success Factors</div>
+          <p><strong>1. Executive Sponsorship:</strong> QMS implementation requires cross-departmental buy-in. Without executive support, this fails.<br>
+          <strong>2. Process First, Technology Second:</strong> Define and agree on your quality processes on paper before configuring Vault. Trying to design processes inside the tool leads to rework.<br>
+          <strong>3. Incremental Rollout:</strong> Go live with one process at a time (e.g., Deviations first) rather than all at once.<br>
+          <strong>4. Change Management:</strong> Users resist change. Plan extensive training, job aids, and champions in each department.</p>
+        </div>
+      </div>
+
+      <!-- ── DEVIATIONS ── -->
+      <div class="section" id="deviations">
+        <h3>7.1 Deviations — Complete Configuration Guide</h3>
+        <p>A deviation is any departure from an approved instruction, procedure, established standard, or specification. It is the most frequently used QMS process and the most common source of CAPAs.</p>
+
+        <h4>Deviation Types</h4>
+        <div class="card-grid">
+          <div class="card"><div class="card-icon">📋</div><h4>Planned Deviation</h4><p>Known in advance. Approved before execution. Example: using alternative equipment because primary is under maintenance. Requires pre-approval.</p></div>
+          <div class="card"><div class="card-icon">⚠️</div><h4>Unplanned Deviation</h4><p>Unexpected event during manufacturing, testing, or any GxP activity. Initiated as soon as discovered. Most common type.</p></div>
+          <div class="card"><div class="card-icon">🔁</div><h4>Recurring Deviation</h4><p>The same deviation has been observed before. Flagged automatically in Vault via related records. Mandatory CAPA for recurring events.</p></div>
+        </div>
+
+        <h4>Severity Classification</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Severity</th><th>Definition</th><th>CAPA Required?</th><th>Regulatory Notify?</th></tr></thead>
+            <tbody>
+              <tr><td><strong style="color:var(--accent4)">Critical</strong></td><td>Directly impacts patient safety or product quality; could lead to recall</td><td>Mandatory</td><td>Likely</td></tr>
+              <tr><td><strong style="color:var(--accent3)">Major</strong></td><td>Potential impact on product quality; process or system failure</td><td>Mandatory</td><td>Assess case-by-case</td></tr>
+              <tr><td><strong style="color:var(--accent2)">Minor</strong></td><td>Unlikely to impact product quality; procedural gap</td><td>Based on risk assessment</td><td>No</td></tr>
+              <tr><td><strong>Observation</strong></td><td>Best-practice improvement opportunity; no direct quality impact</td><td>No</td><td>No</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>Deviation Lifecycle Configuration</h4>
+        <div class="lifecycle">
+          <div class="lc-state lc-start" style="position:relative"><span class="lc-label">Operator/Discoverer</span>Initiated</div>
+          <div class="lc-arrow">→</div>
+          <div class="lc-state" style="position:relative"><span class="lc-label">QA Assignment</span>Under Investigation</div>
+          <div class="lc-arrow">→</div>
+          <div class="lc-state" style="position:relative"><span class="lc-label">RCA Complete</span>Root Cause Identified</div>
+          <div class="lc-arrow">→</div>
+          <div class="lc-state lc-approved" style="position:relative"><span class="lc-label">CAPA Linked</span>CAPA Assigned</div>
+          <div class="lc-arrow">→</div>
+          <div class="lc-state" style="position:relative"><span class="lc-label">QA Director E-Sig</span>Pending Approval</div>
+          <div class="lc-arrow">→</div>
+          <div class="lc-state lc-end">Closed</div>
+        </div>
+
+        <h4>Deviation Object Fields — Complete List</h4>
+        <div class="table-wrap">
+          <table class="field-table">
+            <thead><tr><th>Field Name</th><th>Field Type</th><th>Req/Opt</th><th>Purpose</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Deviation Number</strong></td><td>Auto-Number</td><td><span class="field-req">REQ</span></td><td>System-generated unique ID (DEV-2024-0001)</td></tr>
+              <tr><td><strong>Title</strong></td><td>Text (255)</td><td><span class="field-req">REQ</span></td><td>Short, descriptive title of the event</td></tr>
+              <tr><td><strong>Description</strong></td><td>Long Text</td><td><span class="field-req">REQ</span></td><td>Full narrative of what happened</td></tr>
+              <tr><td><strong>Deviation Type</strong></td><td>Picklist</td><td><span class="field-req">REQ</span></td><td>Planned / Unplanned</td></tr>
+              <tr><td><strong>Severity</strong></td><td>Picklist</td><td><span class="field-req">REQ</span></td><td>Critical / Major / Minor / Observation</td></tr>
+              <tr><td><strong>Category</strong></td><td>Picklist</td><td><span class="field-req">REQ</span></td><td>Manufacturing / Lab / Packaging / Environmental / Documentation</td></tr>
+              <tr><td><strong>Date of Occurrence</strong></td><td>Date</td><td><span class="field-req">REQ</span></td><td>When did the event happen</td></tr>
+              <tr><td><strong>Date Detected</strong></td><td>Date</td><td><span class="field-req">REQ</span></td><td>When was it discovered (may differ from occurrence)</td></tr>
+              <tr><td><strong>Detected By</strong></td><td>User</td><td><span class="field-req">REQ</span></td><td>Who found it</td></tr>
+              <tr><td><strong>Affected Product</strong></td><td>Object Reference → Product</td><td><span class="field-req">REQ</span></td><td>Which product was impacted</td></tr>
+              <tr><td><strong>Batch/Lot Number</strong></td><td>Text</td><td><span class="field-opt">OPT</span></td><td>Specific batch if manufacturing event</td></tr>
+              <tr><td><strong>Affected Process/Area</strong></td><td>Picklist (Multi)</td><td><span class="field-req">REQ</span></td><td>Where in the facility/process</td></tr>
+              <tr><td><strong>Site</strong></td><td>Object Reference → Site</td><td><span class="field-req">REQ</span></td><td>Which site/facility</td></tr>
+              <tr><td><strong>Immediate Actions Taken</strong></td><td>Long Text</td><td><span class="field-req">REQ</span></td><td>What was done right away to contain</td></tr>
+              <tr><td><strong>Batch Disposition</strong></td><td>Picklist</td><td><span class="field-opt">OPT</span></td><td>Released / Rejected / Pending / Under Investigation</td></tr>
+              <tr><td><strong>Is Recurring?</strong></td><td>Checkbox</td><td><span class="field-req">REQ</span></td><td>Has this type of event happened before?</td></tr>
+              <tr><td><strong>Related Deviations</strong></td><td>Object Reference (multi)</td><td><span class="field-opt">OPT</span></td><td>Links to similar past deviations for recurrence analysis</td></tr>
+              <tr><td><strong>Root Cause</strong></td><td>Picklist</td><td><span class="field-req">REQ at RCA state</span></td><td>Primary root cause category</td></tr>
+              <tr><td><strong>Root Cause Detail</strong></td><td>Long Text</td><td><span class="field-req">REQ at RCA state</span></td><td>Narrative explanation of root cause</td></tr>
+              <tr><td><strong>Root Cause Method</strong></td><td>Picklist</td><td><span class="field-opt">OPT</span></td><td>5-Why / Fishbone / FTA / FMEA</td></tr>
+              <tr><td><strong>CAPA Required?</strong></td><td>Checkbox</td><td><span class="field-req">REQ</span></td><td>Determines if CAPA must be linked before closure</td></tr>
+              <tr><td><strong>Linked CAPA</strong></td><td>Object Reference → CAPA</td><td>Conditional</td><td>Required if "CAPA Required = Yes"</td></tr>
+              <tr><td><strong>Regulatory Reportable?</strong></td><td>Checkbox</td><td><span class="field-req">REQ</span></td><td>Does this require FDA/EMA notification?</td></tr>
+              <tr><td><strong>Regulatory Report Details</strong></td><td>Long Text</td><td>Conditional</td><td>Required if Regulatory Reportable = Yes</td></tr>
+              <tr><td><strong>Investigation Owner</strong></td><td>User</td><td><span class="field-req">REQ</span></td><td>Assigned by QA; responsible for investigation</td></tr>
+              <tr><td><strong>Due Date</strong></td><td>Date</td><td><span class="field-req">REQ</span></td><td>Investigation due date (often set by SLA from Initiation date)</td></tr>
+              <tr><td><strong>Closure Summary</strong></td><td>Long Text</td><td><span class="field-req">REQ at Closure</span></td><td>Summary of investigation and disposition</td></tr>
+              <tr><td><strong>Closure Date</strong></td><td>Date (formula/auto)</td><td>Auto</td><td>Auto-populated when closure transition is triggered</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>Entry Criteria — Enforcing Data Completeness</h4>
+        <p>Entry criteria are rules that must be met before a lifecycle transition is allowed. Configure these to enforce data quality at each stage:</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Transition</th><th>Entry Criteria (must be complete)</th></tr></thead>
+            <tbody>
+              <tr><td>Initiated → Under Investigation</td><td>Title, Description, Severity, Category, Date of Occurrence, Affected Product, Site, Immediate Actions</td></tr>
+              <tr><td>Under Investigation → Root Cause Identified</td><td>Root Cause (picklist), Root Cause Detail, Root Cause Method</td></tr>
+              <tr><td>Root Cause → CAPA Assigned</td><td>If CAPA Required = Yes: Linked CAPA must not be blank</td></tr>
+              <tr><td>CAPA Assigned → Pending Approval</td><td>Closure Summary, Batch Disposition (if manufacturing), Regulatory Reportable decision</td></tr>
+              <tr><td>Pending Approval → Closed</td><td>QA Director e-signature required</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>Deviation Workflow Configuration</h4>
+        <p>When a deviation moves to "Under Investigation," configure a workflow that:</p>
+        <ul>
+          <li>Assigns an investigation task to the QA Investigator with a due date of <strong>5 business days</strong> for Critical/Major, <strong>10 business days</strong> for Minor</li>
+          <li>Sends email notification to the Investigation Owner, their manager, and the QA Director</li>
+          <li>Sends reminder emails at <strong>50% of due date</strong> and <strong>24 hours before due date</strong></li>
+          <li>Escalates to QA Director if overdue by 24 hours</li>
+        </ul>
+
+        <div class="callout callout-scenario">
+          <div class="callout-title">🏭 Full Deviation Scenario — Sterile Injectable Facility</div>
+          <p>During Batch #2024-0891 filling, an environmental monitor shows a particle count above alert limit. The operator immediately stops the filling line and raises a Deviation in Vault (DEV-2024-0892). Severity: Critical. Immediate actions: Line stopped, environmental re-sampling, batch quarantined. QA assigns investigation to Senior QA Scientist (5-day SLA). Investigation uses 5-Why and Fishbone analysis. Root Cause: HEPA filter integrity failure in filling suite. CAPA initiated (linked CAPA-2024-0234). Regulatory team assesses — not reportable as batch was quarantined before distribution. Batch disposition: Rejected/Destroyed. Deviation closed after CAPA plan approved. Full audit trail preserved for future inspections.</p>
+        </div>
+      </div>
+
+      <!-- ── CAPA ── -->
+      <div class="section" id="capa">
+        <h3>7.2 CAPA — Complete Configuration Guide</h3>
+        <p>CAPA is the backbone of pharmaceutical quality systems. A well-implemented CAPA process demonstrates to regulators that your quality system is self-correcting and continuously improving.</p>
+
+        <h4>Understanding CAPA vs. Corrective Action vs. Preventive Action</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Term</th><th>Definition</th><th>Example</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Corrective Action (CA)</strong></td><td>Eliminates the cause of a detected nonconformity to prevent <em>recurrence</em></td><td>Replace faulty pump seal that caused out-of-spec fill volume</td></tr>
+              <tr><td><strong>Preventive Action (PA)</strong></td><td>Eliminates the cause of a <em>potential</em> nonconformity before it occurs</td><td>Add pump performance to PM checklist to detect wear before failure</td></tr>
+              <tr><td><strong>CAPA</strong></td><td>The combined process managing both CA and PA</td><td>The Vault record that tracks both the corrective and preventive activities</td></tr>
+              <tr><td><strong>Immediate/Containment Action</strong></td><td>Short-term fix to stop the problem now (NOT a CAPA)</td><td>Quarantine affected batch while investigation is ongoing</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>CAPA Sources — What Triggers a CAPA?</h4>
+        <div class="card-grid">
+          <div class="card"><div class="card-icon">⚠️</div><h4>Deviation</h4><p>Critical or recurring deviations mandate a CAPA. Vault creates the CAPA link automatically.</p></div>
+          <div class="card"><div class="card-icon">🔍</div><h4>Audit Finding</h4><p>Internal, external, or regulatory audit findings are common CAPA sources.</p></div>
+          <div class="card"><div class="card-icon">📬</div><h4>Customer Complaint</h4><p>Systemic complaint trends (same issue from multiple customers) trigger CAPAs.</p></div>
+          <div class="card"><div class="card-icon">🧪</div><h4>OOS/OOT Result</h4><p>Out-of-spec lab results with confirmed assignable cause require CAPA.</p></div>
+          <div class="card"><div class="card-icon">📊</div><h4>Management Review</h4><p>Annual management review findings and quality metrics trends.</p></div>
+          <div class="card"><div class="card-icon">⚡</div><h4>Risk Assessment</h4><p>High-risk items identified in risk assessments that need mitigation.</p></div>
+        </div>
+
+        <h4>CAPA Lifecycle Configuration</h4>
+        <div class="lifecycle">
+          <div class="lc-state lc-start">Initiated</div>
+          <div class="lc-arrow">→</div>
+          <div class="lc-state">Investigation</div>
+          <div class="lc-arrow">→</div>
+          <div class="lc-state">Action Plan Draft</div>
+          <div class="lc-arrow">→</div>
+          <div class="lc-state lc-approved">Action Plan Approved</div>
+          <div class="lc-arrow">→</div>
+          <div class="lc-state">In Implementation</div>
+          <div class="lc-arrow">→</div>
+          <div class="lc-state" style="border-color:var(--accent3);color:var(--accent3)">Effectiveness Check</div>
+          <div class="lc-arrow">→</div>
+          <div class="lc-state lc-end">Closed</div>
+        </div>
+
+        <h4>CAPA Master Record Fields</h4>
+        <div class="table-wrap">
+          <table class="field-table">
+            <thead><tr><th>Field</th><th>Type</th><th>Req?</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><strong>CAPA Number</strong></td><td>Auto-Number</td><td><span class="field-req">REQ</span></td><td>CAPA-2024-0001</td></tr>
+              <tr><td><strong>CAPA Title</strong></td><td>Text</td><td><span class="field-req">REQ</span></td><td>Short, descriptive title</td></tr>
+              <tr><td><strong>CAPA Type</strong></td><td>Picklist</td><td><span class="field-req">REQ</span></td><td>Corrective / Preventive / Both</td></tr>
+              <tr><td><strong>Problem Statement</strong></td><td>Long Text</td><td><span class="field-req">REQ</span></td><td>Clear definition of the quality problem being addressed</td></tr>
+              <tr><td><strong>CAPA Source</strong></td><td>Picklist</td><td><span class="field-req">REQ</span></td><td>Deviation / Audit / Complaint / OOS / Risk Assessment / Management Review</td></tr>
+              <tr><td><strong>Source Record</strong></td><td>Object Reference</td><td><span class="field-req">REQ</span></td><td>Link to the originating Deviation, Audit Finding, etc.</td></tr>
+              <tr><td><strong>Priority</strong></td><td>Picklist</td><td><span class="field-req">REQ</span></td><td>Critical / High / Medium / Low</td></tr>
+              <tr><td><strong>CAPA Owner</strong></td><td>User</td><td><span class="field-req">REQ</span></td><td>Person responsible for driving the CAPA to closure</td></tr>
+              <tr><td><strong>Product</strong></td><td>Object Reference → Product</td><td><span class="field-opt">OPT</span></td><td>Affected product(s)</td></tr>
+              <tr><td><strong>Site</strong></td><td>Object Reference → Site</td><td><span class="field-req">REQ</span></td><td>Site where CAPA is being implemented</td></tr>
+              <tr><td><strong>Root Cause Summary</strong></td><td>Long Text</td><td><span class="field-req">REQ at Investigation</span></td><td>Concise root cause findings</td></tr>
+              <tr><td><strong>Action Plan Description</strong></td><td>Long Text</td><td><span class="field-req">REQ</span></td><td>Overview of what will be done</td></tr>
+              <tr><td><strong>Proposed Due Date</strong></td><td>Date</td><td><span class="field-req">REQ</span></td><td>Target date for full implementation</td></tr>
+              <tr><td><strong>Actual Closure Date</strong></td><td>Date (Auto)</td><td>Auto</td><td>System-generated when closed</td></tr>
+              <tr><td><strong>Effectiveness Criteria</strong></td><td>Long Text</td><td><span class="field-req">REQ before Implementation</span></td><td>How you will measure if the CAPA worked</td></tr>
+              <tr><td><strong>Effectiveness Check Date</strong></td><td>Date</td><td><span class="field-req">REQ</span></td><td>When the effectiveness check will be done</td></tr>
+              <tr><td><strong>Effectiveness Check Result</strong></td><td>Picklist</td><td><span class="field-req">REQ at Closure</span></td><td>Effective / Not Effective / Partially Effective</td></tr>
+              <tr><td><strong>Effectiveness Evidence</strong></td><td>Long Text</td><td><span class="field-req">REQ at Closure</span></td><td>Data and evidence proving effectiveness</td></tr>
+              <tr><td><strong>If Not Effective: Next Steps</strong></td><td>Long Text</td><td>Conditional</td><td>Required if Effectiveness = Not Effective</td></tr>
+              <tr><td><strong>Regulatory Notification Required?</strong></td><td>Checkbox</td><td><span class="field-req">REQ</span></td><td>Does this CAPA require regulatory reporting?</td></tr>
+              <tr><td><strong>Days Open</strong></td><td>Formula</td><td>Auto</td><td>=TODAY() - Initiation Date (auto-calculated)</td></tr>
+              <tr><td><strong>Is Overdue?</strong></td><td>Formula (Checkbox)</td><td>Auto</td><td>=IF(Proposed Due Date < TODAY() AND Status ≠ Closed, TRUE, FALSE)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>CAPA Action Items (Child Object)</h4>
+        <p>Each CAPA has multiple Action Items — the specific tasks to be completed. Each Action Item is its own child object record.</p>
+        <div class="table-wrap">
+          <table class="field-table">
+            <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Action Item Number</strong></td><td>Auto-Number</td><td>AI-2024-0001 (unique, system-generated)</td></tr>
+              <tr><td><strong>CAPA (Parent)</strong></td><td>Object Reference → CAPA</td><td>Which CAPA this action belongs to</td></tr>
+              <tr><td><strong>Action Type</strong></td><td>Picklist</td><td>Corrective / Preventive</td></tr>
+              <tr><td><strong>Action Description</strong></td><td>Long Text</td><td>Specific task to be performed</td></tr>
+              <tr><td><strong>Responsible Person</strong></td><td>User</td><td>Who will complete this specific action</td></tr>
+              <tr><td><strong>Department</strong></td><td>Picklist</td><td>Which department owns this action</td></tr>
+              <tr><td><strong>Due Date</strong></td><td>Date</td><td>When this specific action must be done</td></tr>
+              <tr><td><strong>Status</strong></td><td>Picklist</td><td>Not Started / In Progress / Completed / Overdue / Cancelled</td></tr>
+              <tr><td><strong>Completion Date</strong></td><td>Date</td><td>When actually completed</td></tr>
+              <tr><td><strong>Evidence of Completion</strong></td><td>Long Text</td><td>Description of how action was completed</td></tr>
+              <tr><td><strong>Evidence Documents</strong></td><td>Document Reference (multi)</td><td>Attached proof (photos, updated SOPs, training records)</td></tr>
+              <tr><td><strong>Completed By</strong></td><td>User</td><td>Who confirmed completion</td></tr>
+              <tr><td><strong>Verified By QA</strong></td><td>User</td><td>QA reviewer who verified the completion</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>CAPA Workflows — Detailed Configuration</h4>
+        <p><strong>Workflow 1 — Action Plan Approval:</strong><br>
+        Triggered when CAPA moves to "Action Plan Draft" state. Tasks: QA Reviewer reviews plan (3 days) → QA Director approves with e-signature (2 days). If rejected at any step, returns to CAPA Owner for revision.</p>
+        <p><strong>Workflow 2 — Implementation Oversight:</strong><br>
+        After Action Plan Approved. Each Action Item owner receives a task. Weekly digest email to CAPA Owner showing % of action items complete. Escalation email to QA Director if any action item is overdue by 3 days.</p>
+        <p><strong>Workflow 3 — Effectiveness Check:</strong><br>
+        Auto-triggered on the Effectiveness Check Date. Assigns task to CAPA Owner to document results. QA reviews effectiveness evidence. If "Not Effective" — CAPA re-opens and a new Action Plan must be created.</p>
+
+        <div class="callout callout-warning">
+          <div class="callout-title">⚠️ Common CAPA Implementation Mistakes</div>
+          <p><strong>1. Confusing containment with CAPA:</strong> "We quarantined the batch" is an immediate action, not a corrective action. The corrective action is fixing the root cause.<br>
+          <strong>2. Vague effectiveness criteria:</strong> "Monitor the process" is not measurable. Use: "Zero recurrence of this deviation type in the next 6 months of production."<br>
+          <strong>3. Too many action items:</strong> CAPAs with 20+ action items are often unmanageable. Focus on root cause. 3–5 focused actions are more effective than 20 vague ones.<br>
+          <strong>4. No re-opening workflow:</strong> Build a workflow that re-opens a CAPA if the effectiveness check fails. Many orgs forget this.</p>
+        </div>
+
+        <div class="callout callout-scenario">
+          <div class="callout-title">📋 Full CAPA Scenario — Batch Record Review Failure</div>
+          <p>An internal audit finds that batch records are reviewed on average 48 hours after batch completion — significantly above the 24-hour SOP requirement. CAPA-2024-0234 is opened. Source: Audit Finding AF-2024-019. <br><br>
+          <strong>Root Cause (5-Why):</strong> Why late? → No reminder system. Why no reminder? → SOP only specifies timeline, not a notification mechanism. Why no notification mechanism? → Process was designed when volume was low and informal. Why still informal? → No formal escalation defined in management review metrics.<br><br>
+          <strong>Actions:</strong> (1) Configure Vault notification to alert batch record reviewer and supervisor 20 hours after batch completion. (2) Update SOP to specify automatic Vault notification as the review trigger. (3) Add "% batch records reviewed within 24h" as a Quality KPI on the management review dashboard.<br><br>
+          <strong>Effectiveness Criteria:</strong> ≥98% of batch records reviewed within 24 hours for 3 consecutive months post-implementation. Result after 3 months: 99.1%. CAPA closed as Effective.</p>
+        </div>
+      </div>
+
+      <!-- ── CHANGE CONTROL ── -->
+      <div class="section" id="change-control">
+        <h3>7.3 Change Control — Complete Configuration Guide</h3>
+        <p>Change Control is the formal system for managing planned changes to processes, systems, equipment, materials, facilities, and documents. Every change must be evaluated for risk before implementation.</p>
+
+        <h4>What Requires a Change Control?</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Category</th><th>Examples Requiring Change Control</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Manufacturing Process</strong></td><td>Change in mixing time, temperature, batch size, process parameters</td></tr>
+              <tr><td><strong>Equipment</strong></td><td>New equipment installation, equipment replacement, software upgrade on process equipment</td></tr>
+              <tr><td><strong>Facilities</strong></td><td>Room layout changes, HVAC modifications, utility system changes</td></tr>
+              <tr><td><strong>Raw Materials</strong></td><td>New supplier for API, excipient, packaging material; grade changes</td></tr>
+              <tr><td><strong>Specifications</strong></td><td>Tightening/widening acceptance criteria, adding new tests</td></tr>
+              <tr><td><strong>Computer Systems</strong></td><td>Any change to validated systems (Vault itself, LIMS, ERP)</td></tr>
+              <tr><td><strong>Procedures/SOPs</strong></td><td>Major changes to critical SOPs (minor editorial changes may be exempt)</td></tr>
+              <tr><td><strong>Analytical Methods</strong></td><td>Method modifications, new analytical techniques</td></tr>
+              <tr><td><strong>Organizational</strong></td><td>Changes to quality system structure, outsourcing of critical processes</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>Change Classification</h4>
+        <div class="card-grid">
+          <div class="card"><div class="card-icon">🟢</div><h4>Minor Change</h4><p>Low risk. No regulatory submission required. No validation/qualification impact. Examples: label updates, administrative SOP changes, equipment calibration range adjustment.</p></div>
+          <div class="card"><div class="card-icon">🟡</div><h4>Major Change</h4><p>Moderate-high risk. May require regulatory notification or prior approval. Validation/qualification may be impacted. Examples: new API supplier, process scale-up, new manufacturing equipment.</p></div>
+          <div class="card"><div class="card-icon">🔴</div><h4>Emergency Change</h4><p>Urgent change required to prevent critical quality issue or maintain supply. Expedited process. Retrospective documentation completed after implementation. Requires QA Director pre-authorization.</p></div>
+        </div>
+
+        <h4>Change Control Lifecycle Configuration</h4>
+        <div class="lifecycle">
+          <div class="lc-state lc-start">Change Request</div>
+          <div class="lc-arrow">→</div>
+          <div class="lc-state">Impact Assessment</div>
+          <div class="lc-arrow">→</div>
+          <div class="lc-state">Pending Approval</div>
+          <div class="lc-arrow">→</div>
+          <div class="lc-state lc-approved">Approved</div>
+          <div class="lc-arrow">→</div>
+          <div class="lc-state">In Implementation</div>
+          <div class="lc-arrow">→</div>
+          <div class="lc-state">Post-Impl Verification</div>
+          <div class="lc-arrow">→</div>
+          <div class="lc-state lc-end">Closed</div>
+        </div>
+
+        <h4>Change Control Object Fields — Key Fields</h4>
+        <div class="table-wrap">
+          <table class="field-table">
+            <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><strong>CC Number</strong></td><td>Auto-Number</td><td>CC-2024-0001</td></tr>
+              <tr><td><strong>Change Title</strong></td><td>Text</td><td>Brief description</td></tr>
+              <tr><td><strong>Change Category</strong></td><td>Picklist</td><td>Process / Equipment / Material / Facility / Computer System / Document / Organizational</td></tr>
+              <tr><td><strong>Change Classification</strong></td><td>Picklist</td><td>Minor / Major / Emergency</td></tr>
+              <tr><td><strong>Description of Change</strong></td><td>Long Text</td><td>Current state vs. proposed state</td></tr>
+              <tr><td><strong>Reason / Justification</strong></td><td>Long Text</td><td>Why this change is needed</td></tr>
+              <tr><td><strong>Proposed Implementation Date</strong></td><td>Date</td><td>When the change will be made</td></tr>
+              <tr><td><strong>Affect Validated System?</strong></td><td>Checkbox</td><td>Triggers validation impact assessment sub-section</td></tr>
+              <tr><td><strong>Regulatory Submission Required?</strong></td><td>Picklist</td><td>None / Notification / Prior Approval / Annual Report</td></tr>
+              <tr><td><strong>Affected Products</strong></td><td>Object Reference (multi) → Product</td><td>Which products are impacted</td></tr>
+              <tr><td><strong>Affected Documents</strong></td><td>Document Reference (multi)</td><td>SOPs, specs, batch records to be updated</td></tr>
+              <tr><td><strong>Risk Assessment Level</strong></td><td>Picklist</td><td>Low / Medium / High / Critical</td></tr>
+              <tr><td><strong>Risk Justification</strong></td><td>Long Text</td><td>Basis for risk level determination</td></tr>
+              <tr><td><strong>Related CAPA</strong></td><td>Object Reference → CAPA</td><td>If change is driven by a CAPA action item</td></tr>
+              <tr><td><strong>Training Required?</strong></td><td>Checkbox</td><td>Whether training assignments needed post-implementation</td></tr>
+              <tr><td><strong>Verification Criteria</strong></td><td>Long Text</td><td>How to confirm change was implemented correctly</td></tr>
+              <tr><td><strong>Post-Impl Verification Results</strong></td><td>Long Text</td><td>Documented evidence of successful implementation</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>Change Control Implementation Tasks (Child Object)</h4>
+        <p>Similar to CAPA Action Items, Change Control has child tasks for each required pre/post implementation activity:</p>
+        <ul>
+          <li>Validation/qualification activities (IQ, OQ, PQ)</li>
+          <li>Document revision tasks (update SOP X, update Specification Y)</li>
+          <li>Training tasks (train all affected personnel)</li>
+          <li>Regulatory submission tasks (file CBE-30, Prior Approval Supplement)</li>
+          <li>Communication tasks (notify customers, sites)</li>
+        </ul>
+
+        <div class="callout callout-scenario">
+          <div class="callout-title">🔄 Full Change Control Scenario — New Excipient Supplier</div>
+          <p>MediPharm decides to change their microcrystalline cellulose (MCC) supplier from Supplier A (discontinued product) to Supplier B. CC-2024-0056 initiated. Category: Raw Material. Classification: Major. Impact assessment identifies: (1) Comparative characterization testing needed, (2) Dissolution testing on 3 batches required, (3) Specification update needed, (4) Analytical method validation update, (5) FDA Annual Report filing, (6) Stability study on 2 exhibit batches. Change approved by cross-functional Change Review Board (e-sigs from QA, Regulatory, Manufacturing, R&D). All tasks tracked as linked implementation tasks in Vault. After all activities complete and verified, change closed. Supplier A removed from approved supplier list in Vault Supplier object.</p>
+        </div>
+      </div>
+
+      <!-- ── COMPLAINTS ── -->
+      <div class="section" id="complaints">
+        <h3>7.4 Customer Complaints — Configuration Guide</h3>
+        <p>Any communication from a customer (patient, healthcare provider, pharmacy) alleging a deficiency in a product or device. Managing complaints correctly is a serious regulatory requirement and a major source of quality intelligence.</p>
+
+        <h4>Complaint Intake Sources</h4>
+        <ul>
+          <li><strong>Medical Affairs team:</strong> Calls from HCPs reporting adverse events or product complaints</li>
+          <li><strong>Customer Service:</strong> Call center receives complaint, logs in CRM, forwards to quality</li>
+          <li><strong>Sales representatives:</strong> Field reports from customers</li>
+          <li><strong>Medical information:</strong> Written inquiries containing complaint elements</li>
+          <li><strong>Social media monitoring</strong> (increasingly common)</li>
+          <li><strong>Direct patient reports:</strong> Via product leaflet instructions or website</li>
+        </ul>
+
+        <h4>Complaint Lifecycle</h4>
+        <div class="lifecycle">
+          <div class="lc-state lc-start">Received</div>
+          <div class="lc-arrow">→</div>
+          <div class="lc-state">Initial Assessment</div>
+          <div class="lc-arrow">→</div>
+          <div class="lc-state">Under Investigation</div>
+          <div class="lc-arrow">→</div>
+          <div class="lc-state lc-approved">Reportability Decision</div>
+          <div class="lc-arrow">→</div>
+          <div class="lc-state">Response to Customer</div>
+          <div class="lc-arrow">→</div>
+          <div class="lc-state lc-end">Closed</div>
+        </div>
+
+        <h4>Key Complaint Fields</h4>
+        <div class="table-wrap">
+          <table class="field-table">
+            <thead><tr><th>Field</th><th>Type</th><th>Key Importance</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Complaint Number</strong></td><td>Auto-Number</td><td>Unique tracking ID</td></tr>
+              <tr><td><strong>Date Received</strong></td><td>Date/Time</td><td>Starts regulatory reporting clock</td></tr>
+              <tr><td><strong>Complainant Type</strong></td><td>Picklist</td><td>Patient / HCP / Pharmacy / Hospital / Distributor / Regulatory</td></tr>
+              <tr><td><strong>Complaint Category</strong></td><td>Picklist</td><td>Product Quality / Efficacy / Packaging / Adverse Event / Counterfeit</td></tr>
+              <tr><td><strong>Product</strong></td><td>Object Reference → Product</td><td>Critical — drives investigation and reporting</td></tr>
+              <tr><td><strong>Lot / Batch Number</strong></td><td>Text</td><td>Enables recall scope determination</td></tr>
+              <tr><td><strong>Is this an Adverse Event?</strong></td><td>Checkbox</td><td>Triggers pharmacovigilance workflow if Yes</td></tr>
+              <tr><td><strong>Is this Serious?</strong></td><td>Checkbox</td><td>Serious AEs have different reporting timelines (15 days vs. 30 days)</td></tr>
+              <tr><td><strong>Retain Sample Available?</strong></td><td>Checkbox</td><td>Can we test the same batch?</td></tr>
+              <tr><td><strong>Regulatory Reportability</strong></td><td>Picklist</td><td>Not Reportable / MedWatch / MDR / VAERS / Other</td></tr>
+              <tr><td><strong>Reporting Deadline</strong></td><td>Date (formula)</td><td>Auto-calculated: Date Received + 15 days (serious) or 30 days</td></tr>
+              <tr><td><strong>Report Submitted Date</strong></td><td>Date</td><td>Track compliance with deadline</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout callout-critical">
+          <div class="callout-title">🔴 Critical: Adverse Event Reporting Timelines</div>
+          <p><strong>Serious / Unexpected AE:</strong> Must report to FDA within <strong>15 calendar days</strong> of receipt (MedWatch 3500A).<br>
+          <strong>Non-serious AE:</strong> Must report within <strong>30 days</strong>.<br>
+          <strong>Device Malfunction / Death / Serious Injury:</strong> MDR report within <strong>30 days</strong> (5 days if the malfunction could cause/contribute to death).<br>
+          Configure Vault formula fields to auto-calculate these deadlines from Date Received. Configure red/amber flags on the dashboard when deadlines are approaching.</p>
+        </div>
+      </div>
+
+      <!-- ── OOS ── -->
+      <div class="section" id="oos">
+        <h3>7.5 OOS / OOT — Configuration Guide</h3>
+
+        <h4>OOS vs. OOT</h4>
+        <div class="card-grid">
+          <div class="card" style="border-color:var(--accent4)"><div class="card-icon">🔴</div><h4>Out of Specification (OOS)</h4><p>Test result falls <strong>outside</strong> established acceptance criteria. Mandates investigation. Batch cannot be released until resolved. FDA guidance: 2006 OOS Guidance document.</p></div>
+          <div class="card" style="border-color:var(--accent3)"><div class="card-icon">🟡</div><h4>Out of Trend (OOT)</h4><p>Result is within spec but <strong>trending</strong> toward the limit. Early warning signal. Investigate proactively before an OOS occurs. Common in stability studies.</p></div>
+        </div>
+
+        <h4>OOS Two-Phase Investigation</h4>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <h4>Phase 1: Lab Investigation (Assignable Cause Search)</h4>
+              <p>Lab checks for analyst error, instrument malfunction, calculation error, sample preparation error. <strong>Time limit: typically 5 business days.</strong> If assignable cause found (e.g., analyst dropped sample → sample contaminated) → Invalidate the result, re-sample, and retest. Document thoroughly. If no assignable cause found → proceed to Phase 2.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <h4>Phase 2: Full Investigation</h4>
+              <p>Involves manufacturing, materials, environment. Review: batch manufacturing records, raw material COAs, environmental monitoring data, stability data, equipment calibration/maintenance records. Determine: Is it a lab artifact or a real product failure? If real: batch disposition decision (reject/retest/reprocess). Link to CAPA if required.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout callout-warning">
+          <div class="callout-title">⚠️ FDA Expectation</div>
+          <p>FDA expects that Phase 1 and Phase 2 are clearly documented as separate investigations. You cannot skip Phase 1 and go straight to "it must be a lab error." Vault OOS lifecycle should enforce these two phases as distinct states with mandatory documentation before transition.</p>
+        </div>
+      </div>
+
+      <!-- ── AUDITS ── -->
+      <div class="section" id="audits">
+        <h3>7.6 Audit Management — Configuration Guide</h3>
+
+        <h4>Audit Types</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Audit Type</th><th>Conducted By</th><th>Purpose</th><th>Frequency</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Internal / Self-Inspection</strong></td><td>Internal QA team</td><td>Assess own compliance; find gaps before external auditors do</td><td>Annual (or risk-based)</td></tr>
+              <tr><td><strong>Supplier / Vendor Audit</strong></td><td>Procurement + QA</td><td>Qualify and monitor suppliers of materials, CMOs, CLOs</td><td>Before qualification + periodic</td></tr>
+              <tr><td><strong>Partner / Client Audit</strong></td><td>Client (of your organization)</td><td>Your customer auditing your facility</td><td>As requested</td></tr>
+              <tr><td><strong>Regulatory Inspection</strong></td><td>FDA, EMA, WHO, etc.</td><td>Regulatory compliance verification</td><td>Scheduled or unannounced</td></tr>
+              <tr><td><strong>Mock / Pre-PAI Audit</strong></td><td>Internal or consultant</td><td>Practice before a real regulatory inspection</td><td>Before anticipated inspections</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>Audit Object Structure</h4>
+        <p>In Vault, the Audit object has a parent-child structure:</p>
+        <pre><code>Audit Record (Parent)
+├── Audit Number, Type, Dates, Auditors, Auditees, Scope
+├── Status: Planned → In Progress → Report Issued → Closed
+│
+└── Audit Findings (Children)
+    ├── Finding Number, Category (Critical/Major/Minor/Observation)
+    ├── Finding Description
+    ├── Requirement Reference (which regulation/SOP was violated)
+    ├── Auditee Response
+    ├── Linked CAPA (Object Reference)
+    └── Status: Open → Response Submitted → Verified → Closed</code></pre>
+
+        <h4>Audit Annual Planning</h4>
+        <p>Configure a separate "Audit Plan" object for annual scheduling:</p>
+        <ul>
+          <li>Annual Internal Audit Schedule (which areas, which months)</li>
+          <li>Supplier Audit Schedule (by risk tier — Tier 1 suppliers audited annually)</li>
+          <li>Regulatory inspection readiness tracker</li>
+        </ul>
+
+        <div class="callout callout-scenario">
+          <div class="callout-title">🔍 Supplier Audit Scenario</div>
+          <p>BioPharm conducts an annual audit of their API supplier in India. An Audit record is created in Vault with type "Supplier Audit." Two auditors conduct the 3-day audit. 14 findings created: 1 Critical (data integrity gap — paper records being destroyed before electronic entry), 4 Major, 9 Minor. The Critical finding is escalated to senior management. Supplier is given 30 days to respond. CAPA raised for Critical finding. Supplier on "Conditional Approved" status in Vault Supplier object until CAPA implemented and verified. Follow-up audit scheduled in 6 months.</p>
+        </div>
+      </div>
+
+      <!-- ── RISK MANAGEMENT ── -->
+      <div class="section" id="risk">
+        <h3>7.7 Risk Management — Configuration Guide</h3>
+
+        <h4>Risk Object Structure</h4>
+        <p>Risk Assessments are configured as a parent-child structure — one Risk Assessment record contains multiple Risk Line Items:</p>
+        <pre><code>Risk Assessment (Parent)
+├── RA Number, Title, Date, Owner, Type (Process/Product/System)
+├── Status: Draft → Under Review → Approved → Active → Closed
+│
+└── Risk Items (Children)
+    ├── Risk ID (auto-number)
+    ├── Risk Description
+    ├── Probability (1-5)
+    ├── Severity (1-5)
+    ├── Detectability (1-5)
+    ├── RPN = Probability × Severity × Detectability (Formula Field)
+    ├── Risk Level = IF(RPN≥100, "Critical", IF(RPN≥50, "High", ...))
+    ├── Mitigation Actions
+    ├── Linked CAPA (if risk needs systematic action)
+    ├── Residual Probability / Severity / Detectability
+    └── Residual RPN (Formula)</code></pre>
+
+        <h4>FMEA in Vault</h4>
+        <p>Failure Mode and Effects Analysis can be fully managed in Vault using this object structure. Each Risk Item represents a failure mode. The RPN formula auto-calculates. Color-coded fields show risk heat map. High-RPN items auto-trigger CAPA creation via workflow.</p>
+      </div>
+
+      <!-- ── QMS OBJECT RELATIONSHIPS ── -->
+      <div class="section" id="qms-relationships">
+        <h3>7.8 QMS Object Relationships — Traceability Matrix</h3>
+        <p>One of the most powerful features of Vault QMS is full traceability — you can trace any quality event from its source all the way to its resolution and verification. Here is the complete relationship map:</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>From Object</th><th>Relationship</th><th>To Object</th><th>Cardinality</th><th>Purpose</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Deviation</strong></td><td>Triggers / Links to</td><td>CAPA</td><td>Many-to-One</td><td>Multiple deviations can reference the same CAPA (e.g., recurring issue)</td></tr>
+              <tr><td><strong>CAPA</strong></td><td>Contains</td><td>CAPA Action Items</td><td>One-to-Many</td><td>Each CAPA drives multiple actions</td></tr>
+              <tr><td><strong>CAPA Action Item</strong></td><td>References</td><td>Document (in QualityDocs)</td><td>Many-to-Many</td><td>Action "Update SOP" links to the specific SOP revision</td></tr>
+              <tr><td><strong>Audit</strong></td><td>Contains</td><td>Audit Findings</td><td>One-to-Many</td><td>Each audit produces multiple findings</td></tr>
+              <tr><td><strong>Audit Finding</strong></td><td>Links to</td><td>CAPA</td><td>One-to-One (typically)</td><td>Major/Critical findings must have a CAPA</td></tr>
+              <tr><td><strong>Change Control</strong></td><td>Triggered by</td><td>CAPA Action Item</td><td>One-to-One</td><td>CAPA action "change the process" → Change Control opened</td></tr>
+              <tr><td><strong>Change Control</strong></td><td>Affects</td><td>Document</td><td>Many-to-Many</td><td>One change may update multiple SOPs/specs</td></tr>
+              <tr><td><strong>Customer Complaint</strong></td><td>May trigger</td><td>Deviation</td><td>One-to-One or Many-to-One</td><td>Complaint → product found out-of-spec → Deviation opened</td></tr>
+              <tr><td><strong>Customer Complaint</strong></td><td>May trigger</td><td>CAPA</td><td>One-to-One</td><td>Systemic complaint trend triggers CAPA</td></tr>
+              <tr><td><strong>OOS Record</strong></td><td>May trigger</td><td>Deviation</td><td>One-to-One</td><td>Confirmed OOS → Deviation opened for product impact assessment</td></tr>
+              <tr><td><strong>Risk Item</strong></td><td>May trigger</td><td>CAPA</td><td>One-to-One</td><td>High-RPN risk → preventive CAPA initiated</td></tr>
+              <tr><td><strong>All QMS Objects</strong></td><td>Reference</td><td>Product</td><td>Many-to-One</td><td>All events link back to affected product for product-level reporting</td></tr>
+              <tr><td><strong>All QMS Objects</strong></td><td>Reference</td><td>Site</td><td>Many-to-One</td><td>All events link to site for site-level metrics</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout callout-key">
+          <div class="callout-title">💡 The Power of Full Traceability</div>
+          <p>With this relationship structure, you can answer any quality question instantly:<br>
+          <strong>"Show me all open quality issues for Product XYZ at Site Chicago."</strong> → Pull all Deviations + CAPAs + Complaints + OOS records filtered by Product XYZ + Site Chicago.<br>
+          <strong>"What was the total impact of the pump seal failure?"</strong> → Open DEV-2024-0892 → see linked CAPA → see all Action Items → see linked documents (updated PM SOP) → see linked training assignments (maintenance staff retrained).<br>
+          <strong>"Is this deviation recurring?"</strong> → Query all historical deviations with same Category + Root Cause Category → show trend.</p>
+        </div>
+      </div>
+
+    </div><!-- end QMS section -->
+
+    <hr class="divider">
+
+    <!-- ══════════════════════════════════
+         SECTION 8 — VAULT TRAINING
+    ══════════════════════════════════ -->
+    <div class="section" id="training">
+      <div class="section-number">Section 08</div>
+      <h2 class="section-title">Vault Training</h2>
+      <p class="section-intro">The GxP-compliant Learning Management System built into Vault — managing training assignments, curricula, and compliance tracking with full integration to QualityDocs.</p>
+
+      <h3>8.1 Core Concepts</h3>
+      <div class="card-grid">
+        <div class="card"><div class="card-icon">📚</div><h4>Curriculum</h4><p>A named bundle of training items (documents/quizzes) that a role must complete. E.g., "New QC Analyst Onboarding Curriculum."</p></div>
+        <div class="card"><div class="card-icon">📋</div><h4>Training Assignment</h4><p>A specific task assigned to a specific person to complete a specific training item by a due date.</p></div>
+        <div class="card"><div class="card-icon">🗓️</div><h4>Training Matrix</h4><p>The map of which roles require which training — configured per document type/classification.</p></div>
+        <div class="card"><div class="card-icon">✅</div><h4>Completion</h4><p>Documented evidence (e-signature) that a person has completed a training requirement.</p></div>
+      </div>
+
+      <h3>8.2 Training Assignment Triggers</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Trigger</th><th>What Happens</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Document goes Effective</strong></td><td>All users in roles mapped to that document type receive a training assignment</td><td>SOP-MFG-042 effective → 200 manufacturing staff get assigned</td></tr>
+            <tr><td><strong>Document revised (new version Effective)</strong></td><td>All previously trained users get new assignments for the updated version</td><td>SOP 2.0 effective → everyone who was trained on 1.0 gets re-assigned</td></tr>
+            <tr><td><strong>New user onboarding</strong></td><td>User is enrolled in all curricula matching their role</td><td>New QC Analyst → automatically enrolled in QC Analyst Curriculum</td></tr>
+            <tr><td><strong>Role change</strong></td><td>User gains new training requirements for their new role</td><td>Analyst promoted to Supervisor → Supervisor Curriculum assigned</td></tr>
+            <tr><td><strong>Periodic retraining</strong></td><td>Annual/biennial retraining auto-assigned based on schedule</td><td>Annual GMP refresher assigned every January 1 to all GxP staff</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>8.3 Completion Methods</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Method</th><th>How It Works</th><th>Best For</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Read & Understand</strong></td><td>Learner reads document in Vault, clicks acknowledge, applies e-signature</td><td>SOPs, policies, work instructions</td></tr>
+            <tr><td><strong>Quiz / Assessment</strong></td><td>Learner completes embedded quiz; must pass (e.g., ≥80%) to complete</td><td>Critical SOPs, GMP training modules</td></tr>
+            <tr><td><strong>Instructor-Led (ILT)</strong></td><td>Training done in person or online; instructor marks attendance in Vault</td><td>Equipment operation, complex procedures</td></tr>
+            <tr><td><strong>On-the-Job Training (OJT)</strong></td><td>Learner demonstrates competency; supervisor signs off in Vault</td><td>Hands-on manufacturing tasks</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>8.4 Training Compliance Reporting</h3>
+      <p>Key reports to configure for QMS/Quality management review:</p>
+      <ul>
+        <li><strong>Overall Compliance %</strong> — by department, by site, by document</li>
+        <li><strong>Overdue Training Report</strong> — all assignments past due date</li>
+        <li><strong>Document Coverage Report</strong> — % of required staff trained on each Effective SOP</li>
+        <li><strong>New Hire Training Completion</strong> — new employees' curriculum progress</li>
+        <li><strong>Annual Retraining Compliance</strong> — GMP refresher completion rates</li>
+      </ul>
+
+      <div class="callout callout-scenario">
+        <div class="callout-title">📋 Training Scenario — SOP Revision</div>
+        <p>Gowning SOP version 1.0 has 500 trained staff. A process improvement leads to SOP version 2.0 being approved and made Effective. Vault auto-creates 500 new training assignments. Email notifications sent to all 500 staff. After 7 days: 340 complete. Vault sends reminder to the remaining 160. After 14 days (due date): 490/500 complete. 10 users on leave — their managers are notified automatically, and training is extended. Training Manager reviews the 2% non-compliance in the Management Review dashboard. All documented in Vault audit trail.</p>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ══════════════════════════════════
+         SECTION 9 — CONNECTIONS
+    ══════════════════════════════════ -->
+    <div class="section" id="connections">
+      <div class="section-number">Section 09</div>
+      <h2 class="section-title">Connections & Integrations</h2>
+      <p class="section-intro">Vault rarely operates in isolation. Understanding its integration capabilities is essential for enterprise deployments.</p>
+
+      <h3>9.1 Vault-to-Vault Connections</h3>
+      <p>Multiple Vault instances can communicate via <strong>Spark messaging</strong> or <strong>Vault-to-Vault document transfers</strong>. Common use cases:</p>
+      <ul>
+        <li>QualityDocs Vault ↔ RegulatoryDocs Vault: SOP updates trigger regulatory review</li>
+        <li>Quality Vault ↔ Clinical Vault: Quality events may impact ongoing trials</li>
+        <li>Sponsor Vault ↔ CRO Vault: Sharing documents between partner organizations</li>
+      </ul>
+
+      <h3>9.2 Key System Integrations</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>System</th><th>Integration Point</th><th>Data Flow</th></tr></thead>
+          <tbody>
+            <tr><td><strong>SAP / Oracle (ERP)</strong></td><td>Batch data, supplier data, materials, change control</td><td>ERP batch events → Vault Deviations; Vault Change Control → ERP material master update</td></tr>
+            <tr><td><strong>LIMS</strong></td><td>OOS results, stability data, test results</td><td>LIMS OOS → Vault OOS Record auto-created; Specifications shared</td></tr>
+            <tr><td><strong>HR / Workday</strong></td><td>Employee data, roles, org changes</td><td>New hire → Vault user + training; Termination → Vault account deactivated</td></tr>
+            <tr><td><strong>MES / EBR</strong></td><td>Electronic batch records, process deviations</td><td>EBR deviation → Vault Deviation; EBR batch record linked to Vault Change Control</td></tr>
+            <tr><td><strong>Document Management (legacy)</strong></td><td>Historical documents</td><td>Vault Loader migrates legacy controlled documents into QualityDocs</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>9.3 Vault REST API</h3>
+      <p>The Vault API allows programmatic access for custom integrations. Every Vault action can be triggered via API:</p>
+      <pre><code># Authentication
+POST https://[vault].veevavault.com/api/v24.1/auth
+Body: username=admin@company.com&password=Secure123
+
+# Create a Deviation record
+POST https://[vault].veevavault.com/api/v24.1/vobjects/deviation__v
+Content-Type: application/json
+{
+  "title__v": "Particulate found in batch 2024-0891",
+  "severity__v": "critical__c",
+  "site__v": "0SA000000000101"
+}
+
+# Query open CAPAs overdue
+GET https://[vault].veevavault.com/api/v24.1/query
+?q=SELECT id, name__v, due_date__c FROM capa__v 
+WHERE status__v = 'open__v' AND due_date__c < TODAY()</code></pre>
+
+      <h3>9.4 Vault Loader (Bulk Data Migration)</h3>
+      <p>The Vault Loader desktop tool enables bulk operations. Critical during:</p>
+      <ul>
+        <li><strong>Go-live migration:</strong> Loading thousands of existing SOPs and quality records</li>
+        <li><strong>Master data loading:</strong> Bulk creation of Product, Site, Supplier records</li>
+        <li><strong>Bulk updates:</strong> Updating a metadata field across hundreds of documents</li>
+        <li><strong>Data extracts:</strong> Exporting records for audit, regulatory review, or analytics</li>
+      </ul>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ══════════════════════════════════
+         SECTION 10 — ADVANCED ADMIN
+    ══════════════════════════════════ -->
+    <div class="section" id="admin">
+      <div class="section-number">Section 10</div>
+      <h2 class="section-title">Advanced Administration</h2>
+
+      <h3>10.1 Lifecycle Configuration Best Practices</h3>
+      <ul>
+        <li>Never create more states than necessary — each state adds complexity and confusion</li>
+        <li>Always set entry criteria on critical transitions — prevents records moving forward with missing data</li>
+        <li>Use "Allow Cancel" transitions carefully — cancelling a quality record requires documented justification</li>
+        <li>Build "On Hold" states for records waiting on external input (e.g., regulatory response)</li>
+        <li>Test every transition in Sandbox with multiple user roles before UAT</li>
+      </ul>
+
+      <h3>10.2 Workflow Best Practices</h3>
+      <ul>
+        <li>Assign workflows to <strong>Groups</strong>, not individual users — groups are easier to maintain as staff changes</li>
+        <li>Always configure <strong>due date calculations</strong> using business days, not calendar days</li>
+        <li>Build <strong>escalation paths</strong> for every task — what happens if no one acts?</li>
+        <li>Test with users who have no system knowledge — if they're confused, the workflow needs redesign</li>
+        <li>Keep approval chains short — every extra approver adds days to cycle time</li>
+      </ul>
+
+      <h3>10.3 Configuration Migration (Sandbox → Production)</h3>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-content"><h4>Develop in Sandbox</h4><p>All configuration changes built and unit-tested in Sandbox environment.</p></div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-content"><h4>Create a Vault Package (VPK)</h4><p>Package the configuration changes into a deployable VPK file.</p></div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-content"><h4>Deploy to UAT</h4><p>Install VPK in UAT. Execute test scripts. Get business sign-off.</p></div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-content"><h4>Change Control</h4><p>Raise a Change Control (or Change Request) for the configuration change per validated system change control SOP.</p></div></div>
+        <div class="step"><div class="step-num">5</div><div class="step-content"><h4>Deploy to Production</h4><p>Scheduled deployment during low-activity window. Verify post-deployment.</p></div></div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ══════════════════════════════════
+         SECTION 11 — REPORTS
+    ══════════════════════════════════ -->
+    <div class="section" id="reports">
+      <div class="section-number">Section 11</div>
+      <h2 class="section-title">Audit Trails & Reporting</h2>
+
+      <h3>11.1 Audit Trail Contents</h3>
+      <p>Every action in Vault is logged. Each audit trail entry captures:</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Attribute</th><th>Example Value</th></tr></thead>
+          <tbody>
+            <tr><td>Timestamp</td><td>2024-03-15 14:32:07 UTC</td></tr>
+            <tr><td>User</td><td>sarah.johnson@pharma.com (Sarah Johnson)</td></tr>
+            <tr><td>Action</td><td>State Change: "Under Investigation" → "Root Cause Identified"</td></tr>
+            <tr><td>Field Changed</td><td>Root Cause (Picklist)</td></tr>
+            <tr><td>Previous Value</td><td>[blank]</td></tr>
+            <tr><td>New Value</td><td>Equipment Failure</td></tr>
+            <tr><td>IP Address</td><td>192.168.1.45</td></tr>
+            <tr><td>E-signature</td><td>Yes — Meaning: "Confirmed Root Cause"</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>11.2 Quality KPI Dashboard — Recommended Metrics</h3>
+      <div class="card-grid">
+        <div class="card"><div class="card-icon">📊</div><h4>CAPA On-Time Closure Rate</h4><p>% of CAPAs closed by their due date. Target: ≥90%. Tracks effectiveness of CAPA management.</p></div>
+        <div class="card"><div class="card-icon">⏱️</div><h4>Deviation Cycle Time</h4><p>Average days from Initiation to Closure. By severity. Tracks investigation efficiency.</p></div>
+        <div class="card"><div class="card-icon">🎓</div><h4>Training Compliance %</h4><p>% of required training complete across all roles and documents. Target: ≥98%.</p></div>
+        <div class="card"><div class="card-icon">📝</div><h4>Change Control Cycle Time</h4><p>Average days from CC initiation to closure. Tracks speed of implementing improvements.</p></div>
+        <div class="card"><div class="card-icon">💬</div><h4>Complaint Cycle Time</h4><p>Average days from complaint receipt to closure. Target driven by SOP (typically ≤30 days).</p></div>
+        <div class="card"><div class="card-icon">🔄</div><h4>Recurring Deviation Rate</h4><p>% of deviations flagged as recurring. Tracks CAPA effectiveness at system level.</p></div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ══════════════════════════════════
+         SECTION 12 — GLOSSARY
+    ══════════════════════════════════ -->
+    <div class="section" id="glossary">
+      <div class="section-number">Section 12</div>
+      <h2 class="section-title">Glossary A–Z</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Term</th><th>Definition</th></tr></thead>
+          <tbody>
+            <tr><td><strong>ALCOA+</strong></td><td>Data integrity principles: Attributable, Legible, Contemporaneous, Original, Accurate + Complete, Consistent, Enduring, Available</td></tr>
+            <tr><td><strong>Application Role</strong></td><td>Role defining a user's access across the entire Vault application</td></tr>
+            <tr><td><strong>Audit Trail</strong></td><td>System-generated, immutable, time-stamped log of all actions in Vault</td></tr>
+            <tr><td><strong>CAPA</strong></td><td>Corrective and Preventive Action — systematic process to address and prevent quality problems</td></tr>
+            <tr><td><strong>Change Control</strong></td><td>Formal process to evaluate, approve, and implement changes to GxP-relevant systems/processes</td></tr>
+            <tr><td><strong>CSV (Computer System Validation)</strong></td><td>Documented evidence that a computerized system consistently does what it was designed to do</td></tr>
+            <tr><td><strong>Curriculum</strong></td><td>A grouping of training items that must all be completed by assigned learners</td></tr>
+            <tr><td><strong>Document Role</strong></td><td>Role defining what a user can do on a specific document</td></tr>
+            <tr><td><strong>E-Signature</strong></td><td>Electronic equivalent of a handwritten signature, compliant with 21 CFR Part 11</td></tr>
+            <tr><td><strong>Effective Date</strong></td><td>Date a controlled document becomes active and mandatory</td></tr>
+            <tr><td><strong>Entry Criteria</strong></td><td>Conditions that must be met before a lifecycle state transition is permitted</td></tr>
+            <tr><td><strong>FMEA</strong></td><td>Failure Mode and Effects Analysis — structured risk assessment tool</td></tr>
+            <tr><td><strong>GAMP 5</strong></td><td>Good Automated Manufacturing Practice — guideline for computerized system validation in pharma</td></tr>
+            <tr><td><strong>GxP</strong></td><td>Collective term for "Good Practice" regulations (GMP, GCP, GLP, GDP, GVP)</td></tr>
+            <tr><td><strong>IQ / OQ / PQ</strong></td><td>Installation / Operational / Performance Qualification — validation testing phases</td></tr>
+            <tr><td><strong>Lifecycle</strong></td><td>Defined states and transitions that a document or object moves through</td></tr>
+            <tr><td><strong>Lookup Field</strong></td><td>A field that references/links to another object record</td></tr>
+            <tr><td><strong>Object</strong></td><td>A structured database record in Vault (e.g., CAPA, Deviation, Audit)</td></tr>
+            <tr><td><strong>Object Reference</strong></td><td>A field type that creates a link between two Vault object records</td></tr>
+            <tr><td><strong>OOS</strong></td><td>Out of Specification — test result outside acceptance criteria</td></tr>
+            <tr><td><strong>OOT</strong></td><td>Out of Trend — result within spec but trending toward the limit</td></tr>
+            <tr><td><strong>Parent-Child Relationship</strong></td><td>One object owns multiple child records; children cannot exist without the parent</td></tr>
+            <tr><td><strong>Periodic Review</strong></td><td>Scheduled review of controlled documents to ensure they remain current and accurate</td></tr>
+            <tr><td><strong>Picklist</strong></td><td>A predefined dropdown list of values for a field</td></tr>
+            <tr><td><strong>QMS</strong></td><td>Quality Management System — the overall system for managing quality events and processes</td></tr>
+            <tr><td><strong>Rendition</strong></td><td>A locked, watermarked PDF copy of a document generated by Vault upon approval</td></tr>
+            <tr><td><strong>RPN</strong></td><td>Risk Priority Number = Probability × Severity × Detectability (used in FMEA)</td></tr>
+            <tr><td><strong>Security Profile</strong></td><td>A bundle of permissions assigned to users</td></tr>
+            <tr><td><strong>Spark</strong></td><td>Veeva's internal messaging framework for Vault-to-Vault communication</td></tr>
+            <tr><td><strong>State</strong></td><td>A specific phase in a lifecycle (Draft, Approved, Effective, etc.)</td></tr>
+            <tr><td><strong>Superseded</strong></td><td>A document that has been replaced by a newer version</td></tr>
+            <tr><td><strong>Training Assignment</strong></td><td>A specific training task assigned to a specific user with a due date</td></tr>
+            <tr><td><strong>Training Matrix</strong></td><td>Mapping of which training is required for which roles/job functions</td></tr>
+            <tr><td><strong>Transition</strong></td><td>Movement from one lifecycle state to another</td></tr>
+            <tr><td><strong>URS</strong></td><td>User Requirements Specification — document defining what the system must do</td></tr>
+            <tr><td><strong>Validation</strong></td><td>Documented evidence that a system does what it is designed to do</td></tr>
+            <tr><td><strong>Vault Loader</strong></td><td>Desktop tool for bulk import/export of Vault data and documents</td></tr>
+            <tr><td><strong>VPK</strong></td><td>Vault Package — deployable file containing configuration changes</td></tr>
+            <tr><td><strong>Workflow</strong></td><td>Automated sequence of tasks triggered by lifecycle actions in Vault</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ══════════════════════════════════
+         SECTION 13 — SCENARIOS
+    ══════════════════════════════════ -->
+    <div class="section" id="scenarios">
+      <div class="section-number">Section 13</div>
+      <h2 class="section-title">Real-Life Scenarios & Use Cases</h2>
+      <p class="section-intro">End-to-end walkthroughs of complete quality processes in Vault.</p>
+
+      <h3>Scenario A: Complete Quality Event Chain</h3>
+      <p><strong>Situation:</strong> Filling volume OOS discovered during in-process monitoring.</p>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-content"><h4>OOS Record Created</h4><p>Lab analyst creates OOS-2024-0091 in Vault. Phase 1 investigation: no lab error found.</p></div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-content"><h4>Deviation Opened</h4><p>Phase 2: manufacturing investigation. DEV-2024-0892 opened. Severity: Critical. Batch quarantined.</p></div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-content"><h4>Root Cause Identified</h4><p>Root cause: worn pump diaphragm. 5-Why analysis documented in Vault.</p></div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-content"><h4>CAPA Initiated</h4><p>CAPA-2024-0234 linked to DEV-2024-0892. Action items: replace pump, update PM schedule, retrain maintenance staff.</p></div></div>
+        <div class="step"><div class="step-num">5</div><div class="step-content"><h4>Change Control</h4><p>CC-2024-0056 opened to formally change the PM frequency and procedure. Linked to CAPA Action Item.</p></div></div>
+        <div class="step"><div class="step-num">6</div><div class="step-content"><h4>Document Update</h4><p>PM SOP revised in QualityDocs. New version triggers training assignments for 15 maintenance staff.</p></div></div>
+        <div class="step"><div class="step-num">7</div><div class="step-content"><h4>Training Completed</h4><p>All 15 staff complete Read & Understand training with e-signatures. Training Compliance: 100%.</p></div></div>
+        <div class="step"><div class="step-num">8</div><div class="step-content"><h4>Effectiveness Check</h4><p>After 90 days: pump performance data reviewed — no anomalies. No recurrence of OOS. CAPA closed as Effective.</p></div></div>
+      </div>
+      <div class="callout callout-key">
+        <div class="callout-title">🔗 Full Traceability Chain</div>
+        <p>OOS-2024-0091 → DEV-2024-0892 → CAPA-2024-0234 → Action Items × 3 → CC-2024-0056 → SOP Revision (PM-SOP-042 v2.0) → 15 Training Assignments → Effectiveness Evidence. A single Vault report can show this entire chain in seconds.</p>
+      </div>
+
+      <h3>Scenario B: FDA Inspection Readiness</h3>
+      <p>FDA announces a Pre-Approval Inspection (PAI) with 2 weeks notice. Quality Director uses Vault to prepare:</p>
+      <ul>
+        <li>Pull all open deviations and CAPAs — identify anything overdue, escalate for expedited closure</li>
+        <li>Run Training Compliance report — ensure 100% on all critical manufacturing and QC SOPs</li>
+        <li>Generate Document Periodic Review overdue list — update all past-due SOPs</li>
+        <li>Pull Change Control history for last 3 years — prepare regulatory submissions log</li>
+        <li>Run Customer Complaint summary — calculate on-time reporting rate for AEs</li>
+        <li>Export audit trail for all batch release decisions in the last 2 years</li>
+      </ul>
+      <p>During inspection: Every question answered from Vault within minutes. Zero 483 observations on documentation or quality systems.</p>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ══════════════════════════════════
+         SECTION 14 — INTERVIEW Q&A
+    ══════════════════════════════════ -->
+    <div class="section" id="interview">
+      <div class="section-number">Section 14</div>
+      <h2 class="section-title">Interview Questions & Expert Answers</h2>
+      <p class="section-intro">Commonly asked questions for Vault QMS administrator, consultant, and analyst roles.</p>
+
+      <div class="qa-block">
+        <div class="qa-q"><span class="qa-q-label">Q</span> What is the difference between QualityDocs and QMS in Vault?</div>
+        <div class="qa-a"><span class="qa-a-label">A</span> QualityDocs manages controlled documents (SOPs, policies, specifications) through their authoring, review, approval, and lifecycle. QMS manages quality events and processes — deviations, CAPAs, change controls, complaints. They integrate tightly: an effective SOP triggers training assignments, and a CAPA action item can require a document revision, linking both modules in a traceable chain.</div>
+      </div>
+
+      <div class="qa-block">
+        <div class="qa-q"><span class="qa-q-label">Q</span> How does Vault support 21 CFR Part 11 compliance?</div>
+        <div class="qa-a"><span class="qa-a-label">A</span> Vault meets Part 11 through: (1) E-signatures requiring username+password re-entry, with name, timestamp, and meaning permanently recorded; (2) Immutable audit trails on all records; (3) Role-based access with unique user IDs; (4) Lifecycle controls enforcing valid state sequences; (5) Authority checks ensuring only authorized users can perform specific actions; (6) System validation by both Veeva and the customer organization per GAMP 5.</div>
+      </div>
+
+      <div class="qa-block">
+        <div class="qa-q"><span class="qa-q-label">Q</span> How would you implement the CAPA process from scratch in Vault?</div>
+        <div class="qa-a"><span class="qa-a-label">A</span> I'd start with requirements gathering — interviewing QA to define the CAPA lifecycle, required fields, approval chain, and effectiveness check process. Then configure the CAPA object with all fields (using the appropriate types — formula for Days Open and RPN, object references for source linking), configure the lifecycle states and transitions with entry criteria, build workflows for action plan approval and effectiveness check, configure the Action Items child object with parent-child relationship, set up security profiles for each role, build reports for CAPA aging and compliance, and validate with OQ/PQ test scripts before go-live.</div>
+      </div>
+
+      <div class="qa-block">
+        <div class="qa-q"><span class="qa-q-label">Q</span> What are entry criteria and why are they important?</div>
+        <div class="qa-a"><span class="qa-a-label">A</span> Entry criteria are conditions that must be met before a lifecycle state transition is allowed. They're essential for data completeness and GxP compliance — they prevent records from progressing with missing information. For example, a Deviation cannot move from "Under Investigation" to "Root Cause Identified" unless the Root Cause field and Root Cause Detail are populated. This enforces process discipline and prevents shortcuts that would create compliance gaps during inspections.</div>
+      </div>
+
+      <div class="qa-block">
+        <div class="qa-q"><span class="qa-q-label">Q</span> Explain object relationships in Vault and give an example.</div>
+        <div class="qa-a"><span class="qa-a-label">A</span> Vault supports three main relationship types. Parent-Child (one-to-many): one CAPA owns multiple Action Items — deleting the CAPA deletes the action items. Lookup (many-to-one): a Deviation references a Product that exists independently — many deviations can point to the same product. Object Reference (peer link): a Deviation references a CAPA and the CAPA references back — neither owns the other. Relationships enable full traceability: from a single Deviation, you can navigate to its CAPA, to each action item, to the evidence documents, and to the training records — all in one click path.</div>
+      </div>
+
+      <div class="qa-block">
+        <div class="qa-q"><span class="qa-q-label">Q</span> What is the difference between a corrective action and a preventive action?</div>
+        <div class="qa-a"><span class="qa-a-label">A</span> A corrective action eliminates the cause of a detected nonconformity to prevent recurrence. A preventive action eliminates the cause of a potential problem before it occurs. Example: if a pump seal fails causing OOS fill volumes — replacing the seal is a corrective action (fixes what failed); adding pump wear monitoring to the PM schedule is a preventive action (prevents future failures before they cause OOS). Both are managed in the same CAPA record in Vault, often with separate Action Item records tagged as CA or PA type.</div>
+      </div>
+
+      <div class="qa-block">
+        <div class="qa-q"><span class="qa-q-label">Q</span> How does Vault Training integrate with QualityDocs?</div>
+        <div class="qa-a"><span class="qa-a-label">A</span> The integration is event-driven. When a document goes Effective in QualityDocs, Vault checks the training matrix configured for that document type and classification, then auto-creates training assignments for all users in the applicable roles with configured due dates. When a document is revised and a new version goes Effective, new assignments are created for the revised version — the historical training completions on the previous version are preserved. This creates a complete, auditable training record showing every person trained on every version of every document.</div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div style="text-align:center; padding: 40px 0 20px; color: var(--text3); font-family: var(--mono); font-size: 12px;">
+      <div style="color: var(--accent); font-size: 14px; margin-bottom: 8px;">Veeva Vault Quality — Complete Learning Guide</div>
+      Version 2.0 · Expanded QMS Deep-Dive + Object Relationships · For internal learning and professional development
+    </div>
+
+  </div><!-- end .content -->
+</main>
+
+<script>
+  // Active TOC highlighting on scroll
+  const sections = document.querySelectorAll('.section[id], div[id]');
+  const tocLinks = document.querySelectorAll('.toc-item');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocLinks.forEach(link => link.classList.remove('active'));
+        const active = document.querySelector(`.toc-item[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  document.querySelectorAll('[id]').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
