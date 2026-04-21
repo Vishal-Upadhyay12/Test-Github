@@ -1,0 +1,1695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Veeva Vault Objects — Complete Learning Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0f1f3d;
+    --navy-mid: #1b3a6b;
+    --blue: #2e5fa3;
+    --blue-light: #d6e4f7;
+    --teal: #0e7490;
+    --teal-light: #cceffa;
+    --orange: #c15700;
+    --orange-light: #fef3e2;
+    --green: #15803d;
+    --green-light: #dcfce7;
+    --purple: #6b21a8;
+    --purple-light: #f3e8ff;
+    --red: #b91c1c;
+    --red-light: #fee2e2;
+    --yellow: #92400e;
+    --yellow-light: #fef9c3;
+    --gray-900: #111827;
+    --gray-700: #374151;
+    --gray-500: #6b7280;
+    --gray-200: #e5e7eb;
+    --gray-100: #f3f4f6;
+    --white: #ffffff;
+    --sidebar-w: 260px;
+    --content-max: 900px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--gray-900);
+    background: #f8fafc;
+    display: flex;
+  }
+
+  /* ===== SIDEBAR ===== */
+  #sidebar {
+    width: var(--sidebar-w);
+    min-height: 100vh;
+    background: var(--navy);
+    position: fixed;
+    top: 0; left: 0;
+    overflow-y: auto;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s;
+  }
+
+  #sidebar-logo {
+    padding: 24px 20px 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  #sidebar-logo .product { font-family: 'DM Serif Display', serif; font-size: 18px; color: #fff; letter-spacing: 0.5px; }
+  #sidebar-logo .subtitle { font-size: 10px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 1.5px; margin-top: 4px; }
+
+  /* Sidebar tab links */
+  .sidebar-tab-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.55);
+    cursor: pointer;
+    border-left: 3px solid transparent;
+    transition: all 0.2s;
+    text-decoration: none;
+    background: none;
+    border-top: none;
+    border-right: none;
+    border-bottom: none;
+    width: 100%;
+    text-align: left;
+  }
+  .sidebar-tab-link:hover { color: #fff; background: rgba(255,255,255,0.06); }
+  .sidebar-tab-link.active { color: #fff; background: rgba(255,255,255,0.1); border-left-color: #60a5fa; }
+  .sidebar-tab-link .dot {
+    width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+  }
+
+  #toc { padding: 12px 0; flex: 1; }
+  #toc .toc-section-header { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.3); padding: 14px 20px 5px; font-weight: 600; }
+
+  /* Sub-links inside each tab group */
+  .sidebar-sub-links { display: none; }
+  .sidebar-sub-links.open { display: block; }
+  .sidebar-sub-links a {
+    display: block;
+    padding: 5px 20px 5px 38px;
+    font-size: 11.5px;
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    transition: all 0.15s;
+    border-left: none;
+  }
+  .sidebar-sub-links a:hover { color: rgba(255,255,255,0.8); }
+
+  /* ===== MAIN CONTENT ===== */
+  #main {
+    margin-left: var(--sidebar-w);
+    flex: 1;
+    padding: 0;
+    min-width: 0;
+  }
+
+  /* ===== HERO ===== */
+  #hero {
+    background: linear-gradient(135deg, var(--navy) 0%, #1e3a7a 50%, #0e4d6e 100%);
+    padding: 64px 60px 56px;
+    position: relative;
+    overflow: hidden;
+  }
+  #hero::before {
+    content: '';
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(96,165,250,0.12) 0%, transparent 70%);
+    top: -200px; right: -100px;
+    pointer-events: none;
+  }
+  #hero::after {
+    content: '';
+    position: absolute;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(14,116,144,0.2) 0%, transparent 70%);
+    bottom: -100px; left: 200px;
+    pointer-events: none;
+  }
+  #hero .eyebrow { font-size: 11px; text-transform: uppercase; letter-spacing: 3px; color: #60a5fa; margin-bottom: 14px; font-weight: 600; }
+  #hero h1 { font-family: 'DM Serif Display', serif; font-size: 46px; color: #fff; line-height: 1.1; margin-bottom: 14px; }
+  #hero h1 span { color: #7dd3fc; font-style: italic; }
+  #hero .tagline { font-size: 16px; color: rgba(255,255,255,0.6); max-width: 580px; margin-bottom: 32px; }
+
+  /* ===== TAB BUTTONS (hero badges) ===== */
+  #hero .tab-buttons { display: flex; gap: 10px; flex-wrap: wrap; position: relative; z-index: 2; }
+  .tab-btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.22s cubic-bezier(.4,0,.2,1);
+    position: relative;
+    outline: none;
+    user-select: none;
+  }
+  .tab-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -3px; left: 50%; transform: translateX(-50%);
+    width: 0; height: 3px;
+    border-radius: 2px;
+    transition: width 0.22s;
+  }
+  .tab-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.25); }
+  .tab-btn.active { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+  .tab-btn.active::after { width: 60%; }
+
+  .btn-blue { background: #2e5fa3; color: #fff; }
+  .btn-blue.active { background: #fff; color: #1b3a6b; border-color: rgba(255,255,255,0.3); }
+  .btn-blue::after { background: #7dd3fc; }
+
+  .btn-teal { background: #0e7490; color: #fff; }
+  .btn-teal.active { background: #fff; color: #0e4d6e; border-color: rgba(255,255,255,0.3); }
+  .btn-teal::after { background: #5eead4; }
+
+  .btn-green { background: #15803d; color: #fff; }
+  .btn-green.active { background: #fff; color: #14532d; border-color: rgba(255,255,255,0.3); }
+  .btn-green::after { background: #86efac; }
+
+  .btn-orange { background: #c15700; color: #fff; }
+  .btn-orange.active { background: #fff; color: #7c2d12; border-color: rgba(255,255,255,0.3); }
+  .btn-orange::after { background: #fdba74; }
+
+  .btn-purple { background: #6b21a8; color: #fff; }
+  .btn-purple.active { background: #fff; color: #3b0764; border-color: rgba(255,255,255,0.3); }
+  .btn-purple::after { background: #d8b4fe; }
+
+  /* ===== TAB PANELS ===== */
+  .tab-panel { display: none; animation: fadeIn 0.3s ease; }
+  .tab-panel.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ===== CONTENT AREA ===== */
+  #content { max-width: var(--content-max); margin: 0 auto; padding: 44px 56px 80px; }
+
+  /* ===== SECTIONS ===== */
+  .section { margin-bottom: 60px; }
+
+  .section-banner {
+    background: var(--navy);
+    color: #fff;
+    padding: 16px 26px;
+    border-radius: 10px;
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    letter-spacing: 0.5px;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-banner::before { content: ''; display: block; width: 4px; height: 26px; background: #60a5fa; border-radius: 2px; flex-shrink: 0; }
+
+  h1.section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 34px;
+    color: var(--navy);
+    margin-bottom: 8px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid var(--blue);
+  }
+  h2.sub-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--blue);
+    margin: 32px 0 12px;
+  }
+  h3.sub-sub-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--teal);
+    margin: 24px 0 10px;
+  }
+
+  p { color: var(--gray-700); margin-bottom: 12px; }
+  strong { color: var(--gray-900); }
+
+  /* ===== INFO BOXES ===== */
+  .info-box {
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin: 18px 0;
+    border-left: 5px solid;
+  }
+  .info-box .box-title {
+    font-weight: 700;
+    font-size: 13px;
+    margin-bottom: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+  .info-box p, .info-box li { font-size: 14px; margin-bottom: 4px; }
+  .info-box ul, .info-box ol { padding-left: 18px; }
+
+  .box-blue { background: var(--blue-light); border-color: var(--blue); }
+  .box-blue .box-title { color: var(--navy); }
+  .box-teal { background: var(--teal-light); border-color: var(--teal); }
+  .box-teal .box-title { color: var(--teal); }
+  .box-green { background: var(--green-light); border-color: var(--green); }
+  .box-green .box-title { color: var(--green); }
+  .box-orange { background: var(--orange-light); border-color: var(--orange); }
+  .box-orange .box-title { color: var(--orange); }
+  .box-purple { background: var(--purple-light); border-color: var(--purple); }
+  .box-purple .box-title { color: var(--purple); }
+  .box-red { background: var(--red-light); border-color: var(--red); }
+  .box-red .box-title { color: var(--red); }
+  .box-yellow { background: var(--yellow-light); border-color: var(--yellow); }
+  .box-yellow .box-title { color: var(--yellow); }
+  .box-gray { background: var(--gray-100); border-color: var(--gray-500); }
+  .box-gray .box-title { color: var(--gray-700); }
+
+  /* ===== TABLES ===== */
+  .tbl-wrap { overflow-x: auto; margin: 18px 0; border-radius: 10px; box-shadow: 0 1px 6px rgba(0,0,0,0.08); }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  thead tr { background: var(--navy); }
+  thead th { color: #fff; padding: 11px 15px; text-align: left; font-weight: 600; font-size: 12.5px; letter-spacing: 0.3px; }
+  tbody tr:nth-child(even) { background: var(--gray-100); }
+  tbody tr:nth-child(odd) { background: #fff; }
+  tbody td { padding: 10px 15px; color: var(--gray-700); border-bottom: 1px solid var(--gray-200); vertical-align: top; }
+  tbody tr:hover { background: #eff6ff; }
+  td code { font-family: 'JetBrains Mono', monospace; font-size: 11.5px; background: #e0e7ff; color: #3730a3; padding: 2px 6px; border-radius: 4px; }
+
+  /* ===== QnA ===== */
+  .qna-block { margin: 18px 0; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 6px rgba(0,0,0,0.07); }
+  .qna-q { background: var(--blue-light); padding: 13px 18px; font-weight: 600; color: var(--navy); font-size: 14px; }
+  .qna-q::before { content: '❓ Q: '; }
+  .qna-a { background: #fff; padding: 13px 18px; border-left: 4px solid var(--blue); font-size: 13.5px; color: var(--gray-700); }
+  .qna-a::before { content: '✅ A: '; font-weight: 700; color: var(--green); }
+
+  /* ===== SCENARIO ===== */
+  .scenario-block { margin: 18px 0; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 6px rgba(0,0,0,0.07); }
+  .scenario-q { background: var(--yellow-light); padding: 13px 18px; font-weight: 600; color: var(--yellow); font-size: 13.5px; }
+  .scenario-q::before { content: '📋 Scenario: '; }
+  .scenario-a { background: #fff; padding: 13px 18px; border-left: 4px solid var(--yellow); font-size: 13.5px; color: var(--gray-700); }
+
+  /* ===== INTERVIEW Q ===== */
+  .iq-block { margin: 14px 0; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 5px rgba(0,0,0,0.06); }
+  .iq-q { background: var(--teal-light); padding: 12px 18px; font-weight: 700; color: var(--teal); font-size: 13.5px; }
+  .iq-a { background: #fff; padding: 12px 18px; border-left: 4px solid var(--teal); font-size: 13px; color: var(--gray-700); }
+
+  /* ===== BULLETS ===== */
+  ul.content-list { padding-left: 22px; margin: 10px 0; }
+  ul.content-list li { color: var(--gray-700); margin-bottom: 6px; font-size: 14px; }
+  ul.content-list li strong { color: var(--gray-900); }
+
+  /* ===== CODE ===== */
+  .code-block { background: #1e293b; color: #e2e8f0; font-family: 'JetBrains Mono', monospace; font-size: 12.5px; padding: 18px 22px; border-radius: 10px; margin: 14px 0; overflow-x: auto; line-height: 1.6; }
+
+  /* ===== GLOSSARY ===== */
+  .glossary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 18px 0; }
+  .glossary-item { background: #fff; border: 1px solid var(--gray-200); border-radius: 8px; padding: 11px 14px; }
+  .glossary-term { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; font-weight: 700; color: var(--blue); margin-bottom: 4px; }
+  .glossary-def { font-size: 12.5px; color: var(--gray-700); line-height: 1.5; }
+
+  /* ===== CATEGORY HEADER ===== */
+  .category-header {
+    background: linear-gradient(90deg, var(--navy-mid), var(--blue));
+    color: #fff;
+    padding: 13px 20px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 15px;
+    margin: 32px 0 18px;
+    letter-spacing: 0.3px;
+  }
+
+  /* ===== FIELD CARDS ===== */
+  .field-card { background: #fff; border: 1px solid var(--gray-200); border-radius: 10px; padding: 18px 22px; margin: 14px 0; border-top: 4px solid var(--blue); }
+  .field-card .field-name { font-family: 'JetBrains Mono', monospace; font-size: 13.5px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+  .field-card .field-desc { font-size: 13.5px; color: var(--gray-700); }
+  .field-card .field-meta { margin-top: 8px; display: flex; gap: 7px; flex-wrap: wrap; }
+  .field-tag { font-size: 10.5px; padding: 3px 9px; border-radius: 20px; font-weight: 600; letter-spacing: 0.3px; }
+  .tag-blue { background: #dbeafe; color: #1e40af; }
+  .tag-green { background: #dcfce7; color: #15803d; }
+  .tag-orange { background: #fef3e2; color: #c15700; }
+  .tag-purple { background: #f3e8ff; color: #6b21a8; }
+  .tag-teal { background: var(--teal-light); color: var(--teal); }
+
+  /* ===== DIVIDER ===== */
+  .divider { border: none; border-top: 2px solid var(--gray-200); margin: 36px 0; }
+
+  /* ===== SCROLL TO TOP ===== */
+  #scroll-top {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 42px;
+    height: 42px;
+    background: var(--blue);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    transition: all 0.2s;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 200;
+  }
+  #scroll-top.visible { opacity: 1; pointer-events: all; }
+  #scroll-top:hover { background: var(--navy); transform: translateY(-2px); }
+
+  /* ===== ACTIVE TAB INDICATOR IN CONTENT ===== */
+  .tab-indicator {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    margin-bottom: 28px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .tab-ind-blue { background: #dbeafe; color: #1e40af; }
+  .tab-ind-teal { background: var(--teal-light); color: var(--teal); }
+  .tab-ind-green { background: var(--green-light); color: var(--green); }
+  .tab-ind-orange { background: var(--orange-light); color: var(--orange); }
+  .tab-ind-purple { background: var(--purple-light); color: var(--purple); }
+
+  @media (max-width: 900px) {
+    #sidebar { transform: translateX(-100%); }
+    #sidebar.open { transform: translateX(0); }
+    #main { margin-left: 0; }
+    #content { padding: 28px 20px; }
+    #hero { padding: 40px 20px; }
+    #hero h1 { font-size: 30px; }
+    .glossary-grid { grid-template-columns: 1fr; }
+    #hero .tab-buttons { gap: 8px; }
+    .tab-btn { font-size: 12px; padding: 8px 14px; }
+  }
+
+  @media print {
+    #sidebar, #scroll-top { display: none; }
+    #main { margin-left: 0; }
+    .tab-panel { display: block !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div id="sidebar-logo">
+    <div class="product">Veeva Vault Objects</div>
+    <div class="subtitle">Complete Learning Guide</div>
+  </div>
+  <div id="toc">
+    <div class="toc-section-header">Navigate by Topic</div>
+
+    <button class="sidebar-tab-link active" data-tab="structure" onclick="switchTab('structure')">
+      <span class="dot" style="background:#60a5fa"></span>Object Structure
+    </button>
+    <div class="sidebar-sub-links open" id="sub-structure">
+      <a href="#" onclick="switchTabAndScroll('structure','s1',event)">1. Introduction</a>
+      <a href="#" onclick="switchTabAndScroll('structure','s2',event)">2. What is an Object?</a>
+      <a href="#" onclick="switchTabAndScroll('structure','s3',event)">3. Anatomy</a>
+      <a href="#" onclick="switchTabAndScroll('structure','s4',event)">4. Object Settings</a>
+      <a href="#" onclick="switchTabAndScroll('structure','s5',event)">5. Object Types</a>
+    </div>
+
+    <button class="sidebar-tab-link" data-tab="fields" onclick="switchTab('fields')">
+      <span class="dot" style="background:#2dd4bf"></span>Fields &amp; Types
+    </button>
+    <div class="sidebar-sub-links" id="sub-fields">
+      <a href="#" onclick="switchTabAndScroll('fields','s6',event)">6. All Field Types</a>
+    </div>
+
+    <button class="sidebar-tab-link" data-tab="relationships" onclick="switchTab('relationships')">
+      <span class="dot" style="background:#4ade80"></span>Relationships
+    </button>
+    <div class="sidebar-sub-links" id="sub-relationships">
+      <a href="#" onclick="switchTabAndScroll('relationships','s7',event)">7. Object Relationships</a>
+    </div>
+
+    <button class="sidebar-tab-link" data-tab="layouts" onclick="switchTab('layouts')">
+      <span class="dot" style="background:#fb923c"></span>Layouts &amp; Rules
+    </button>
+    <div class="sidebar-sub-links" id="sub-layouts">
+      <a href="#" onclick="switchTabAndScroll('layouts','s8',event)">8. Layouts</a>
+      <a href="#" onclick="switchTabAndScroll('layouts','s9',event)">9. Validation Rules</a>
+      <a href="#" onclick="switchTabAndScroll('layouts','s10',event)">10. Object Actions</a>
+      <a href="#" onclick="switchTabAndScroll('layouts','s11',event)">11. Lifecycle &amp; States</a>
+      <a href="#" onclick="switchTabAndScroll('layouts','s12',event)">12. Best Practices</a>
+    </div>
+
+    <button class="sidebar-tab-link" data-tab="interview" onclick="switchTab('interview')">
+      <span class="dot" style="background:#c084fc"></span>100+ Interview Qs
+    </button>
+    <div class="sidebar-sub-links" id="sub-interview">
+      <a href="#" onclick="switchTabAndScroll('interview','s13',event)">13. Glossary</a>
+      <a href="#" onclick="switchTabAndScroll('interview','s14',event)">14. QnA &amp; Scenarios</a>
+      <a href="#" onclick="switchTabAndScroll('interview','s15',event)">15. Interview Questions</a>
+    </div>
+  </div>
+</nav>
+
+<!-- SCROLL TO TOP -->
+<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- MAIN -->
+<div id="main">
+
+  <!-- HERO -->
+  <div id="hero">
+    <div class="eyebrow">Veeva Vault · Life Sciences Platform</div>
+    <h1>Vault Objects<br><span>Complete Learning Guide</span></h1>
+    <p class="tagline">From fundamentals to advanced configuration — covering every aspect of Vault Objects with real-world examples, scenarios, and 100+ interview questions.</p>
+    <div class="tab-buttons">
+      <button class="tab-btn btn-blue active" onclick="switchTab('structure')" id="hero-btn-structure">Object Structure</button>
+      <button class="tab-btn btn-teal" onclick="switchTab('fields')" id="hero-btn-fields">Fields &amp; Types</button>
+      <button class="tab-btn btn-green" onclick="switchTab('relationships')" id="hero-btn-relationships">Relationships</button>
+      <button class="tab-btn btn-orange" onclick="switchTab('layouts')" id="hero-btn-layouts">Layouts &amp; Rules</button>
+      <button class="tab-btn btn-purple" onclick="switchTab('interview')" id="hero-btn-interview">100+ Interview Qs</button>
+    </div>
+  </div>
+
+  <div id="content">
+
+    <!-- ===== TAB: OBJECT STRUCTURE ===== -->
+    <div class="tab-panel active" id="panel-structure">
+      <div class="tab-indicator tab-ind-blue">
+        📐 Object Structure — Introduction, Anatomy, Settings &amp; Object Types
+      </div>
+        <!-- ===== SECTION 1 ===== -->
+  <div class="section" id="s1">
+    <div class="section-banner">SECTION 1: INTRODUCTION TO VEEVA VAULT</div>
+    <h1 class="section-title">1. Introduction to Veeva Vault</h1>
+    <p>Veeva Vault is a cloud-based content management platform built specifically for the life sciences industry. It is developed by Veeva Systems and is widely used by pharmaceutical, biotechnology, and medical device companies to manage documents, data, and business processes.</p>
+
+    <h2 class="sub-title">1.1 What is Veeva Vault?</h2>
+    <p><strong>Veeva Vault</strong> is an enterprise content management (ECM) and data management platform designed for regulated industries. Unlike general-purpose document management systems, Vault combines document management with structured data management through a concept called <strong>Vault Objects</strong>.</p>
+    <div class="info-box box-blue">
+      <div class="box-title">Key Characteristics of Veeva Vault</div>
+      <ul>
+        <li><strong>Cloud-native:</strong> Fully SaaS, hosted and maintained by Veeva Systems</li>
+        <li><strong>Configured, not customized:</strong> Admins configure via UI — no backend code needed</li>
+        <li><strong>Regulation-ready:</strong> Built-in audit trails, electronic signatures (21 CFR Part 11), and version control</li>
+        <li><strong>Multi-application:</strong> One platform serving Clinical, Regulatory, Quality, Safety, and Commercial</li>
+        <li><strong>Object-driven:</strong> Structured data stored in Objects (like database tables with a UI)</li>
+      </ul>
+    </div>
+
+    <h2 class="sub-title">1.2 Vault Application Areas</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Vault Application</th><th>Use Case</th></tr></thead>
+        <tbody>
+          <tr><td>Vault RIM (Regulatory)</td><td>Regulatory submissions, dossiers, agency communication</td></tr>
+          <tr><td>Vault QualityDocs</td><td>SOPs, policies, controlled documents</td></tr>
+          <tr><td>Vault QMS</td><td>CAPAs, deviations, change controls, audits</td></tr>
+          <tr><td>Vault Clinical</td><td>TMF (Trial Master Files), protocols, study documents</td></tr>
+          <tr><td>Vault Safety</td><td>Adverse event reporting, pharmacovigilance</td></tr>
+          <tr><td>Vault PromoMats</td><td>Promotional materials review and approval</td></tr>
+          <tr><td>Vault MedComms</td><td>Medical information content management</td></tr>
+          <tr><td>Vault Training</td><td>Training assignments, completions, curricula</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="sub-title">1.3 Two Pillars of Veeva Vault</h2>
+    <p><strong>Documents:</strong> Vault manages documents with versioning, lifecycle, workflows, and electronic signatures.</p>
+    <p><strong>Objects:</strong> Vault Objects are structured data records — think of them as database tables with rich UI, relationships, lifecycles, and business logic built-in. This guide focuses entirely on Vault Objects.</p>
+  </div>
+
+
+        <!-- ===== SECTION 2 ===== -->
+  <div class="section" id="s2">
+    <div class="section-banner">SECTION 2: WHAT IS A VAULT OBJECT?</div>
+    <h1 class="section-title">2. What is a Vault Object?</h1>
+    <p>A Vault Object is a structured data entity in Veeva Vault that stores and manages business records. Think of it like a table in a relational database, but with a powerful user interface, relationship capabilities, lifecycle management, security controls, and business logic built in.</p>
+
+    <div class="info-box box-green">
+      <div class="box-title">Simple Analogy</div>
+      <p>Imagine a spreadsheet where each row is a record (e.g., a Product, a Study, or a Complaint). Each column is a field. But unlike a spreadsheet, Vault Objects come with workflows, approvals, access controls, lifecycle states, audit trails, and can be linked to documents and other objects. That is a Vault Object.</p>
+    </div>
+
+    <h2 class="sub-title">2.1 Real-World Examples of Vault Objects</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Object Name</th><th>What it Represents / Use Case</th></tr></thead>
+        <tbody>
+          <tr><td><code>product__v</code></td><td>A pharmaceutical product (drug) — stores name, formulation, status, etc.</td></tr>
+          <tr><td><code>study__v</code></td><td>A clinical trial — protocol number, phase, therapeutic area, sponsor</td></tr>
+          <tr><td><code>capa__v</code></td><td>Corrective and Preventive Action record in quality management</td></tr>
+          <tr><td><code>site__v</code></td><td>A clinical trial site — investigator, country, IRB approval date</td></tr>
+          <tr><td><code>submission__v</code></td><td>A regulatory dossier submission to a health authority (FDA, EMA)</td></tr>
+          <tr><td>Complaint</td><td>A customer or field complaint about a medical device or drug</td></tr>
+          <tr><td>Change Control</td><td>A controlled change request through a quality process</td></tr>
+          <tr><td><code>audit__v</code></td><td>An internal or external audit record</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="sub-title">2.2 Objects vs Documents</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Feature</th><th>Vault Object</th><th>Vault Document</th></tr></thead>
+        <tbody>
+          <tr><td>Nature</td><td>Structured data (records)</td><td>Unstructured content (files)</td></tr>
+          <tr><td>Storage</td><td>Fields and values</td><td>File + metadata fields</td></tr>
+          <tr><td>Versioning</td><td>Not inherently versioned</td><td>Full version history (0.1, 1.0, etc.)</td></tr>
+          <tr><td>Lifecycle</td><td>Optional lifecycle on object</td><td>Document lifecycle (Draft, Approved)</td></tr>
+          <tr><td>Relationships</td><td>Object-to-Object, Object-to-Document</td><td>Document-to-Object (via lookups)</td></tr>
+          <tr><td>Examples</td><td>Product, Study, CAPA, Site</td><td>SOP, Protocol, CSR, Label</td></tr>
+          <tr><td>Rendered in</td><td>Object Record page (grid + detail)</td><td>Document viewer with PDF rendition</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+        <!-- ===== SECTION 3 ===== -->
+  <div class="section" id="s3">
+    <div class="section-banner">SECTION 3: ANATOMY OF VAULT OBJECTS</div>
+    <h1 class="section-title">3. Anatomy of Vault Objects</h1>
+    <p>Every Vault Object has multiple structural components that define how it looks, behaves, and relates to other objects. Understanding each component is critical for any Vault Admin or developer.</p>
+
+    <h2 class="sub-title">3.1 Core Components of a Vault Object</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Component</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>Object Definition</td><td>The metadata blueprint — name, label, prefix, type, and settings</td></tr>
+          <tr><td>Fields</td><td>Individual data attributes (like columns in a table) — Text, Date, Lookup, etc.</td></tr>
+          <tr><td>Object Type</td><td>Categorizes records within the same object (like a record type in Salesforce)</td></tr>
+          <tr><td>Lifecycle</td><td>Defines the workflow states a record can move through (Active, Inactive, etc.)</td></tr>
+          <tr><td>Relationships</td><td>Defines how this object connects to other objects or documents</td></tr>
+          <tr><td>Layout</td><td>Controls the visual arrangement of fields on the record detail page</td></tr>
+          <tr><td>Validation Rules</td><td>Business rules enforced when creating/editing records</td></tr>
+          <tr><td>Actions</td><td>Buttons or automated triggers that perform operations on records</td></tr>
+          <tr><td>Security</td><td>Object-level and field-level permissions controlling who can see/edit</td></tr>
+          <tr><td>Audit Trail</td><td>Automatic log of every create, update, delete, and state change</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="sub-title">3.2 Object Naming Convention</h2>
+    <div class="info-box box-gray">
+      <div class="box-title">API Name Format</div>
+      <p><strong>Standard Vault Objects:</strong> <code>objectname__v</code> (e.g., product__v, study__v, site__v)</p>
+      <p><strong>Custom Objects:</strong> <code>objectname__c</code> (e.g., my_custom_object__c)</p>
+      <br>
+      <p><code>__v</code> = Veeva-managed (standard, shipped with the application)</p>
+      <p><code>__c</code> = Customer-managed (custom, created by the admin)</p>
+      <p>Field API Names follow the same pattern: <code>field_name__v</code> or <code>field_name__c</code></p>
+    </div>
+
+    <h2 class="sub-title">3.3 Object Record Structure</h2>
+    <p>Each record in a Vault Object contains:</p>
+    <ul class="content-list">
+      <li><strong>System Fields</strong> (auto-populated by Vault): id, name__v, created_by__v, created_date__v, modified_by__v, modified_date__v, status__v</li>
+      <li><strong>Standard Fields:</strong> Fields shipped with the standard object (cannot be deleted, names end in __v)</li>
+      <li><strong>Custom Fields:</strong> Fields added by Vault admins (names end in __c)</li>
+      <li><strong>Object Type Field:</strong> Determines the record type and drives conditional logic</li>
+      <li><strong>State Field</strong> (if lifecycle enabled): Represents the current lifecycle state of the record</li>
+    </ul>
+
+    <h2 class="sub-title">3.4 Object Record Page Anatomy</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Page Element</th><th>What It Contains</th></tr></thead>
+        <tbody>
+          <tr><td>Record Header</td><td>Object icon, record name, status badge, primary action buttons</td></tr>
+          <tr><td>Detail Section</td><td>Core fields arranged in a 2-column layout (configurable in Layout)</td></tr>
+          <tr><td>Related Object Sections</td><td>Child object records related to this parent record</td></tr>
+          <tr><td>Related Document Sections</td><td>Documents linked to this record</td></tr>
+          <tr><td>Audit Trail Tab</td><td>Full history of changes, state transitions, and access</td></tr>
+          <tr><td>Actions Menu</td><td>Available actions (Change State, Edit, Delete, custom actions)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+        <!-- ===== SECTION 4 ===== -->
+  <div class="section" id="s4">
+    <div class="section-banner">SECTION 4: OBJECT SETTINGS — DETAILED EXPLANATION</div>
+    <h1 class="section-title">4. Object Settings — Detailed Explanation and Meaning</h1>
+    <p>When creating or editing a Vault Object, administrators configure a set of Object Settings. Each setting controls a fundamental behavior of the object. Understanding each setting is essential for proper object design.</p>
+
+    <h2 class="sub-title">4.1 Basic Object Settings</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Setting</th><th>Description &amp; Use Case</th></tr></thead>
+        <tbody>
+          <tr><td>Label</td><td>The human-readable display name of the object. Shown in the UI. Example: "Clinical Study" instead of "study__c"</td></tr>
+          <tr><td>Plural Label</td><td>The plural form used when listing multiple records. Example: "Clinical Studies"</td></tr>
+          <tr><td>API Name</td><td>The programmatic identifier used in code, formulas, and integrations. Auto-generated but editable. Ends in __v or __c</td></tr>
+          <tr><td>Object Type Label</td><td>Label used for the "Type" field that categorizes records. Example: "Study Phase", "Product Category"</td></tr>
+          <tr><td>Object Type Plural Label</td><td>Plural form of the Object Type label</td></tr>
+          <tr><td>Prefix</td><td>A 3-4 character code used to generate unique record numbers. Example: "PRD" for Product. Auto-populated in the name field</td></tr>
+          <tr><td>Status Field</td><td>Indicates if the object record is Active or Inactive. Drives visibility in lookup filters</td></tr>
+          <tr><td>Description</td><td>Internal notes about the purpose of the object — visible only to admins in configuration</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="sub-title">4.2 Object Behavior Settings</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Setting</th><th>Explanation &amp; Use Case</th></tr></thead>
+        <tbody>
+          <tr><td>Enable Object Types</td><td>Allows records to be categorized by type. When enabled, a hidden "Type" picklist field is created. Use when one object serves multiple distinct record categories</td></tr>
+          <tr><td>Enable Lifecycle</td><td>Attaches a lifecycle to the object, enabling state machines with states, transitions, and entry/exit actions</td></tr>
+          <tr><td>Enable Relationships</td><td>Allows the object to participate in lookup, parent-child (master-detail), and many-to-many relationships. Almost always enabled</td></tr>
+          <tr><td>Enable Following</td><td>Users can "follow" records to receive notifications about changes</td></tr>
+          <tr><td>Enable Sharing</td><td>Controls record-level sharing rules for specific records beyond normal role-based access</td></tr>
+          <tr><td>Enable Tags</td><td>Allows freeform tagging of records for categorization and quick search</td></tr>
+          <tr><td>Enable Activities</td><td>Enables task tracking and activity logging on records</td></tr>
+          <tr><td>Enable Document Relationships</td><td>Allows documents to be associated directly with this object's records</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="sub-title">4.3 Object Display Settings</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Setting</th><th>Explanation</th></tr></thead>
+        <tbody>
+          <tr><td>Default Tab</td><td>The starting tab when a user opens an object record. Typically the Detail tab</td></tr>
+          <tr><td>Order by Field</td><td>The default sort order for the object record list view</td></tr>
+          <tr><td>Name Field Label</td><td>Label shown for the primary identifier field (name__v). Can be renamed to something more meaningful</td></tr>
+          <tr><td>Name Field Auto-populate</td><td>When enabled, Vault auto-generates the record name using the object prefix and a sequential number (e.g., PRD-0001)</td></tr>
+          <tr><td>Allow Custom Name</td><td>If Auto-populate is off, users manually enter the record name</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="sub-title">4.4 Object Security Settings</h2>
+    <div class="info-box box-red">
+      <div class="box-title">Object Security Model</div>
+      <p>Vault uses a layered security model for objects:</p>
+      <ol style="padding-left:18px;margin-top:8px;">
+        <li>Application Role → defines what the user can do (Read, Edit, Create, Delete)</li>
+        <li>Object Permissions → assigned to roles for each specific object</li>
+        <li>Field Permissions → per-field control (Read, Edit, or Hidden) per role</li>
+        <li>Object Type Permissions → restrict access to specific record types</li>
+        <li>Record-level Sharing → fine-grained access to individual records</li>
+      </ol>
+    </div>
+  </div>
+
+
+        <!-- ===== SECTION 5 ===== -->
+  <div class="section" id="s5">
+    <div class="section-banner">SECTION 5: OBJECT TYPES AND THEIR SETTINGS</div>
+    <h1 class="section-title">5. Object Types and Their Settings</h1>
+    <p>Object Types allow a single Vault Object to represent multiple distinct categories of records, each with different fields, layouts, validation rules, and behaviors. This is one of the most powerful features for building flexible data models.</p>
+
+    <h2 class="sub-title">5.1 What is an Object Type?</h2>
+    <p><strong>Object Type</strong> is a classification mechanism within a single object. When Object Types are enabled, every record must belong to exactly one Object Type. The Object Type determines:</p>
+    <ul class="content-list">
+      <li>Which fields are visible on that record</li>
+      <li>Which layout is applied to the record</li>
+      <li>Which lifecycle (if any) governs the record</li>
+      <li>Which validation rules apply</li>
+      <li>What actions are available</li>
+    </ul>
+
+    <div class="info-box box-purple">
+      <div class="box-title">Real-World Example: Document Request Object</div>
+      <p><strong>Object Type 1: Label Request</strong> → Fields: Label Type, Target Market, Submission Date</p>
+      <p><strong>Object Type 2: Protocol Amendment</strong> → Fields: Amendment Number, Study ID, Reason for Change</p>
+      <p><strong>Object Type 3: CSR Request</strong> → Fields: Study Report Type, Data Cut Date, Author</p>
+      <br>
+      <p>All three types live in ONE object but behave differently based on Type.</p>
+    </div>
+
+    <h2 class="sub-title">5.2 Standard Object Type Settings</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Setting</th><th>Description and Use Case</th></tr></thead>
+        <tbody>
+          <tr><td>Label</td><td>The display name for this object type. Shown in the Type picklist when creating a record</td></tr>
+          <tr><td>API Name</td><td>The programmatic name of the type. Example: adverse_event__c, product_complaint__c</td></tr>
+          <tr><td>Active</td><td>Whether this type is available for selection when creating new records. Deactivating hides the type without deleting existing records</td></tr>
+          <tr><td>Default Object Type</td><td>The type pre-selected when creating a new record. Only one type can be the default</td></tr>
+          <tr><td>Available Lifecycles</td><td>Specifies which lifecycle(s) can be applied to records of this type</td></tr>
+          <tr><td>Default Lifecycle</td><td>The lifecycle automatically applied when a new record of this type is created</td></tr>
+          <tr><td>Object Type Group</td><td>Groups related object types for easier management in the UI. Purely organizational</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="sub-title">5.3 Object Type Field Configuration</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Field Behavior</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>Required</td><td>Field must have a value for records of this type. Can be required for one type but optional for another</td></tr>
+          <tr><td>Optional</td><td>Field is visible but not required for this type</td></tr>
+          <tr><td>Hidden (Not Applicable)</td><td>Field is completely hidden for records of this type — reduces UI clutter</td></tr>
+          <tr><td>Read Only</td><td>Field is visible but cannot be edited for this type — useful for auto-populated or system-managed values</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="sub-title">5.4 Object Type Use Cases</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Object</th><th>Object Types &amp; Rationale</th></tr></thead>
+        <tbody>
+          <tr><td>CAPA</td><td>Types: Major CAPA, Minor CAPA, Preventive Action — each has different required fields and distinct approval workflows</td></tr>
+          <tr><td>Submission</td><td>Types: Initial Submission, Variation, Renewal — different regulatory requirements and timelines per type</td></tr>
+          <tr><td>Change Control</td><td>Types: Document Change, Process Change, Equipment Change — different impact assessments and approval chains</td></tr>
+          <tr><td>Product</td><td>Types: Drug Product, Medical Device, Combination Product — different regulatory frameworks and field requirements</td></tr>
+          <tr><td>Site</td><td>Types: Investigator Site, CRO Site, Sponsor Site — different fields for contact persons and certifications</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="scenario-block">
+      <div class="scenario-q">A company has a single "Request" object but needs three distinct workflows: one for Label Requests, one for Protocol Amendments, and one for Regulatory Submissions. How do you handle this?</div>
+      <div class="scenario-a">Enable Object Types on the Request object. Create three Object Types: Label Request, Protocol Amendment, and Regulatory Submission. Assign a different lifecycle to each type. Create type-specific layouts showing only relevant fields for each. Create type-specific validation rules. Users select the type on creation, and the system applies the correct fields, layout, and lifecycle automatically.</div>
+    </div>
+  </div>
+
+
+    </div>
+
+    <!-- ===== TAB: FIELDS & TYPES ===== -->
+    <div class="tab-panel" id="panel-fields">
+      <div class="tab-indicator tab-ind-teal">
+        🗂️ Fields &amp; Types — Every field type explained with examples and use cases
+      </div>
+        <!-- ===== SECTION 6 ===== -->
+  <div class="section" id="s6">
+    <div class="section-banner">SECTION 6: OBJECT FIELDS — EVERY TYPE EXPLAINED</div>
+    <h1 class="section-title">6. Object Fields — Every Field Type in Detail</h1>
+    <p>Object Fields are the data-carrying components of a Vault Object. Each field has a specific type that determines what kind of data it stores, how it is validated, how it renders in the UI, and how it can be used in formulas, filtering, and reporting.</p>
+
+    <h2 class="sub-title">6.1 Field Settings Common to All Types</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Common Setting</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>Label</td><td>The UI label shown to users. Example: "Study Start Date"</td></tr>
+          <tr><td>API Name</td><td>Programmatic name used in code and formulas. Example: study_start_date__c</td></tr>
+          <tr><td>Required</td><td>If checked, the field must have a value before saving the record</td></tr>
+          <tr><td>Unique</td><td>Enforces uniqueness across all records in the object</td></tr>
+          <tr><td>Help Text</td><td>Tooltip shown to users explaining the field's purpose or expected input</td></tr>
+          <tr><td>Default Value</td><td>Pre-populated value when a new record is created</td></tr>
+          <tr><td>Hidden</td><td>Admin-only option to hide the field from all layouts without deleting it</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="sub-title">6.2 – 6.18 Field Types</h2>
+
+    <div class="field-card">
+      <div class="field-name">Text Field</div>
+      <div class="field-meta"><span class="field-tag tag-blue">Max 1,500 chars</span><span class="field-tag tag-green">Indexed</span></div>
+      <div class="field-desc" style="margin-top:10px;">
+        <p>Stores a single line of free-form text. Key Settings: Max Length (1–1,500 chars), Allow Markup (enables limited HTML).</p>
+        <p><strong>Use Cases:</strong> Product Name, Study Title, Investigator Name, Site Address, free-text identifiers, short descriptions.</p>
+        <p><strong>Example:</strong> Field "Product Name" on Product object — stores "Aspirin 100mg Tablet"</p>
+      </div>
+    </div>
+
+    <div class="field-card" style="border-top-color:var(--teal);">
+      <div class="field-name">Long Text Field</div>
+      <div class="field-meta"><span class="field-tag tag-blue">Max 32,000 chars</span><span class="field-tag tag-orange">Multi-line</span></div>
+      <div class="field-desc" style="margin-top:10px;">
+        <p>Stores multi-line free-form text. Renders as a text area in the UI.</p>
+        <p><strong>Use Cases:</strong> Deviation Description, CAPA Root Cause Analysis, Audit Findings — any field needing a paragraph or more of text.</p>
+        <p><strong>Example:</strong> "Root Cause" field on CAPA object — detailed narrative of why the issue occurred.</p>
+      </div>
+    </div>
+
+    <div class="field-card" style="border-top-color:var(--green);">
+      <div class="field-name">Picklist Field</div>
+      <div class="field-meta"><span class="field-tag tag-green">Single-select</span><span class="field-tag tag-purple">Multi-select</span></div>
+      <div class="field-desc" style="margin-top:10px;">
+        <p>A dropdown field with a predefined set of selectable values. Types: Single-select (exactly one value) or Multi-select (one or more values, stored comma-separated).</p>
+        <p><strong>Key Settings:</strong> Values defined in Admin > Picklists; Shared or object-specific; Dependent picklists supported.</p>
+        <p><strong>Use Cases:</strong> Status (Open, In Progress, Closed), Country, Therapeutic Area, Phase (I, II, III).</p>
+        <p><strong>Example:</strong> "Phase" on Study object — values: Phase I, Phase II, Phase III, Phase IV.</p>
+      </div>
+    </div>
+
+    <div class="field-card" style="border-top-color:var(--orange);">
+      <div class="field-name">Number Field</div>
+      <div class="field-meta"><span class="field-tag tag-orange">Integer or Decimal</span></div>
+      <div class="field-desc" style="margin-top:10px;">
+        <p>Stores numeric values. Key Settings: Decimal Places (0 for integers, 1-8 for decimals), Min/Max validation, Display Format (plain, currency, percentage).</p>
+        <p><strong>Use Cases:</strong> Number of Patients, Study Duration (days), Product Quantity, Version Number.</p>
+        <p><strong>Example:</strong> "Planned Enrollment" on Study — stores 250 (integer). "API Concentration" — stores 99.5 (decimal).</p>
+      </div>
+    </div>
+
+    <div class="field-card" style="border-top-color:var(--purple);">
+      <div class="field-name">Currency Field</div>
+      <div class="field-meta"><span class="field-tag tag-purple">Monetary values</span><span class="field-tag tag-blue">2 decimal places</span></div>
+      <div class="field-desc" style="margin-top:10px;">
+        <p>A specialized Number field for monetary values. Displays with currency formatting based on Vault locale.</p>
+        <p><strong>Use Cases:</strong> Contract Value, Budget Amount, Invoice Total, Grant Amount.</p>
+        <p><strong>Example:</strong> "Contracted Amount" on Site Agreement — stores $125,000.00.</p>
+      </div>
+    </div>
+
+    <div class="field-card" style="border-top-color:var(--blue);">
+      <div class="field-name">Date Field</div>
+      <div class="field-meta"><span class="field-tag tag-blue">No time component</span><span class="field-tag tag-green">Date picker UI</span></div>
+      <div class="field-desc" style="margin-top:10px;">
+        <p>Stores a calendar date only (no time). Format: YYYY-MM-DD internally, displayed per locale (e.g., MM/DD/YYYY in US).</p>
+        <p><strong>Use Cases:</strong> Protocol Approval Date, Site Initiation Date, Submission Date, Expiry Date.</p>
+        <p><strong>Example:</strong> "First Patient In (FPI)" on Study Site — date when first patient was enrolled.</p>
+      </div>
+    </div>
+
+    <div class="field-card" style="border-top-color:var(--red);">
+      <div class="field-name">DateTime Field</div>
+      <div class="field-meta"><span class="field-tag tag-orange">UTC stored</span><span class="field-tag tag-blue">21 CFR Part 11</span></div>
+      <div class="field-desc" style="margin-top:10px;">
+        <p>Stores both date and time. Stored in UTC, displayed in user's timezone. Format: YYYY-MM-DD HH:MM:SS.</p>
+        <p><strong>Use Cases:</strong> Adverse Event Report Date/Time, Approval Timestamp, Audit Execution Time — any event where exact time matters for compliance.</p>
+        <p><strong>IMPORTANT:</strong> For 21 CFR Part 11 compliance, always use DateTime (not Date) for approval timestamps.</p>
+        <p><strong>Example:</strong> "Date/Time of Adverse Event" — stores 2024-03-15 14:32:00.</p>
+      </div>
+    </div>
+
+    <div class="field-card" style="border-top-color:var(--green);">
+      <div class="field-name">Checkbox (Boolean) Field</div>
+      <div class="field-meta"><span class="field-tag tag-green">true / false</span><span class="field-tag tag-orange">Never null</span></div>
+      <div class="field-desc" style="margin-top:10px;">
+        <p>A binary true/false field. Renders as a checkbox. Default value is typically false (unchecked). Cannot be null — always has a value.</p>
+        <p><strong>Use Cases:</strong> "Is GCP Compliant?", "Training Complete?", "Approved for Marketing?", "Locked?"</p>
+        <p><strong>NOTE:</strong> Use Picklist for nullable yes/no (where null means "not yet answered").</p>
+        <p><strong>Example:</strong> "Is Expedited Report?" — if checked, triggers a 15-day reporting requirement.</p>
+      </div>
+    </div>
+
+    <div class="field-card" style="border-top-color:var(--blue);">
+      <div class="field-name">Lookup Field</div>
+      <div class="field-meta"><span class="field-tag tag-blue">Soft FK</span><span class="field-tag tag-green">Nullable</span><span class="field-tag tag-orange">No cascade delete</span></div>
+      <div class="field-desc" style="margin-top:10px;">
+        <p>Creates a reference (link) from this record to another record. Renders as a searchable dropdown/type-ahead. Stores the ID of the referenced record. DOES NOT cascade delete.</p>
+        <p><strong>Key Settings:</strong> Referenced Object, Filter Criteria (limit selectable records), Display Field.</p>
+        <p><strong>Use Cases:</strong> Study → Product, CAPA → Site, Document → Country.</p>
+        <p><strong>Example:</strong> "Related Product" lookup on Study — links to a record in the Product__v object.</p>
+      </div>
+    </div>
+
+    <div class="field-card" style="border-top-color:var(--red);">
+      <div class="field-name">Parent (Master-Detail) Lookup Field</div>
+      <div class="field-meta"><span class="field-tag tag-orange">Hard FK</span><span class="field-tag tag-blue">Required</span><span class="field-tag tag-purple">Cascade delete</span></div>
+      <div class="field-desc" style="margin-top:10px;">
+        <p>A stronger Lookup creating a parent-child (master-detail) relationship. The child CANNOT exist without the parent. Cascade delete available. Enables Rollup Summary fields on parent.</p>
+        <p><strong>Use Cases:</strong> Site Visit → Site, Product Specification → Product, Study Milestone → Study.</p>
+        <p><strong>Example:</strong> "Parent Study" on Study Amendment — an amendment cannot exist without a Study.</p>
+      </div>
+    </div>
+
+    <div class="field-card" style="border-top-color:var(--purple);">
+      <div class="field-name">Object Reference Field</div>
+      <div class="field-meta"><span class="field-tag tag-purple">Multi-type lookup</span></div>
+      <div class="field-desc" style="margin-top:10px;">
+        <p>A polymorphic lookup that can reference records from multiple different objects. User selects the object type first, then the record. Stored as Object API Name + Record ID.</p>
+        <p><strong>Use Cases:</strong> "Related Entity" field linking to either a Product OR a Study OR a Site. Generic association fields in workflow or task objects.</p>
+        <p><strong>Example:</strong> "Source Record" on a Task object — could link to a CAPA, an Audit, or a Complaint.</p>
+      </div>
+    </div>
+
+    <div class="field-card" style="border-top-color:var(--teal);">
+      <div class="field-name">URL Field</div>
+      <div class="field-meta"><span class="field-tag tag-blue">Max 2,000 chars</span><span class="field-tag tag-green">Clickable link</span></div>
+      <div class="field-desc" style="margin-top:10px;">
+        <p>Stores a web URL (hyperlink). Rendered as a clickable link in the UI.</p>
+        <p><strong>Use Cases:</strong> External regulatory portal links, ClinicalTrials.gov entry, Vendor portal URL.</p>
+        <p><strong>Example:</strong> "ClinicalTrials.gov URL" — stores "https://clinicaltrials.gov/study/NCT12345678"</p>
+      </div>
+    </div>
+
+    <div class="field-card" style="border-top-color:var(--green);">
+      <div class="field-name">Email Field</div>
+      <div class="field-meta"><span class="field-tag tag-green">Format validated</span><span class="field-tag tag-blue">mailto: link</span></div>
+      <div class="field-desc" style="margin-top:10px;">
+        <p>Stores an email address. Renders as a clickable mailto: link. Includes format validation (user@domain.com).</p>
+        <p><strong>Use Cases:</strong> Principal Investigator Email, Quality Contact Email, Sponsor Contact.</p>
+        <p><strong>Example:</strong> "Primary Contact Email" on Site — validates format is user@domain.com.</p>
+      </div>
+    </div>
+
+    <div class="field-card" style="border-top-color:var(--navy);">
+      <div class="field-name">ID Field (System)</div>
+      <div class="field-meta"><span class="field-tag tag-blue">Auto-generated</span><span class="field-tag tag-orange">Read-only</span><span class="field-tag tag-purple">Primary key</span></div>
+      <div class="field-desc" style="margin-top:10px;">
+        <p>The unique internal system identifier for every record. Auto-generated by Vault. Globally unique. API Name: <code>id</code>. Read-only, never editable.</p>
+        <p><strong>Use Cases:</strong> Primary key in API calls: <code>GET /api/v24.0/vobjects/product__v/{id}</code>. Used in relationship lookups and integrations for upsert operations.</p>
+      </div>
+    </div>
+
+    <div class="field-card" style="border-top-color:var(--orange);">
+      <div class="field-name">Formula Field</div>
+      <div class="field-meta"><span class="field-tag tag-orange">Read-only</span><span class="field-tag tag-blue">Calculated</span><span class="field-tag tag-green">Runtime evaluated</span></div>
+      <div class="field-desc" style="margin-top:10px;">
+        <p>A read-only, calculated field whose value is computed dynamically. Always read-only. Evaluated at runtime (not stored). Supports: IF(), AND(), OR(), CONCATENATE(), TODAY(), NOW(), YEAR(), MONTH(), DATEDIF().</p>
+        <p><strong>Use Cases:</strong> "Days Since Opened": TODAY() - created_date__v | "Is Overdue": IF(due_date__c &lt; TODAY() AND status__v != "Closed", true, false)</p>
+        <p><strong>Example:</strong> Days to Due = due_date__c - TODAY() — displayed on CAPA records to show urgency.</p>
+      </div>
+    </div>
+
+    <div class="field-card" style="border-top-color:var(--teal);">
+      <div class="field-name">Auto-number Field</div>
+      <div class="field-meta"><span class="field-tag tag-teal">Sequential</span><span class="field-tag tag-blue">Formatted pattern</span></div>
+      <div class="field-desc" style="margin-top:10px;">
+        <p>Generates a unique, sequential number for each record automatically. Format: define a pattern like "SITE-{0000}" → SITE-0001, SITE-0002. Configure a starting seed number.</p>
+        <p><strong>Use Cases:</strong> CAPA Number (CAPA-2024-0001), Site Number (SITE-0042), Deviation ID (DEV-001).</p>
+        <p><strong>NOTE:</strong> Different from Name field auto-populate — this creates a separate dedicated field.</p>
+      </div>
+    </div>
+
+    <div class="field-card" style="border-top-color:var(--purple);">
+      <div class="field-name">User Field</div>
+      <div class="field-meta"><span class="field-tag tag-purple">User lookup</span><span class="field-tag tag-blue">Dynamic default</span></div>
+      <div class="field-desc" style="margin-top:10px;">
+        <p>A lookup field specifically pointing to the User object. Supports dynamic default "Current User." Common system fields: created_by__v, modified_by__v, owner__v.</p>
+        <p><strong>Use Cases:</strong> "Responsible QA Manager" on CAPA, "Study Lead" on Clinical Study, "Audit Lead" on Audit.</p>
+        <p><strong>Note:</strong> Displays user's full name + profile picture; special filters for active users only.</p>
+      </div>
+    </div>
+
+    <h2 class="sub-title">6.19 Field Type Summary Table</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Field Type</th><th>Data Stored</th><th>Key Use Case</th></tr></thead>
+        <tbody>
+          <tr><td>Text</td><td>Single-line string (max 1500 chars)</td><td>Names, codes, identifiers</td></tr>
+          <tr><td>Long Text</td><td>Multi-line text (up to 32,000 chars)</td><td>Descriptions, narratives, findings</td></tr>
+          <tr><td>Picklist</td><td>Predefined list value(s)</td><td>Status, category, classification</td></tr>
+          <tr><td>Number</td><td>Integer or decimal number</td><td>Counts, measurements, versions</td></tr>
+          <tr><td>Currency</td><td>Monetary decimal number</td><td>Budgets, amounts, fees</td></tr>
+          <tr><td>Date</td><td>Calendar date (no time)</td><td>Milestones, deadlines, approvals</td></tr>
+          <tr><td>DateTime</td><td>Date + time (UTC stored)</td><td>Events, timestamps, audit moments</td></tr>
+          <tr><td>Checkbox</td><td>true / false</td><td>Binary flags, toggles</td></tr>
+          <tr><td>Lookup</td><td>ID of related record</td><td>Soft FK to another object</td></tr>
+          <tr><td>Parent Lookup</td><td>ID of parent record (required)</td><td>Hard FK — cascade delete</td></tr>
+          <tr><td>Object Reference</td><td>Object + ID (multi-type)</td><td>Generic cross-object references</td></tr>
+          <tr><td>URL</td><td>Web address string</td><td>External links</td></tr>
+          <tr><td>Email</td><td>Email address string</td><td>Contact emails with validation</td></tr>
+          <tr><td>Formula</td><td>Computed/calculated value</td><td>Derived fields, logic flags</td></tr>
+          <tr><td>Auto-number</td><td>Sequential formatted number</td><td>Record IDs, tracking numbers</td></tr>
+          <tr><td>ID</td><td>System-generated unique ID</td><td>Primary key (system field)</td></tr>
+          <tr><td>User</td><td>Reference to a Vault user</td><td>Ownership, assignment fields</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+    </div>
+
+    <!-- ===== TAB: RELATIONSHIPS ===== -->
+    <div class="tab-panel" id="panel-relationships">
+      <div class="tab-indicator tab-ind-green">
+        🔗 Relationships — Lookup, Master-Detail, Many-to-Many, Junction Objects &amp; more
+      </div>
+        <!-- ===== SECTION 7 ===== -->
+  <div class="section" id="s7">
+    <div class="section-banner">SECTION 7: OBJECT RELATIONSHIPS — COMPLETE GUIDE</div>
+    <h1 class="section-title">7. Object Relationships in Detail</h1>
+    <p>Object Relationships are the connective tissue of the Vault data model. They define how records in different objects (or the same object) relate to each other, enabling rich data navigation, cascading behaviors, and hierarchical data models.</p>
+
+    <h2 class="sub-title">7.1 Why Relationships Matter</h2>
+    <ul class="content-list">
+      <li>Navigate from a Study to all its Sites, and from a Site to all its Adverse Events</li>
+      <li>A CAPA can reference the specific Deviation that triggered it</li>
+      <li>An Audit record can be linked to all the non-conformances identified during that audit</li>
+      <li>Products can be linked to Submissions, which are linked to Countries</li>
+    </ul>
+
+    <h2 class="sub-title">7.2 Relationship Types — Overview</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Relationship Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>Lookup Relationship</td><td>A soft reference from one object to another. The parent can exist without children. The child can exist without a parent (null allowed)</td></tr>
+          <tr><td>Master-Detail (Parent) Relationship</td><td>A hard parent-child relationship. The child CANNOT exist without the parent. Deleting the parent can cascade-delete children</td></tr>
+          <tr><td>Many-to-Many (Junction Object)</td><td>When two objects need a many-to-many relationship, a third "junction" object is created with two parent lookups</td></tr>
+          <tr><td>Self-Referential (Hierarchical)</td><td>An object that references itself. Used for hierarchical structures like org charts or nested categories</td></tr>
+          <tr><td>Document Relationship</td><td>Links a document in the Vault document library to an object record</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="sub-title">7.3 Lookup Relationship — Deep Dive</h2>
+    <div class="info-box box-blue">
+      <div class="box-title">Lookup Relationship Characteristics</div>
+      <ul>
+        <li>The child record has a Lookup field storing the parent record's ID</li>
+        <li>Deleting the parent does NOT automatically delete child records</li>
+        <li>The lookup field can be left empty (nullable)</li>
+        <li>On the parent record page, related child records are shown in a "Related Objects" section</li>
+        <li>Admin can configure what fields from the parent are displayed on the child record</li>
+        <li>Can be configured to only look up certain records (using filter criteria)</li>
+      </ul>
+    </div>
+
+    <div class="scenario-block">
+      <div class="scenario-q">An Adverse Event record has a Lookup to Study. A user accidentally deletes the Study. What happens to the Adverse Event records?</div>
+      <div class="scenario-a">With a Lookup relationship, the Adverse Event records are NOT deleted. The "Study" lookup field on those records becomes null/blank. The records remain in the system. This is different from Master-Detail where deleting the Study would cascade-delete all child records. If you want to prevent accidental data loss, you can add a Validation Rule that prevents deletion of a Study record if related Adverse Events exist.</div>
+    </div>
+
+    <h2 class="sub-title">7.4 Master-Detail (Parent) Relationship — Deep Dive</h2>
+    <div class="info-box box-green">
+      <div class="box-title">Master-Detail Relationship Characteristics</div>
+      <ul>
+        <li>The parent lookup field is REQUIRED — cannot be null</li>
+        <li>Deleting the parent can be configured to: Cascade Delete (delete all children) or Restrict Delete (prevent deletion if children exist)</li>
+        <li>The child record inherits some security settings from the parent</li>
+        <li>Enables Rollup Summary fields on the parent (counts, sums of child records)</li>
+        <li>The relationship is enforced at the database level</li>
+      </ul>
+    </div>
+
+    <h2 class="sub-title">7.5 Many-to-Many Relationship using Junction Object</h2>
+    <div class="info-box box-purple">
+      <div class="box-title">How Junction Objects Work — Product &lt;-&gt; Country many-to-many</div>
+      <p><strong>Step 1:</strong> Create a Junction Object: "Product Market"</p>
+      <p><strong>Step 2:</strong> Add Parent Lookup to Product on the Junction Object</p>
+      <p><strong>Step 3:</strong> Add Parent Lookup to Country on the Junction Object</p>
+      <br>
+      <p>Now: One Product → many Product Market records (one per Country). One Country → many Product Market records (one per Product). The junction object can hold additional fields: Approval Date, Status.</p>
+    </div>
+
+    <h2 class="sub-title">7.6 Self-Referential (Hierarchical) Relationship</h2>
+    <div class="info-box box-yellow">
+      <div class="box-title">Self-Referential Example — Organization Unit</div>
+      <p><strong>Object:</strong> Organization Unit | <strong>Field:</strong> "Parent Organization" → Lookup to Organization Unit (same object)</p>
+      <div class="code-block">Veeva Systems (top level, no parent)
+  → North America Division (parent: Veeva Systems)
+      → US Commercial Team (parent: North America Division)
+      → US Medical Affairs (parent: North America Division)
+  → Europe Division (parent: Veeva Systems)</div>
+    </div>
+
+    <h2 class="sub-title">7.7 Relationship Configuration Settings</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Setting</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>Relationship Name</td><td>The API name used in queries: <code>studies__vr</code> for a Study lookup</td></tr>
+          <tr><td>Related Object Section Label</td><td>The label shown on the parent record for the child records section. Example: "Related Studies"</td></tr>
+          <tr><td>Order By</td><td>The default sort order for child records in the related section</td></tr>
+          <tr><td>Columns Displayed</td><td>Which fields from the child object are shown in the related section table</td></tr>
+          <tr><td>Create Related</td><td>Allows users to create a new child record directly from the parent record's related section</td></tr>
+          <tr><td>Max Records Displayed</td><td>How many child records are shown before a "View All" link appears. Default is 10</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+    </div>
+
+    <!-- ===== TAB: LAYOUTS & RULES ===== -->
+    <div class="tab-panel" id="panel-layouts">
+      <div class="tab-indicator tab-ind-orange">
+        🎨 Layouts &amp; Rules — Layouts, Validation Rules, Actions, Lifecycle &amp; Best Practices
+      </div>
+        <!-- ===== SECTION 8 ===== -->
+  <div class="section" id="s8">
+    <div class="section-banner">SECTION 8: LAYOUTS — EVERYTHING ABOUT LAYOUTS</div>
+    <h1 class="section-title">8. Layouts — Complete Guide</h1>
+    <p>A Layout in Veeva Vault defines the visual structure of the record detail page. It determines which fields appear, in what order, how they are grouped into sections, and which related objects and documents are shown.</p>
+
+    <h2 class="sub-title">8.1 Layout Components</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Component</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>Layout Header</td><td>The top portion — shows record name, status/state badge, and primary action buttons. Not customizable but influenced by configured actions</td></tr>
+          <tr><td>Field Section</td><td>A named group of fields arranged in a 2-column grid. Multiple sections can exist with labels (e.g., "Basic Information", "Clinical Details")</td></tr>
+          <tr><td>Field</td><td>An individual field placed within a section. Can be set to Read-Only or Required at the layout level</td></tr>
+          <tr><td>Spacer</td><td>An empty placeholder in the 2-column layout to control visual alignment</td></tr>
+          <tr><td>Related Object Section</td><td>A section at the bottom showing child records from a related object</td></tr>
+          <tr><td>Related Document Section</td><td>A section showing documents related to this record</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="sub-title">8.2 Layout Assignment</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Assignment Type</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td>By Object Type</td><td>CAPA "Major CAPA" uses Layout A (more fields, stricter validation). "Minor CAPA" uses Layout B</td></tr>
+          <tr><td>By Profile</td><td>QA Manager profile sees Layout A with all fields. Read-Only profile sees Layout B with fewer fields</td></tr>
+          <tr><td>By Object Type + Profile</td><td>Matrix of Type × Profile — each combination can have its own layout. Maximum flexibility</td></tr>
+          <tr><td>Default Layout</td><td>A fallback layout used when no specific assignment matches the current user's profile and record type</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="sub-title">8.3 Field Behavior on Layout</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Behavior Setting</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>Required (on Layout)</td><td>Overrides the object-level required setting. A field can be optional at the object level but required in a specific layout</td></tr>
+          <tr><td>Read-Only (on Layout)</td><td>Makes the field visible but non-editable in this layout. Useful for system-managed or locked values</td></tr>
+          <tr><td>Hidden (not added)</td><td>Fields not placed on the layout are simply not shown on the record page for users with that layout</td></tr>
+          <tr><td>Full Width</td><td>Some fields (like Long Text) span both columns in the 2-column grid for better readability</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="sub-title">8.4 Related Object Section Configuration</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Setting</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>Section Label</td><td>What users see as the section heading, e.g., "Clinical Sites" or "Adverse Events"</td></tr>
+          <tr><td>Object Relationship</td><td>Which child object's relationship to display here</td></tr>
+          <tr><td>Displayed Columns</td><td>Which fields from the child object are shown as columns in the related section table</td></tr>
+          <tr><td>Default Sort Field</td><td>Which column the related records are sorted by</td></tr>
+          <tr><td>Sort Order</td><td>Ascending or Descending</td></tr>
+          <tr><td>Maximum Records</td><td>Number of records shown before "View All" link. Options: 5, 10, 25</td></tr>
+          <tr><td>Enable Create</td><td>Show or hide the "New [Child Record]" button in the related section</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="sub-title">8.5 Layout Best Practices</h2>
+    <ul class="content-list">
+      <li>Group related fields in clearly labeled sections (Basic Info, Regulatory Details, Timeline, Audit Info)</li>
+      <li>Put the most important fields in the first section — visible without scrolling</li>
+      <li>Keep required fields prominent — ideally in the top section</li>
+      <li>Use Read-Only for auto-populated system fields so users see them but cannot accidentally change them</li>
+      <li>Create separate layouts for different object types — do not try to put all fields on one layout</li>
+      <li>Use spacers to align fields that should be in the right column</li>
+      <li>Limit related object sections to the most relevant ones — too many sections slow the page</li>
+      <li>Test layouts with different user profiles to verify correct rendering</li>
+    </ul>
+  </div>
+
+  <!-- ===== SECTION 9 ===== -->
+
+        <!-- ===== SECTION 9 ===== -->
+  <div class="section" id="s9">
+    <div class="section-banner">SECTION 9: VALIDATION RULES</div>
+    <h1 class="section-title">9. Validation Rules</h1>
+    <p>Validation Rules are business logic expressions that enforce data integrity by preventing users from saving a record when certain conditions are met.</p>
+
+    <div class="info-box box-red">
+      <div class="box-title">Key Concept — Error Condition Logic</div>
+      <p><strong>IMPORTANT:</strong> The expression in a Validation Rule describes the ERROR CONDITION — when the rule returns TRUE, an error is thrown. Think of it as: "Block saving WHEN this condition is true."</p>
+    </div>
+
+    <h2 class="sub-title">9.1 Validation Rule Components</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Component</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>Name</td><td>Internal identifier. Example: "Require_Due_Date_For_Open_CAPAs"</td></tr>
+          <tr><td>Active</td><td>Enable/disable the rule without deleting it. Useful during data migration or testing</td></tr>
+          <tr><td>Error Condition Formula</td><td>The expression that, when TRUE, blocks saving</td></tr>
+          <tr><td>Error Message</td><td>The message shown to the user. Should clearly explain what needs to be corrected</td></tr>
+          <tr><td>Error Location</td><td>Page-level or field-level error. Field-level errors are more user-friendly</td></tr>
+          <tr><td>Object Type</td><td>Optionally restrict the rule to only fire for specific object types</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="sub-title">9.2 Validation Rule Examples</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Rule Name</th><th>Expression (fires when TRUE) &amp; Error Message</th></tr></thead>
+        <tbody>
+          <tr><td>Require_Due_Date</td><td><code>ISBLANK(due_date__c) &amp;&amp; ISPICKVAL(status__v, "Open")</code><br>Message: "Due Date is required for Open records."</td></tr>
+          <tr><td>Date_Order_Check</td><td><code>end_date__c &lt; start_date__c</code><br>Message: "End Date cannot be before Start Date."</td></tr>
+          <tr><td>Budget_Positive</td><td><code>budget_amount__c &lt;= 0</code><br>Message: "Budget Amount must be a positive number."</td></tr>
+          <tr><td>Closed_Needs_Resolution</td><td><code>ISPICKVAL(status__v, "Closed") &amp;&amp; ISBLANK(resolution_summary__c)</code><br>Message: "Resolution Summary is required before closing."</td></tr>
+          <tr><td>Email_Required_For_Active</td><td><code>ISBLANK(contact_email__c) &amp;&amp; ISPICKVAL(status__v, "Active")</code><br>Message: "Contact Email is required for Active records."</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="sub-title">9.3 Validation Rule Formula Functions</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Function</th><th>Description &amp; Example</th></tr></thead>
+        <tbody>
+          <tr><td><code>ISBLANK(field)</code></td><td>Returns TRUE if the field is empty</td></tr>
+          <tr><td><code>ISPICKVAL(field, "value")</code></td><td>Returns TRUE if a picklist field equals a specific value</td></tr>
+          <tr><td><code>AND(cond1, cond2)</code></td><td>Returns TRUE only if ALL conditions are true</td></tr>
+          <tr><td><code>OR(cond1, cond2)</code></td><td>Returns TRUE if ANY condition is true</td></tr>
+          <tr><td><code>NOT(condition)</code></td><td>Reverses a boolean</td></tr>
+          <tr><td><code>LEN(text_field)</code></td><td>Returns the character count</td></tr>
+          <tr><td><code>TODAY()</code></td><td>Returns today's date</td></tr>
+          <tr><td><code>NOW()</code></td><td>Returns current datetime</td></tr>
+          <tr><td><code>CONTAINS(text, "substring")</code></td><td>Returns TRUE if text contains a substring</td></tr>
+          <tr><td><code>REGEX(text, "pattern")</code></td><td>Returns TRUE if text matches a regex pattern</td></tr>
+          <tr><td><code>INCLUDES(multiselect, "value")</code></td><td>For multi-select picklists — checks if a value is selected</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+        <!-- ===== SECTION 10 ===== -->
+  <div class="section" id="s10">
+    <div class="section-banner">SECTION 10: OBJECT ACTIONS</div>
+    <h1 class="section-title">10. Object Actions</h1>
+    <p>Object Actions are operations that can be performed on Vault Object records. They range from simple navigation actions to complex automated processes triggered by user clicks or system events.</p>
+
+    <h2 class="sub-title">10.1 Types of Object Actions</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Action Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>Standard Actions</td><td>Built-in Vault actions: Create, Edit, Delete, Clone, Export. Available on all objects automatically</td></tr>
+          <tr><td>Lifecycle State Actions</td><td>Actions associated with lifecycle state transitions (Change State). Examples: Submit for Review, Approve, Reject, Cancel</td></tr>
+          <tr><td>User Actions</td><td>Custom actions users click manually. Can trigger a workflow, entry action, or API call</td></tr>
+          <tr><td>Entry Actions</td><td>Automated actions triggered automatically when a record enters a specific lifecycle state</td></tr>
+          <tr><td>Event Actions</td><td>Triggered by specific events on a record (field change, relationship change, date-based)</td></tr>
+          <tr><td>Workflow Actions</td><td>Launch a document or object workflow when triggered</td></tr>
+          <tr><td>Send Email Actions</td><td>Automatically send a notification email when triggered</td></tr>
+          <tr><td>Integration Actions</td><td>Trigger external system integrations (e.g., send data to Veeva CRM)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="sub-title">10.2 Lifecycle Action Types</h2>
+    <div class="info-box box-blue">
+      <div class="box-title">Lifecycle Action Types Summary</div>
+      <ol style="padding-left:18px;">
+        <li><strong>Change State:</strong> The core action — moves a record from one state to another (e.g., Open → In Review)</li>
+        <li><strong>Entry Action:</strong> Fires AUTOMATICALLY when a record enters a state. Set field values, send emails, start workflows, call integrations</li>
+        <li><strong>Exit Action:</strong> Fires when a record LEAVES a state</li>
+        <li><strong>User Action:</strong> A button on the record users click to trigger something WITHOUT a state change (e.g., "Generate Report", "Send Reminder")</li>
+      </ol>
+    </div>
+
+    <h2 class="sub-title">10.3 Action Configuration Settings</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Setting</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>Name</td><td>Internal name of the action. Example: submit_for_review__c</td></tr>
+          <tr><td>Label</td><td>The button label shown to users. Example: "Submit for Review"</td></tr>
+          <tr><td>Active</td><td>Enable or disable the action without deleting it</td></tr>
+          <tr><td>Roles Allowed</td><td>Which security roles can perform this action. Example: Only Quality Managers can "Approve"</td></tr>
+          <tr><td>Object Types Allowed</td><td>Restrict the action to specific object types</td></tr>
+          <tr><td>Confirmation Required</td><td>Prompt the user to confirm before executing. Good for irreversible actions</td></tr>
+          <tr><td>Confirmation Message</td><td>The text of the confirmation dialog</td></tr>
+          <tr><td>Entry Criteria</td><td>Formula conditions that must be met for the action to be available</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="sub-title">10.4 Entry Action — Set Field Value Examples</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>State Entered</th><th>Set Field Value Action Triggered</th></tr></thead>
+        <tbody>
+          <tr><td>→ Approved state</td><td>Set approval_date__c = TODAY(), Set approved_by__v = CurrentUser()</td></tr>
+          <tr><td>→ Closed state</td><td>Set closed_date__c = TODAY(), Set status__v = "Closed"</td></tr>
+          <tr><td>→ In Review state</td><td>Set review_start_date__c = NOW()</td></tr>
+          <tr><td>→ Cancelled state</td><td>Set cancelled_reason__c to prompt user input, Set cancelled_date__c = TODAY()</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+        <!-- ===== SECTION 11 ===== -->
+  <div class="section" id="s11">
+    <div class="section-banner">SECTION 11: LIFECYCLE AND OBJECT STATES</div>
+    <h1 class="section-title">11. Lifecycle and Object States</h1>
+    <p>A Lifecycle in Veeva Vault is a state machine attached to an object or document that governs the stages it moves through during its business process.</p>
+
+    <h2 class="sub-title">11.1 Lifecycle Components</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Component</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>State</td><td>A named stage in the process: "Draft", "Under Review", "Approved", "Closed"</td></tr>
+          <tr><td>State Type</td><td>Classification: Initial (starting), Steady (mid-process), Terminal (end state), Cancelled</td></tr>
+          <tr><td>Transition</td><td>A defined path between two states. Example: "Submit for Review" from Draft to Under Review</td></tr>
+          <tr><td>Entry Action</td><td>Automated action triggered when entering a state</td></tr>
+          <tr><td>Exit Action</td><td>Automated action triggered when leaving a state</td></tr>
+          <tr><td>User Action</td><td>Manual action available while in a specific state</td></tr>
+          <tr><td>Entry Criteria</td><td>Conditions that must be met to enter a specific state (gating logic)</td></tr>
+          <tr><td>Security</td><td>Which roles can perform which transitions</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="sub-title">11.2 Typical CAPA Lifecycle Example</h2>
+    <div class="info-box box-green">
+      <div class="box-title">CAPA Lifecycle States &amp; Transitions</div>
+      <div class="code-block">State 1: Open (Initial)
+  → [Submit for Investigation] → State 2: Under Investigation
+
+State 2: Under Investigation
+  → [Submit for Review] → State 3: Under Review
+  → [Cancel CAPA] → State 5: Cancelled (Terminal)
+
+State 3: Under Review
+  → [Approve] → State 4: Closed (Terminal)
+  → [Reject] → State 2: Under Investigation
+
+State 4: Closed (Terminal)
+  No transitions available — final state
+
+State 5: Cancelled (Terminal)
+  No transitions available</div>
+    </div>
+
+    <h2 class="sub-title">11.3 Lifecycle Security Controls</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Setting</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>Allowed Roles</td><td>Only users with specific roles can trigger this transition. Example: Only QA Managers can "Approve" a CAPA</td></tr>
+          <tr><td>Allowed Groups</td><td>Specific groups that can trigger this transition (e.g., "Approval Committee")</td></tr>
+          <tr><td>Lifecycle Role</td><td>A lifecycle-specific role assigned to specific users on a record (record-level access)</td></tr>
+          <tr><td>Entry Criteria</td><td>A formula condition checked before the transition is allowed. If not met, the button is disabled</td></tr>
+          <tr><td>Confirmation Prompt</td><td>Require the user to confirm before executing the transition</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+        <!-- ===== SECTION 12 ===== -->
+  <div class="section" id="s12">
+    <div class="section-banner">SECTION 12: VAULT OBJECT BEST PRACTICES</div>
+    <h1 class="section-title">12. Vault Object Best Practices</h1>
+
+    <h2 class="sub-title">12.1 Object Design</h2>
+    <ul class="content-list">
+      <li>Follow a "one object, one concept" principle — do not overload one object with too many unrelated record types</li>
+      <li>Use Object Types liberally — they are far better than separate objects for closely related data</li>
+      <li>Always design your data model on paper first — draw object relationships before building</li>
+      <li>Name fields consistently across objects (e.g., always use status__v, always use description__c for similar fields)</li>
+      <li>Plan your API naming convention upfront — changing API names later breaks integrations</li>
+    </ul>
+
+    <h2 class="sub-title">12.2 Field Design</h2>
+    <ul class="content-list">
+      <li>Use Picklists instead of free-text wherever possible — enforces data consistency and enables filtering</li>
+      <li>Avoid over-creating fields — too many fields clutters layouts and slows load times</li>
+      <li>Use Formula fields for derived values — avoids stale data from manually entered calculated fields</li>
+      <li>Use the Description on every field — explains purpose to future admins</li>
+      <li>Create shared picklists (reused across objects) for standard values like Country, Therapeutic Area, Status</li>
+    </ul>
+
+    <h2 class="sub-title">12.3 Relationship Design</h2>
+    <ul class="content-list">
+      <li>Choose Lookup vs. Parent carefully — use Parent only when true parent-child (child cannot exist without parent)</li>
+      <li>Design junction objects for many-to-many relationships — do not hack it with multi-select picklists</li>
+      <li>Keep relationship chains shallow (max 3-4 levels) — deep chains slow queries and complicate navigation</li>
+    </ul>
+
+    <h2 class="sub-title">12.4 Layout &amp; Validation Design</h2>
+    <ul class="content-list">
+      <li>Less is more — only show fields that users need on layouts</li>
+      <li>Group fields logically — users scan in reading order (top-left to bottom-right)</li>
+      <li>Write error messages in plain language — tell the user exactly what to fix</li>
+      <li>Deactivate (do not delete) rules during data migration to avoid blocking bulk imports</li>
+      <li>Test rules with positive AND negative test cases before activating</li>
+      <li>Put identification fields (Name, ID, Status, Type) in the first section</li>
+    </ul>
+  </div>
+
+
+    </div>
+
+    <!-- ===== TAB: INTERVIEW QUESTIONS ===== -->
+    <div class="tab-panel" id="panel-interview">
+      <div class="tab-indicator tab-ind-purple">
+        🎯 Interview Ready — Glossary, QnA Scenarios &amp; 100+ Interview Questions with Answers
+      </div>
+        <!-- ===== SECTION 13 ===== -->
+  <div class="section" id="s13">
+    <div class="section-banner">SECTION 13: TERMINOLOGIES &amp; GLOSSARY</div>
+    <h1 class="section-title">13. Terminologies &amp; Glossary</h1>
+    <div class="glossary-grid">
+      <div class="glossary-item"><div class="glossary-term">Vault</div><div class="glossary-def">Veeva's cloud-based content and data management platform for life sciences</div></div>
+      <div class="glossary-item"><div class="glossary-term">Object</div><div class="glossary-def">A structured data entity in Vault — like a database table with UI, lifecycle, and relationships</div></div>
+      <div class="glossary-item"><div class="glossary-term">Record</div><div class="glossary-def">A single row/entry in an Object. The actual data instance (e.g., one specific CAPA)</div></div>
+      <div class="glossary-item"><div class="glossary-term">Field</div><div class="glossary-def">An attribute of a record — similar to a column in a database table</div></div>
+      <div class="glossary-item"><div class="glossary-term">Object Type</div><div class="glossary-def">A category within an object that allows different records to have different behaviors</div></div>
+      <div class="glossary-item"><div class="glossary-term">Lifecycle</div><div class="glossary-def">A state machine defining the stages and transitions of a record's business process</div></div>
+      <div class="glossary-item"><div class="glossary-term">State</div><div class="glossary-def">A specific stage in a lifecycle. Example: Draft, Approved, Closed</div></div>
+      <div class="glossary-item"><div class="glossary-term">Transition</div><div class="glossary-def">The action of moving from one lifecycle state to another</div></div>
+      <div class="glossary-item"><div class="glossary-term">Layout</div><div class="glossary-def">The visual template defining which fields appear on the record page and how they are organized</div></div>
+      <div class="glossary-item"><div class="glossary-term">Lookup</div><div class="glossary-def">A soft reference from one record to another — the child can exist without the parent</div></div>
+      <div class="glossary-item"><div class="glossary-term">Parent Lookup</div><div class="glossary-def">A hard reference — the child cannot exist without the parent (master-detail)</div></div>
+      <div class="glossary-item"><div class="glossary-term">Junction Object</div><div class="glossary-def">A mediating object used to implement many-to-many relationships between two objects</div></div>
+      <div class="glossary-item"><div class="glossary-term">Validation Rule</div><div class="glossary-def">A business logic expression that prevents saving a record when certain conditions are met</div></div>
+      <div class="glossary-item"><div class="glossary-term">Entry Action</div><div class="glossary-def">An automated action triggered when a record enters a lifecycle state</div></div>
+      <div class="glossary-item"><div class="glossary-term">API Name</div><div class="glossary-def">The programmatic identifier for an object, field, or relationship. Ends in __v or __c</div></div>
+      <div class="glossary-item"><div class="glossary-term">__v suffix</div><div class="glossary-def">Indicates a Veeva-managed standard object or field. Cannot be deleted</div></div>
+      <div class="glossary-item"><div class="glossary-term">__c suffix</div><div class="glossary-def">Indicates an admin-created custom object or field. Can be deleted</div></div>
+      <div class="glossary-item"><div class="glossary-term">VQL</div><div class="glossary-def">Vault Query Language — SQL-like language used to query Vault data via API</div></div>
+      <div class="glossary-item"><div class="glossary-term">Profile</div><div class="glossary-def">A Security Profile in Vault that defines permissions for a group of users</div></div>
+      <div class="glossary-item"><div class="glossary-term">Audit Trail</div><div class="glossary-def">Automatic tamper-proof log maintained by Vault of all creates, updates, deletes, and state changes</div></div>
+      <div class="glossary-item"><div class="glossary-term">Cascade Delete</div><div class="glossary-def">When deleting a parent record automatically deletes all related child records</div></div>
+      <div class="glossary-item"><div class="glossary-term">21 CFR Part 11</div><div class="glossary-def">FDA regulation requiring electronic records and signatures to be trustworthy and equivalent to paper</div></div>
+      <div class="glossary-item"><div class="glossary-term">GxP</div><div class="glossary-def">Good Practice guidelines (GMP, GCP, GLP) — regulatory requirements for pharmaceutical processes</div></div>
+      <div class="glossary-item"><div class="glossary-term">CAPA</div><div class="glossary-def">Corrective and Preventive Action — a quality process to address non-conformances</div></div>
+      <div class="glossary-item"><div class="glossary-term">TMF</div><div class="glossary-def">Trial Master File — the collection of all documents relating to a clinical trial</div></div>
+      <div class="glossary-item"><div class="glossary-term">RIM</div><div class="glossary-def">Regulatory Information Management — manages regulatory submissions and dossiers</div></div>
+      <div class="glossary-item"><div class="glossary-term">Shared Picklist</div><div class="glossary-def">A picklist value set reused across multiple objects and fields for consistency</div></div>
+      <div class="glossary-item"><div class="glossary-term">Lifecycle Role</div><div class="glossary-def">A role assigned to specific users on a specific record, granting permissions on only that record</div></div>
+    </div>
+  </div>
+
+
+        <!-- ===== SECTION 14 ===== -->
+  <div class="section" id="s14">
+    <div class="section-banner">SECTION 14: QnA — SCENARIOS AND CONCEPTS</div>
+    <h1 class="section-title">14. QnA — Scenarios and Concepts</h1>
+
+    <div class="qna-block"><div class="qna-q">What is the difference between a Vault Object and a Vault Document?</div><div class="qna-a">A Vault Document is a file (PDF, Word, etc.) managed with version control, electronic signatures, and a document lifecycle. A Vault Object is structured data (like a database record) with fields, relationships, and optionally its own lifecycle. Documents can be linked to Objects but they serve different purposes. Documents are unstructured content; Objects are structured data.</div></div>
+
+    <div class="qna-block"><div class="qna-q">When should you use Object Types vs. creating separate objects?</div><div class="qna-a">Use Object Types when records share the same fundamental identity but differ in their fields, processes, or required data. Example: CAPA (Major and Minor) share the same core concept — use Object Types. Create separate objects when the concepts are fundamentally different — a Product and a Study warrant separate objects. Rule of thumb: if it would make sense to report on them together in a list, use Object Types. If they have completely different relationships, lifecycles, and user audiences, create separate objects.</div></div>
+
+    <div class="qna-block"><div class="qna-q">What happens when you delete a Picklist value that is being used by existing records?</div><div class="qna-a">Vault prevents the deletion of a picklist value that is actively used on existing records. You must first update all records using that value to a different value before the picklist value can be deleted. Alternatively, you can deactivate the picklist value — deactivated values still appear on existing records but are not available for selection on new or edited records.</div></div>
+
+    <div class="qna-block"><div class="qna-q">Can you change a field type after records have been created?</div><div class="qna-a">In Veeva Vault, changing field types is generally not supported after records have been created. The standard approach is to: (1) Create a new field of the desired type, (2) Migrate data from the old field to the new field, (3) Update layouts and validation rules to use the new field, (4) Remove or hide the old field. This is by design to protect data integrity.</div></div>
+
+    <div class="qna-block"><div class="qna-q">What is the difference between a Required field at the Object level vs. Required at the Layout level?</div><div class="qna-a">Required at the Object level means the field is mandatory regardless of which layout is being used — the database will always enforce it. Required at the Layout level is a UI-only enforcement that applies only to users using that specific layout. A different layout could make the same field optional. Best practice: use Object-level Required sparingly for truly mandatory fields; use Layout-level Required for contextual requirements.</div></div>
+
+    <div class="qna-block"><div class="qna-q">Explain how a Validation Rule differs from a Required field setting.</div><div class="qna-a">A Required field setting simply checks if the field has any value. A Validation Rule is a full formula expression that can enforce complex business logic — for example, "Due Date is required, but only when Status is Open AND Priority is High." Required fields are simple but limited. Validation Rules are powerful and flexible. Validation Rules also fire for API bulk loads.</div></div>
+
+    <div class="qna-block"><div class="qna-q">You need to prevent users from closing a CAPA without entering a Root Cause. How do you implement this?</div><div class="qna-a">Create a Validation Rule: Error Condition: ISPICKVAL(status__v, "Closed") AND ISBLANK(root_cause__c). Error Message: "Root Cause Analysis is required before a CAPA can be closed." Additionally, configure the "Close CAPA" lifecycle transition to have Entry Criteria: NOT(ISBLANK(root_cause__c)). Using both provides defense-in-depth.</div></div>
+
+    <div class="scenario-block">
+      <div class="scenario-q">A pharmaceutical company wants to track Clinical Trial Sites. Each Site can have multiple Site Visits. A Site Visit must always be linked to a Site. When a Site is archived, all its Visits should also be archived. How would you model this?</div>
+      <div class="scenario-a">Create two objects: Site (site__c) and Site Visit (site_visit__c). On the Site Visit object, create a Parent Lookup field pointing to the Site object (making it a master-detail relationship). This ensures: (1) Site Visit cannot exist without a Site, (2) Cascade actions can be configured. For the archiving requirement, create a lifecycle on both objects. On the Site lifecycle, create an Entry Action on the "Archived" state that triggers all related Site Visit records to transition to "Archived" state as well.</div>
+    </div>
+
+    <div class="scenario-block">
+      <div class="scenario-q">Your company needs to track which Countries a Product is registered in, with the registration date and approval status per country. Products can be registered in many countries, and a country can have many registered products. How do you model this?</div>
+      <div class="scenario-a">This is a many-to-many relationship. Create a Junction Object called "Product Registration" (product_registration__c) with: (1) Parent Lookup to Product object, (2) Parent Lookup to Country object, (3) Additional fields: Registration Date (Date), Approval Status (Picklist: Pending, Approved, Rejected), Registration Number (Text), Expiry Date (Date). From the Product record, users can see all countries it is registered in. From the Country record, users can see all registered products.</div>
+    </div>
+  </div>
+
+
+        <!-- ===== SECTION 15 ===== -->
+  <div class="section" id="s15">
+    <div class="section-banner">SECTION 15: INTERVIEW QUESTIONS (100+)</div>
+    <h1 class="section-title">15. Interview Questions — 100+ with Answers</h1>
+
+    <div class="category-header">Category A: Fundamentals (Q1–Q20)</div>
+
+    <div class="iq-block"><div class="iq-q">Q1. What is a Veeva Vault Object?</div><div class="iq-a">A Vault Object is a structured data entity used to store and manage business records in Veeva Vault. It is similar to a database table but includes rich UI, relationship management, lifecycle, security, and business logic. Examples include Product, Study, CAPA, and Site objects.</div></div>
+    <div class="iq-block"><div class="iq-q">Q2. What is the difference between a standard object (__v) and a custom object (__c)?</div><div class="iq-a">__v objects are Veeva-managed standard objects shipped with Vault applications. They cannot be deleted and have fixed core behaviors. __c objects are created by administrators to meet custom business needs. They can be modified or deleted. The suffix also applies to fields: standard fields end in __v, custom fields end in __c.</div></div>
+    <div class="iq-block"><div class="iq-q">Q3. What are the mandatory system fields present on every Vault Object record?</div><div class="iq-a">Every Vault Object record has these system fields: id (unique record ID), name__v (the record identifier), status__v (Active/Inactive), created_by__v, created_date__v, modified_by__v, and modified_date__v. These are read-only and auto-populated by Vault.</div></div>
+    <div class="iq-block"><div class="iq-q">Q4. What is an Object Type in Vault?</div><div class="iq-a">An Object Type is a classification mechanism within a single object that allows different categories of records to have different fields, layouts, lifecycles, and validation rules. For example, a CAPA object can have "Major CAPA" and "Minor CAPA" types — each with a different workflow. Every record of a type-enabled object must belong to exactly one Object Type.</div></div>
+    <div class="iq-block"><div class="iq-q">Q5. What is the purpose of the "Prefix" setting on a Vault Object?</div><div class="iq-a">The prefix is a short code (3-4 characters) used to auto-generate readable record names when the Name field auto-populate setting is enabled. For example, a prefix of "CAPA" generates names like CAPA-0001, CAPA-0002. It makes records easy to reference and is visible in audit trails.</div></div>
+    <div class="iq-block"><div class="iq-q">Q6. Explain the concept of Object Lifecycle in Vault.</div><div class="iq-a">A Lifecycle is a state machine attached to a Vault Object that governs the stages a record moves through. It consists of States, Transitions between states, Entry/Exit Actions (automated steps triggered by state changes), and Security (which roles can perform which transitions). Lifecycles enable formal process management and compliance tracking.</div></div>
+    <div class="iq-block"><div class="iq-q">Q7. What is the difference between a Lookup field and a Parent Lookup field?</div><div class="iq-a">A Lookup field creates a soft (optional) reference to another record. The field can be null, and deleting the referenced record does not delete the record with the lookup. A Parent Lookup creates a hard (required) reference — the parent field cannot be null, and deleting the parent can cascade-delete child records. Parent lookups create master-detail relationships; lookups create simple associations.</div></div>
+    <div class="iq-block"><div class="iq-q">Q8. What is a Validation Rule and how does it work in Vault?</div><div class="iq-a">A Validation Rule is a formula expression that enforces data integrity. If the expression evaluates to TRUE, the record save is blocked and an error message is shown. The formula describes the error condition — for example, ISBLANK(due_date__c) AND ISPICKVAL(status__v, "Open") blocks saving an Open record without a Due Date.</div></div>
+    <div class="iq-block"><div class="iq-q">Q9. What are the components of a Vault Object Layout?</div><div class="iq-a">A Vault Object Layout consists of: Field Sections (named groups of fields in a 2-column grid), Fields placed within sections (with optional Required/Read-Only overrides), Spacers for visual alignment, Related Object Sections (showing child records), Related Document Sections (showing linked documents), and overall page structure including the header. Layouts are assigned per Object Type and/or Security Profile.</div></div>
+    <div class="iq-block"><div class="iq-q">Q10. What is a Junction Object in Vault?</div><div class="iq-a">A Junction Object is a Vault Object used to implement many-to-many relationships between two other objects. It contains Parent Lookup fields to both objects in the relationship, plus any additional fields specific to the relationship itself (e.g., a "Study Investigator" junction object with parent lookups to Study and Investigator, plus fields like Role and Start Date).</div></div>
+    <div class="iq-block"><div class="iq-q">Q11. What does "Enable Following" mean on a Vault Object?</div><div class="iq-a">"Enable Following" allows users to subscribe to updates on a specific record. When a user "follows" a record, they receive in-app notifications (and optionally email) when the record is updated — field changes, state transitions, or new related records. Useful for stakeholders who need to monitor a record's progress without being directly responsible for it.</div></div>
+    <div class="iq-block"><div class="iq-q">Q12. What is a Shared Picklist in Vault?</div><div class="iq-a">A Shared Picklist is a set of picklist values defined once at the Vault level and reused across multiple objects and fields. Instead of maintaining the same values (like "Country" or "Therapeutic Area") on every object separately, a Shared Picklist ensures consistency. Updating the Shared Picklist updates all fields that reference it simultaneously.</div></div>
+    <div class="iq-block"><div class="iq-q">Q13. How does record-level security work for Vault Objects?</div><div class="iq-a">Vault uses a layered security model: Application Roles define broad user capabilities, Object Permissions specify CRUD rights per object per role, Field Permissions control per-field access (read/edit/hidden) per role, Object Type Permissions restrict access to specific record types, and Record Sharing provides granular access to individual records beyond role-based access. The most restrictive permission wins.</div></div>
+    <div class="iq-block"><div class="iq-q">Q14. What is the purpose of the Entry Action in a Vault lifecycle?</div><div class="iq-a">An Entry Action is an automated action that fires when a record enters a specific lifecycle state without any user interaction. Common entry actions include: Set Field Value (e.g., set approval_date to TODAY() when entering "Approved" state), Send Email notification, Start a Workflow, or Trigger an integration. Entry Actions ensure consistent automation and eliminate the need for users to manually update related fields.</div></div>
+    <div class="iq-block"><div class="iq-q">Q15. Can a single Vault Object have multiple lifecycles? How?</div><div class="iq-a">Yes. Multiple lifecycles can be assigned to a single object using Object Types. Each Object Type can have its own assigned lifecycle(s). For example, a CAPA object with Object Type "Major CAPA" (complex lifecycle with 6 states) and "Minor CAPA" (simple lifecycle with 3 states). When a new record is created, the Object Type selection determines which lifecycle is applied.</div></div>
+    <div class="iq-block"><div class="iq-q">Q16. What is a Formula field and what are its key characteristics?</div><div class="iq-a">A Formula field is a read-only field whose value is dynamically computed from an expression. It cannot be manually edited, is always recalculated at display time (not stored), can reference fields on the same object and related objects, and supports functions like TODAY(), IF(), CONCATENATE(), DATEDIF(). Key limitations: cannot be used as parent lookup target, cannot reference other formula fields in circular dependencies, and complex formulas impact page load performance.</div></div>
+    <div class="iq-block"><div class="iq-q">Q17. What happens to child records when a parent record is deleted in a Master-Detail relationship?</div><div class="iq-a">It depends on the delete behavior configured: Cascade Delete means all child records are automatically deleted when the parent is deleted. Restrict Delete means Vault prevents deleting the parent if any child records exist — the user must first delete or re-parent all children. With a Lookup (non-parent) relationship, deleting the "parent" just nulls out the lookup field on children — they are not deleted.</div></div>
+    <div class="iq-block"><div class="iq-q">Q18. What is the difference between Object Actions and Entry Actions?</div><div class="iq-a">Object Actions (User Actions) are triggered manually by users clicking a button on a record. They are on-demand and appear in the record's Actions menu. Entry Actions are automated — they fire automatically when a record enters a specific lifecycle state without any user interaction. Entry Actions cannot be "clicked"; they are triggered by the state transition itself.</div></div>
+    <div class="iq-block"><div class="iq-q">Q19. How do you prevent a required field from appearing on all object types?</div><div class="iq-a">By using the Object Type field configuration. Even though a field exists at the object level, each Object Type can configure the field as Required, Optional, or Hidden (Not Applicable) for records of that type. A field can be Required for Object Type A but Hidden for Object Type B. This is configured in Admin > Objects > [Object] > Object Types > [Type] > Fields.</div></div>
+    <div class="iq-block"><div class="iq-q">Q20. What is an Auto-Number field and how does it differ from the Name field auto-populate?</div><div class="iq-a">Auto-Number is an explicit field type that generates a sequential formatted number for each record (e.g., "SITE-0001"). It is a separate, dedicated field. Name field auto-populate is a setting on the object that automatically generates the name__v system field using the object prefix plus a sequence. The difference: Auto-Number creates a separate reference field, while Name auto-populate fills the primary identifier field. You can use both simultaneously on the same object.</div></div>
+
+    <div class="category-header">Category B: Fields and Data Modeling (Q21–Q45)</div>
+
+    <div class="iq-block"><div class="iq-q">Q21. What field types are available for storing dates and times in Vault? When would you use each?</div><div class="iq-a">Date field: stores only a calendar date (no time). Use for milestones, deadlines, approval dates where time is not meaningful. DateTime field: stores date + time (stored in UTC, displayed in user's timezone). Use for events where exact time matters — adverse event occurrence, approval timestamps for 21 CFR Part 11 compliance, system event logs. Always use DateTime for compliance-critical timestamps.</div></div>
+    <div class="iq-block"><div class="iq-q">Q22. What is the difference between a single-select and multi-select picklist?</div><div class="iq-a">Single-select picklist: the user can choose exactly one value. Stored as a single text value. Supports ISPICKVAL() in formulas. Multi-select picklist: the user can choose one or more values. Stored as a semicolon-separated string. Does NOT support ISPICKVAL() — use INCLUDES() or CONTAINS() instead. Multi-select picklists are harder to filter and report on, so use them sparingly.</div></div>
+    <div class="iq-block"><div class="iq-q">Q23. When would you use a Checkbox field vs. a Yes/No picklist?</div><div class="iq-a">Checkbox: always has a value (true or false — never null). Use when you need a definitive true/false state, such as "Is GCP Compliant?" or "Training Complete?" Yes/No Picklist: can be null (no value selected). Use when "not yet answered" is a meaningful state — for example, "Has the IRB approved this study?" where null means "unknown". A null checkbox defaults to false, which may be misleading in some scenarios.</div></div>
+    <div class="iq-block"><div class="iq-q">Q24. What is a dependent picklist? How do you configure it in Vault?</div><div class="iq-a">A dependent picklist filters the available values based on the selection in a controlling field. Example: Country (controlling) determines which Region values appear. Configuration: (1) Create both picklist fields, (2) On the dependent field, define a "controlling field," (3) Map which dependent values should appear for each controlling value. This reduces user error by only showing relevant choices.</div></div>
+    <div class="iq-block"><div class="iq-q">Q25. What are the limitations of Text fields in Vault?</div><div class="iq-a">Text fields: maximum 1,500 characters. Single line only (no line breaks). Cannot store HTML by default. Text fields are indexed and searchable. Long Text fields (up to 32,000 chars) are not indexed for full-text search in the same way. Text fields cannot store binary data or attachments. For large text content, use Long Text fields or Vault documents.</div></div>
+    <div class="iq-block"><div class="iq-q">Q26. Explain how a Lookup field filter works.</div><div class="iq-a">A Lookup field filter restricts which records are available for selection when a user opens the lookup picker. Example: a "Product" lookup filtered to only show records where status__v = "Active" ensures users can only link active products. Filters use field comparison expressions. Dynamic filter values referencing current user or current record are particularly powerful for context-aware lookups.</div></div>
+    <div class="iq-block"><div class="iq-q">Q27. What is the Object Reference field type?</div><div class="iq-a">An Object Reference field is a polymorphic lookup that can reference records from multiple different objects. Unlike a regular Lookup (which targets one specific object), an Object Reference field can point to a Product, Study, or Site depending on context. The stored value is a combination of the object API name and the record ID. Useful for generic "parent entity" fields in utility objects like Tasks or Notifications.</div></div>
+    <div class="iq-block"><div class="iq-q">Q28. How would you design a field to store a calculated "Days Open" value for a CAPA record?</div><div class="iq-a">Use a Formula field with a Number return type. Formula: TODAY() - created_date__v. For closed CAPAs, use: IF(ISPICKVAL(status__v, "Closed"), closed_date__c - created_date__v, TODAY() - created_date__v). This prevents the counter from growing indefinitely after closure and shows the actual duration the CAPA was open.</div></div>
+    <div class="iq-block"><div class="iq-q">Q29. What is the "Unique" field setting? What happens when you enable it?</div><div class="iq-a">The Unique setting enforces that no two records in the same object can have the same value in that field. If a user tries to save a record with a value that already exists, Vault blocks the save with an error. Use for fields that should be globally unique identifiers, like Study Protocol Numbers, Product Codes, or CAPA reference numbers. Note: Unique is case-insensitive by default.</div></div>
+    <div class="iq-block"><div class="iq-q">Q30. Can you change the API name of a field after it has been created?</div><div class="iq-a">Yes, technically you can change the API name in Vault configuration. However, this is extremely risky in a live system because any integrations, formulas, VQL queries, and validation rules that reference the old API name will break immediately. Best practice is to treat API names as permanent once established. If you must rename, only do so in a development sandbox and update ALL references before deploying to production.</div></div>
+    <div class="iq-block"><div class="iq-q">Q31. What formula functions can you use in Vault Validation Rules?</div><div class="iq-a">Key functions: ISBLANK() — checks if field is empty, ISPICKVAL() — checks picklist value, AND()/OR()/NOT() — logical operators, LEN() — string length, TODAY()/NOW() — current date/time, CONTAINS() — substring check, REGEX() — pattern matching, IF() — conditional, INCLUDES() — for multi-select picklists, VALUE() — converts text to number, TEXT() — converts to text, DATEVALUE() — date conversion, YEAR()/MONTH()/DAY() — date components.</div></div>
+    <div class="iq-block"><div class="iq-q">Q32. How do you make a field read-only for one Object Type but editable for another?</div><div class="iq-a">At the Object Type level, configure the field's behavior: set it to "Read Only" for Type A and "Editable" for Type B. This is done in Admin > Objects > [Object] > Object Types > [Type] > Fields. You can also achieve this via Layout configuration by placing the field in read-only mode in the layout assigned to Type A, while leaving it editable in the layout for Type B. Layout-level read-only is UI-only; object-type-level configuration is more robust.</div></div>
+    <div class="iq-block"><div class="iq-q">Q33. What is a User field in Vault? How is it different from a Text field storing a username?</div><div class="iq-a">A User field is a Lookup field specifically referencing the User object. It stores the actual User record ID and displays the user's full name as a clickable link to their user profile. It supports dynamic default values like "Current User." A Text field storing a username is just plain text — no validation, no link, no dynamic default, and no integration with Vault's user management.</div></div>
+    <div class="iq-block"><div class="iq-q">Q34. Explain the Help Text field setting. When and how should you use it?</div><div class="iq-a">Help Text is a short description that appears as a tooltip (?) icon next to a field label when users hover over it. Use it for: fields whose labels alone are ambiguous, fields with specific formatting requirements, and fields used in regulated processes where incorrect data entry has compliance implications. Keep help text concise — 1-3 sentences maximum.</div></div>
+    <div class="iq-block"><div class="iq-q">Q35. What is the default value setting on a field? What types can have defaults?</div><div class="iq-a">The Default Value setting pre-populates a field when a new record is created. Available for: Text (static text), Number (static number), Date (TODAY() or specific date), DateTime (NOW() or static), Picklist (a specific value), Checkbox (true or false), User fields (Current User). Defaults reduce data entry errors and speed up record creation. Users can override defaults unless the field is Read-Only.</div></div>
+    <div class="iq-block"><div class="iq-q">Q36. How do you query Vault Objects using the API?</div><div class="iq-a">Use VQL (Vault Query Language) via the Vault REST API. Example: GET /api/v24.0/query?q=SELECT id, name__v, status__v FROM product__v WHERE status__v = "Active". VQL supports SELECT, FROM, WHERE, ORDER BY, LIMIT, OFFSET. You can traverse relationships using the relationship API name: SELECT id, name__v, product__vr.name__v FROM study__v.</div></div>
+    <div class="iq-block"><div class="iq-q">Q37. What is field-level security in Vault Objects?</div><div class="iq-a">Field-level security (FLS) controls whether a specific field is readable, editable, or completely hidden for users in a specific security profile or role. Configuration: Admin > Security > [Profile] > Object Permissions > [Object] > Field Permissions. Settings per field: Read (see value, cannot edit), Edit (see and change value), Hidden (field is completely invisible). FLS applies everywhere: record pages, reports, search results, and API responses.</div></div>
+    <div class="iq-block"><div class="iq-q">Q38. Can you have a required field that has no validation rule?</div><div class="iq-a">Yes. Marking a field as Required at the object level is a separate mechanism from Validation Rules. A Required field uses built-in Vault enforcement — no formula needed. Vault automatically rejects saves if the field is empty. Validation Rules are additive — they add MORE complex logic on top of simple required enforcement. Both can and do coexist.</div></div>
+    <div class="iq-block"><div class="iq-q">Q39. What are the audit trail capabilities for Vault Object fields?</div><div class="iq-a">Vault automatically logs: record creation (all field values), field value changes (old value, new value, who changed it, when), lifecycle state transitions, record deletion, and sharing changes. The audit trail is accessible from the record's "History" tab and via the API. The audit trail is tamper-proof and meets 21 CFR Part 11 requirements for electronic record integrity.</div></div>
+    <div class="iq-block"><div class="iq-q">Q40. What is the maximum character limit for a Long Text field in Vault?</div><div class="iq-a">32,000 characters (approximately 32KB of text). This is sufficient for most narrative fields like descriptions, findings, and analysis. For extremely long content, Vault documents (PDF, Word) should be used instead. Long Text fields are rendered as multi-line text areas in the UI.</div></div>
+    <div class="iq-block"><div class="iq-q">Q41. Explain the CONTAINS() vs. INCLUDES() formula functions.</div><div class="iq-a">CONTAINS(text, "substring") is used with Text fields to check if the text value contains a specific substring. Example: CONTAINS(product_name__c, "Generic"). INCLUDES(multiselect_field, "value") is specifically for Multi-Select Picklist fields — it checks if any of the selected values equals the specified value. Never use ISPICKVAL() with multi-select picklists — it will not work correctly.</div></div>
+    <div class="iq-block"><div class="iq-q">Q42. How would you track the history of value changes for a specific field?</div><div class="iq-a">Vault's built-in Audit Trail tracks all field value changes automatically. To view: open the record, click the History/Audit Trail tab. Each entry shows: field name, old value, new value, user who made the change, timestamp. For API access: GET /api/v24.0/vobjects/[object]/{record_id}/audittrail. If you need cross-record change reporting, query the audit trail API and aggregate the results.</div></div>
+    <div class="iq-block"><div class="iq-q">Q43. Can a Formula field reference fields from related objects (via lookup)?</div><div class="iq-a">Yes, Formula fields can reference fields on related objects through lookups using the relationship API name with the __vr or __cr suffix. Example: on a Study record, a formula can reference study_site__vr.site__vr.country__c to get the country of the related site. However, traversal depth is limited (typically 1-2 levels in formulas) and performance degrades with deep traversals.</div></div>
+    <div class="iq-block"><div class="iq-q">Q44. What is a controlled picklist in the context of Vault Objects?</div><div class="iq-a">A controlling picklist is a picklist field that drives the available values in another dependent picklist. Example: "Submission Type" (controlling) with values IND, NDA, BLA determines which "Submission Sub-Type" values are available. If Submission Type is IND, Sub-Type shows: Phase I, Phase II, Phase III. If NDA, Sub-Type shows: Standard, Priority, Accelerated. Implemented through the dependent picklist's controlling field configuration.</div></div>
+    <div class="iq-block"><div class="iq-q">Q45. What is the difference between saving a field as Active vs. Inactive in Vault?</div><div class="iq-a">There is no Active/Inactive status on fields themselves. Fields either exist and appear on layouts, or they are hidden/removed from layouts. However, at the Picklist value level, values can be Active or Inactive — inactive picklist values no longer appear in the dropdown for new records but still display on existing records that use that value. At the Object level, Object Types can be Active or Inactive.</div></div>
+
+    <div class="category-header">Category C: Relationships and Data Model (Q46–Q65)</div>
+
+    <div class="iq-block"><div class="iq-q">Q46. How many levels deep can you traverse in a Vault Object relationship query?</div><div class="iq-a">In VQL queries, you can traverse relationships multiple levels deep. The practical limit is typically 5-10 levels, but performance degrades with depth. In formulas, traversal is more limited — typically 1-2 levels. For complex deep traversals, it is better to denormalize frequently accessed values (store them on the child record via formula or entry action) rather than traverse deep hierarchies in every query.</div></div>
+    <div class="iq-block"><div class="iq-q">Q47. What is the difference between a Relationship Name and a Relationship Label in Vault?</div><div class="iq-a">The Relationship Name is the API name used in VQL queries to traverse the relationship. For example, studies__vr is used in: SELECT id, studies__vr.name__v FROM product__v. The Relationship Label is the display name shown to users in the UI for the related object section on the parent record. Example: the label "Clinical Studies" appears as the section header on the Product record for related Study records.</div></div>
+    <div class="iq-block"><div class="iq-q">Q48. Can a child object have multiple parent lookups to different objects?</div><div class="iq-a">Yes. A child object can have multiple lookup (or parent lookup) fields pointing to different parent objects. Example: a CAPA record can have a lookup to Site (where the issue occurred) and a separate lookup to Product (which product was affected). These are independent relationships, each traversed separately.</div></div>
+    <div class="iq-block"><div class="iq-q">Q49. What is a self-referential relationship? Give an example.</div><div class="iq-a">A self-referential relationship is when an object has a lookup field pointing to the same object type. This creates a hierarchical (tree) structure. Example: an Organization object where each record has a "Parent Organization" lookup to the same Organization object, creating: HQ → Division → Department → Team. Another example: a Product Category object where categories can be nested.</div></div>
+    <div class="iq-block"><div class="iq-q">Q50. How would you model a Study that can have multiple Countries, and each Country can have multiple Studies?</div><div class="iq-a">Use a Junction Object. Create: (1) Study object, (2) Country object, (3) Study Country (junction object) with Parent Lookup to Study and Parent Lookup to Country, plus additional fields like "Submission Date" and "Regulatory Status." From the Study record, users see all countries in the Study Country related section. From the Country record, users see all related Studies.</div></div>
+    <div class="iq-block"><div class="iq-q">Q51. What happens to a Lookup field value when the referenced record is deleted?</div><div class="iq-a">With a standard Lookup (not a Parent Lookup), if the referenced record is deleted, the lookup field value on the child record is set to null/blank. The child record is NOT deleted — it simply loses its reference to the deleted parent. This can leave orphaned records. With a Parent Lookup (master-detail), the admin configures the behavior: Restrict Delete or Cascade Delete.</div></div>
+    <div class="iq-block"><div class="iq-q">Q52. When should you use a junction object vs. a multi-select picklist for a many-to-many relationship?</div><div class="iq-a">Use a Junction Object when: the relationship itself has additional data, when you need to navigate FROM both sides, when compliance requires auditability of each individual relationship, or when the number of related items can be very large. Use a Multi-Select Picklist when: the relationship is simple (no extra data), the list of options is short and stable, and you do not need to navigate from the "other side." Multi-select picklists are not true relationships and should be used sparingly.</div></div>
+    <div class="iq-block"><div class="iq-q">Q53. What is the significance of the "Delete Behavior" setting on a Parent Lookup?</div><div class="iq-a">Delete Behavior determines what happens to child records when the parent is deleted. Cascade Delete: all child records are automatically and immediately deleted — irreversible and potentially dangerous for compliance data. Restrict Delete: Vault prevents deleting the parent record if ANY child records exist. In regulated industries, Restrict Delete is strongly preferred to prevent accidental data loss in audit-critical records.</div></div>
+    <div class="iq-block"><div class="iq-q">Q54. How can you link a Vault Document to an Object Record?</div><div class="iq-a">Several methods: (1) The document can have a lookup field to the object — the object record's related documents section automatically shows the linked document. (2) Use "Relate Document" action on the object record to manually link any document. (3) Standard objects like Study and Site have dedicated document relationship sub-objects. (4) Via Vault API, create a document relationship object record linking the document ID to the object record ID.</div></div>
+    <div class="iq-block"><div class="iq-q">Q55. What is the relationship between a Lifecycle and an Object Type?</div><div class="iq-a">Object Types and Lifecycles work together. A single object can have multiple lifecycles (one per Object Type). When creating a record, the selected Object Type determines which lifecycle(s) are available and which one is the default. Different Object Types can have entirely different lifecycles — Major CAPA might have 6 states with formal approvals, while Minor CAPA might have 3 states.</div></div>
+    <div class="iq-block"><div class="iq-q">Q56. How do you retrieve all child records for a parent using the Vault API?</div><div class="iq-a">Use VQL with a subquery or direct query: Method 1 - Subquery: SELECT id, name__v, (SELECT id, name__v FROM sites__vr) FROM study__v WHERE id = "V1000000001". Method 2 - Direct query: SELECT id, name__v, study__vr.name__v FROM site__v WHERE study__v = "V1000000001". Method 3 - REST API: GET /api/v24.0/vobjects/site__v?q=study__v="V1000000001".</div></div>
+    <div class="iq-block"><div class="iq-q">Q57. What is a Document Relationship Object in Vault?</div><div class="iq-a">Certain standard Vault objects have a built-in Document Relationship Object — a system-created sub-object specifically designed to link documents to the parent object record. It stores: the document ID, document version, link type, and optionally custom fields. Example: the Study object has a Study Document Relationship object that links TMF documents to the study with additional metadata about the document's role.</div></div>
+    <div class="iq-block"><div class="iq-q">Q58. What is the difference between deleting a record and making it "Inactive" in Vault?</div><div class="iq-a">Deleting a record: permanently removes it from the system. Destructive and irreversible. Making Inactive: sets the status__v field to "Inactive." The record still exists, is still in the audit trail, but is excluded from default list views and lookup search results. Inactive is the preferred approach for regulatory data — it preserves the record for audit purposes while removing it from active use.</div></div>
+    <div class="iq-block"><div class="iq-q">Q59. How would you design an object model for a Quality Management System covering CAPAs, Deviations, and Change Controls?</div><div class="iq-a">Core Objects: (1) Deviation — records of non-conformances. (2) CAPA — corrective/preventive actions with a Lookup to Deviation. (3) Change Control — controlled changes with a Lookup to CAPA. Supporting Objects: Site, Product, User (for assignments). Each has its own lifecycle and Object Types for severity classification. Junction objects link products and sites to each quality record. Layouts are configured per Object Type and role.</div></div>
+    <div class="iq-block"><div class="iq-q">Q60. What is VQL and how is it used to query Vault Objects?</div><div class="iq-a">VQL (Vault Query Language) is Vault's SQL-like query language used to retrieve object records via the REST API. Syntax: SELECT field1, field2 FROM object_name WHERE condition ORDER BY field LIMIT n. Features: relationship traversal (product__vr.name__v), subqueries for child records, aggregate functions (COUNT), FIND() for full-text search. Used by integrations, reports, and Vault Loader.</div></div>
+    <div class="iq-block"><div class="iq-q">Q61. What is the Vault Loader and how is it used with Objects?</div><div class="iq-a">Vault Loader is a desktop application provided by Veeva for bulk import/export/update/delete of Vault Object records using CSV files and the Vault REST API. Operations: Extract (export records to CSV), Load (import records from CSV), Update (update existing records), Upsert (insert or update based on unique field), Delete. Vault Loader respects all Vault security, validation rules, and lifecycle constraints.</div></div>
+    <div class="iq-block"><div class="iq-q">Q62. What are Lifecycle Roles and how do they differ from Application Roles?</div><div class="iq-a">Application Roles: broad permissions assigned to users globally across the Vault application. Lifecycle Roles: specific roles assigned to particular records that grant additional permissions on just those records. Example: on a specific CAPA record, User A is assigned the "CAPA Owner" lifecycle role — this grants User A special permissions on ONLY that CAPA, not all CAPAs. Lifecycle Roles enable record-specific access control beyond blanket role-based security.</div></div>
+    <div class="iq-block"><div class="iq-q">Q63. What is the importance of the "Status" field (status__v) on Vault Objects?</div><div class="iq-a">The status__v field is a system-managed picklist field on every object with two standard values: Active and Inactive. Active records appear in default list views and lookup searches. Inactive records are hidden from default searches and lookup pickers — effectively "archived" without deletion. Inactive records are still accessible via explicit queries and preserved for audit purposes. IMPORTANT: status__v is separate from lifecycle states.</div></div>
+    <div class="iq-block"><div class="iq-q">Q64. What are the GxP implications of the Vault Object audit trail?</div><div class="iq-a">21 CFR Part 11 (FDA) and EMA Annex 11 require that electronic records be accurate, trustworthy, and audit-trailed. Vault's object audit trail: (1) Is tamper-proof and cannot be modified or deleted by any user, (2) Records every create, update, delete with timestamp and user identity, (3) Maintains old and new values for field changes, (4) Is linked to user authentication, (5) Can be exported for regulatory inspection. This makes Vault Object records suitable for GxP-regulated data.</div></div>
+    <div class="iq-block"><div class="iq-q">Q65. Describe the process of migrating object data from one Vault to another.</div><div class="iq-a">Process: (1) Prepare a migration plan — map source fields to target fields, identify relationship dependencies. (2) Export data from source using Vault Loader or VQL API. (3) Handle relationships — parent records must be loaded before children. Maintain ID mapping (source ID → target ID) for lookup fields. (4) In target Vault, deactivate relevant Validation Rules. (5) Use Vault Loader or API to load records in dependency order. (6) Re-enable Validation Rules. (7) Validate: run count checks, spot-check records, verify relationships.</div></div>
+
+    <div class="category-header">Category D: Layouts, Validation, and Actions (Q66–Q80)</div>
+
+    <div class="iq-block"><div class="iq-q">Q66. How many layouts can you create for a single Vault Object?</div><div class="iq-a">You can create multiple layouts for a single object. The practical maximum is determined by the number of Object Type + Security Profile combinations, as each combination can have a distinct layout. If an object has 5 Object Types and 4 Security Profiles, you could potentially have 20 different layout assignments. There is no hard-coded limit on the number of layouts per object.</div></div>
+    <div class="iq-block"><div class="iq-q">Q67. What is a "Spacer" in a Vault layout, and why would you use it?</div><div class="iq-a">A Spacer is a blank placeholder in the 2-column layout grid. Since fields are placed in left-right pairs, a Spacer fills one slot when you want a field to appear in a specific column position without a corresponding field on the other side. Example: if you want a field to appear in the RIGHT column only, place a Spacer in the left column and the field in the right. This gives admins fine-grained control over visual alignment.</div></div>
+    <div class="iq-block"><div class="iq-q">Q68. What is the difference between making a field Required at the layout level vs. using a Validation Rule?</div><div class="iq-a">Layout-level Required: enforced by the UI rendering — users see the asterisk (*) marking. Works only when using that specific layout. A user using a different layout or API might bypass it. Validation Rule Required: enforced at the data layer regardless of layout or API calls. More robust. Validation Rules also fire for API bulk loads. Best practice: use both for critical fields — layout-level for UX clarity, validation rule for data integrity enforcement.</div></div>
+    <div class="iq-block"><div class="iq-q">Q69. Explain the concept of "Entry Criteria" on a lifecycle transition.</div><div class="iq-a">Entry Criteria is a formula-based condition that must evaluate to TRUE before a lifecycle transition can be executed. If the criteria is not met, the transition button is either hidden or disabled. Example: transition "Close CAPA" has Entry Criteria: NOT(ISBLANK(root_cause__c)) AND NOT(ISBLANK(corrective_action__c)). The CAPA cannot be closed until both fields are filled. Entry Criteria gates progression, complementing (but not replacing) Validation Rules.</div></div>
+    <div class="iq-block"><div class="iq-q">Q70. What is a "User Action" in a Vault lifecycle and how is it different from a state transition?</div><div class="iq-a">A User Action is a button on a record that users click manually while the record is in a specific state. Unlike a state transition (which moves the record to a new state), a User Action does NOT change the lifecycle state. It triggers an operation while keeping the record in its current state. Examples: "Send Reminder Email" button on a CAPA In Review — sends an email without moving the record. "Generate Report" button — creates a document.</div></div>
+    <div class="iq-block"><div class="iq-q">Q71. How do you configure an action to send an email notification when a lifecycle state changes?</div><div class="iq-a">Add an Entry Action on the target lifecycle state. Set the Action Type to "Send Email." Configure: Email Template (a pre-defined Vault email template), Recipients (role-based, specific users, or email field values on the record), Sender (typically a system email or admin address). The email fires automatically when the record enters that state. For multi-recipient emails, use role-based recipient configuration.</div></div>
+    <div class="iq-block"><div class="iq-q">Q72. What happens if two validation rules conflict?</div><div class="iq-a">Both rules fire independently. If Rule A says ISBLANK(field__c) is an error (field must be filled) and Rule B says NOT(ISBLANK(field__c)) is an error (field must be empty), then the record can never be saved — both rules will always fire. This is a configuration error. Admins must ensure validation rules are designed without logical contradictions by accounting for Object Types, record states, and conditions.</div></div>
+    <div class="iq-block"><div class="iq-q">Q73. Can you suppress a validation rule for specific users or roles?</div><div class="iq-a">Vault validation rules do not have a native "bypass for role" setting. Indirect approaches: (1) Include a condition in the validation rule formula checking user role. (2) Use a special lifecycle state or object type that has a different set of active validation rules. (3) Deactivate the rule during administrative operations. For most compliance use cases, validation rules should NOT be bypassable by any user role.</div></div>
+    <div class="iq-block"><div class="iq-q">Q74. Describe the layout assignment logic when both Object Type and Security Profile assignments exist.</div><div class="iq-a">Vault evaluates layout assignment using a priority cascade: First, look for a layout assigned to the exact combination of [current Object Type + current User Profile]. Second, look for a layout assigned to [current Object Type + default profile]. Third, look for [default type + current User Profile]. Fourth, use the Default layout. This cascade allows maximum flexibility — you can have profile-specific layouts for some types and shared layouts for others.</div></div>
+    <div class="iq-block"><div class="iq-q">Q75. How would you prevent users from deleting records that are in "Approved" lifecycle state?</div><div class="iq-a">Configure security on the object lifecycle. In the lifecycle state "Approved," remove Delete permission from all roles. Additionally, in the Object Type security settings, restrict Delete action to only be available in specific states (typically Draft or Cancelled). The recommended approach is lifecycle-based security + object-level role permissions — this is more robust than attempting to use validation rules for deletion control.</div></div>
+    <div class="iq-block"><div class="iq-q">Q76. What is the "Confirmation Required" setting on an action?</div><div class="iq-a">"Confirmation Required" displays a confirmation dialog box when a user clicks an action button. The dialog shows a configurable message with OK and Cancel buttons. If the user clicks OK, the action proceeds; if Cancel, nothing happens. Use this for: irreversible state transitions (Approve, Cancel, Delete), actions that trigger external notifications or integrations, and high-stakes operations where accidental clicks could cause problems.</div></div>
+    <div class="iq-block"><div class="iq-q">Q77. What is the "Active" checkbox on a Validation Rule? When would you deactivate a rule?</div><div class="iq-a">The Active checkbox controls whether a Validation Rule is currently enforced. When deactivated, the rule exists but does not fire. Deactivate (do not delete) rules when: (1) Performing bulk data migrations where valid historical data might not meet current rules, (2) Troubleshooting — deactivating a rule lets you test if it is causing unexpected blocks, (3) During a system upgrade or data correction project. Always reactivate rules after the exceptional operation and document the action.</div></div>
+    <div class="iq-block"><div class="iq-q">Q78. How would you implement a "four-eyes" approval process in Vault Objects?</div><div class="iq-a">Implementation: (1) Create two User fields: "First Approver" and "Second Approver". (2) Configure lifecycle with states: Pending First Approval → First Approved → Pending Second Approval → Fully Approved. (3) Configure transitions: "First Approve" only available to users who match the First Approver user field (using lifecycle role assignment). (4) Entry Action on "First Approved" state notifies the Second Approver. (5) "Second Approve" transition only available to the Second Approver user. (6) Validation Rule: ensure First and Second Approvers are different users.</div></div>
+    <div class="iq-block"><div class="iq-q">Q79. A Validation Rule is blocking a critical data correction. What are your options?</div><div class="iq-a">Options: (1) Deactivate the Validation Rule, make the correction, reactivate. Document the exception. (2) Temporarily modify the Validation Rule formula to include an exception condition — use cautiously, revert immediately. (3) Change the record's lifecycle state to one where the rule does not apply (if the rule is state-conditional). Always document exceptions for GxP audit purposes in a change control record.</div></div>
+    <div class="iq-block"><div class="iq-q">Q80. How would you approach a Vault Object configuration review for a new Vault implementation?</div><div class="iq-a">Step 1: Requirements Gathering — document all business processes, data entities, users, and integration needs. Step 2: Data Model Design — identify objects, fields, relationships on paper before building. Step 3: Review against Vault best practices. Step 4: Security Review — define all roles, permissions, field-level security. Step 5: Lifecycle Design. Step 6: Layout Design — create wireframes. Step 7: Validation Rule Review. Step 8: UAT — end-user testing with all profiles. Step 9: Performance Testing. Step 10: Documentation before go-live.</div></div>
+
+    <div class="category-header">Category E: Advanced and Scenario-Based (Q81–Q102)</div>
+
+    <div class="iq-block"><div class="iq-q">Q81. How does Vault handle concurrent record edits?</div><div class="iq-a">Vault uses optimistic locking. Each record has a modified_date__v timestamp. When a user opens a record for editing, Vault notes the current timestamp. When the user saves, Vault checks if the timestamp matches. If another user saved in the meantime, the second user's save fails with a conflict error: "This record has been modified by another user. Please refresh and reapply your changes." This prevents data overwrites.</div></div>
+    <div class="iq-block"><div class="iq-q">Q82. What is the Vault API session ID and how is it obtained?</div><div class="iq-a">The session ID is an authentication token required for all Vault API requests. Obtain it via: POST /api/v24.0/auth with body username={user}&password={pass}&vaultDNS={vault_DNS}. The response includes the sessionId. Include in all subsequent API requests as a header: Authorization: {sessionId}. Session IDs expire after a period of inactivity (typically 30-60 minutes). For service-to-service integrations, use Vault's OAuth or integration user accounts.</div></div>
+    <div class="iq-block"><div class="iq-q">Q83. How do you handle historical data that does not conform to newly added Validation Rules?</div><div class="iq-a">Best approach: (1) Add the new Validation Rule in INACTIVE state first. (2) Query all existing records that would violate the rule. (3) Create a data remediation plan — either clean the data or accept it as historical. (4) For historical data that legitimately cannot be corrected, consider making the rule conditional on a date: AND created_date__v >= 2024-01-01. (5) Activate the rule after remediating non-compliant data. (6) Document the decision in a change control record.</div></div>
+    <div class="iq-block"><div class="iq-q">Q84. How do you handle errors during a Vault Loader bulk import?</div><div class="iq-a">Vault Loader error handling: (1) Failed records are written to an error CSV file with the error message for each record. (2) Review error CSV — common errors: validation rule failures, required field violations, duplicate unique field values, invalid lookup references. (3) Fix the source data and re-load only the failed records. (4) For large loads, use the --idparam flag to upsert to avoid duplicates on re-runs. Best practice: always test with a small batch first (10-20 records), check results, then proceed with full load.</div></div>
+    <div class="iq-block"><div class="iq-q">Q85. What is the difference between Object-level delete permission and lifecycle-state-level delete permission?</div><div class="iq-a">Object-level Delete permission: controls whether a user's role can delete any record of this object, regardless of state. Lifecycle-state-level: even if a role has Object-level Delete, lifecycle state security can block deletion in specific states. Example: QA Analyst role has Object-level Delete permission but the lifecycle security for the "Approved" state removes Delete for QA Analyst. Result: QA Analysts can delete Draft records but not Approved records. Both layers must allow deletion for a delete to succeed.</div></div>
+    <div class="iq-block"><div class="iq-q">Q86. How do you create a Vault Object record via the REST API?</div><div class="iq-a">POST to /api/v24.0/vobjects/{object_name}. Request body: JSON with field name-value pairs. Example: POST /api/v24.0/vobjects/product__v with body {"name__v": "Aspirin 100mg", "therapeutic_area__c": "Cardiology", "status__v": "Active"}. Authentication: include session ID in header (Authorization: {session_id}). Response: the new record ID and status. The API respects all security settings, validation rules, and required fields.</div></div>
+    <div class="iq-block"><div class="iq-q">Q87. How would you design a Vault Object model for tracking regulatory submissions across multiple countries?</div><div class="iq-a">Objects: Product (what is being submitted), Country (markets), Submission (the actual regulatory submission), Health Authority (the regulator). Relationships: Submission → Product (lookup), Submission → Country (lookup), Submission → Health Authority (lookup). Object Types on Submission: Initial Application, Variation, Renewal, Annual Update. Lifecycle: Planned → Under Preparation → Submitted → Under Agency Review → Approved/Rejected. Additional child objects: Submission Dossier, Submission Correspondence, Approval Condition.</div></div>
+    <div class="iq-block"><div class="iq-q">Q88. How would you manage a situation where an object was misconfigured in production?</div><div class="iq-a">Process: (1) Assess impact — how many records are affected? (2) Raise a Change Control record documenting the issue and proposed fix. (3) Test the fix in UAT/development Vault. (4) Schedule a change window. (5) For field changes: cannot change field type, but can add a new field and migrate data. (6) For layout changes: safe to change anytime. (7) For validation rule changes: deactivate old rule, add new rule. (8) Document all changes in the audit trail. (9) Communicate to affected users.</div></div>
+    <div class="iq-block"><div class="iq-q">Q89. Describe how you would set up a Vault Object to support a clinical trial master file (TMF) structure.</div><div class="iq-a">TMF structure: Study (top-level object), Zone object (TMF Zone: Trial Management, Central Trial Documents, etc.) linked to Study, Section object linked to Zone, Artifact object (the TMF artifact type) linked to Section, Study Country and Study Site linked to Study. Documents are linked to Study, Site, or Country records via document lookup fields. TMF Reference Model artifacts are defined as Object Types on the Artifact object. Lifecycle on artifacts tracks completeness. Reports give TMF completeness percentage per study.</div></div>
+    <div class="iq-block"><div class="iq-q">Q90. How would you implement a notification system to alert users when a CAPA due date is approaching?</div><div class="iq-a">Several approaches: (1) Date-based notification: Configure a scheduled automation that triggers an email/notification when due_date__c is X days from NOW(). (2) Lifecycle User Action with Entry Criteria: expose a "Send Reminder" button only when due_date__c is within 7 days. (3) Create an "Overdue" lifecycle state with an Entry Action sending notifications, triggered by an external scheduler. (4) External integration: a middleware system queries Vault daily via API for approaching due dates and sends notifications.</div></div>
+    <div class="iq-block"><div class="iq-q">Q91. How would you troubleshoot a record that cannot be saved despite all required fields being filled?</div><div class="iq-a">Troubleshooting steps: (1) Check Validation Rules — look at all active rules for the object and Object Type. Read the error message carefully. (2) Check formula errors — a formula in a validation rule might throw an unexpected error if a referenced field is null. (3) Check Unique field violations — unique fields block save if another record has the same value. (4) Check field permissions — is the user editing a read-only field? (5) Check lifecycle state — is the record in a state that prevents editing? (6) Use a System Admin account to test — if admin can save but user cannot, the issue is permissions.</div></div>
+    <div class="iq-block"><div class="iq-q">Q92. What is Vault's approach to data archiving for Object records?</div><div class="iq-a">Vault's primary archiving mechanism is the status__v field (Active/Inactive). Set records to Inactive to archive them — they disappear from active use but remain fully accessible and auditable. Physical deletion of records is generally discouraged in regulated environments — companies maintain records per their retention schedules (FDA requires 2-15+ years depending on record type). Vault's audit trail persists even after record inactivation.</div></div>
+    <div class="iq-block"><div class="iq-q">Q93. How do you configure the Vault Object to send a notification when the record status changes to "Overdue"?</div><div class="iq-a">Create an "Overdue" lifecycle state. Configure an Entry Action on the Overdue state: Action Type = Send Email. Template = Overdue Notification Template (referencing merge fields from the object). Recipients = owner__v (the record owner) + QA Manager lifecycle role. To move records to Overdue state automatically, use a time-based entry action or external integration (Vault may not natively support scheduled state transitions in all versions — this may require an external scheduler calling the API).</div></div>
+    <div class="iq-block"><div class="iq-q">Q94. What is the Vault Object Permissions model? List all permission levels.</div><div class="iq-a">Vault Object Permissions are set per Role per Object. Permission levels: (1) CRUD permissions: Create, Read, Edit, Delete. (2) Field Permissions (per field, per role): Read, Edit, Hidden. (3) Object Type Permissions: which Object Types are accessible to this role. (4) Lifecycle Permissions: which state transitions can this role perform. (5) Action Permissions: which Actions are available to this role. All must be configured for complete access control.</div></div>
+    <div class="iq-block"><div class="iq-q">Q95. Can two objects reference each other in a circular relationship? What are the implications?</div><div class="iq-a">Technically, it is possible to have Object A with a lookup to Object B and Object B with a lookup to Object A (bidirectional). However, this creates a circular dependency that can cause issues with cascade deletes, formula evaluation, and data integrity. Vault allows creating such relationships but admins should carefully consider whether they are truly needed. It is usually better to redesign the data model to avoid circular references, perhaps using a third mediating object.</div></div>
+    <div class="iq-block"><div class="iq-q">Q96. What is the difference between a Rollup Summary field and a Formula field?</div><div class="iq-a">A Rollup Summary field aggregates values from CHILD records (COUNT, SUM, MIN, MAX of a child field) and stores the result on the PARENT record. It operates across a relationship. A Formula field computes a value from fields on the SAME record (or referenced parent records via lookup traversal). It does not aggregate across multiple child records. Vault has limited native rollup support; complex rollups typically require entry actions or integrations to update a field on the parent.</div></div>
+    <div class="iq-block"><div class="iq-q">Q97. How does Vault enforce 21 CFR Part 11 compliance through Object configurations?</div><div class="iq-a">Key mechanisms: (1) Audit Trail — tamper-proof log of all record changes with user identity and timestamp. (2) Electronic Signatures — lifecycle transitions can require electronic signatures (password re-entry). (3) DateTime fields for approval timestamps (not just Date). (4) User fields for approval-by tracking (linked to authenticated user accounts). (5) Lifecycle state security — only authorized roles can approve. (6) Validation Rules — enforce data completeness before state transitions. (7) Vault's access control ensures only authenticated, authorized users can make changes.</div></div>
+    <div class="iq-block"><div class="iq-q">Q98. What is the purpose of the Object Type Group setting?</div><div class="iq-a">Object Type Group is a purely organizational setting that groups related Object Types together in the admin interface for easier management. It has no impact on the behavior of records, security, lifecycles, or layouts. It is useful when an object has many Object Types (e.g., 20+ types) and you want to group them into logical categories (e.g., "Clinical Types," "Regulatory Types," "Quality Types") for administrative clarity. End users do not see the grouping.</div></div>
+    <div class="iq-block"><div class="iq-q">Q99. How would you test a newly configured Vault Object before deploying to production?</div><div class="iq-a">Testing approach: (1) Create test records for each Object Type. (2) Test all required field validations — try to save without required fields. (3) Test all Validation Rules — both positive cases (should pass) and negative cases (should fail with correct error message). (4) Test lifecycle transitions — try to transition with and without meeting entry criteria. (5) Test each layout with each relevant security profile. (6) Test relationships — create child records, test delete behavior. (7) Test API operations via Postman or scripts. (8) Perform User Acceptance Testing (UAT) with actual business users. (9) Document all test results.</div></div>
+    <div class="iq-block"><div class="iq-q">Q100. Explain how you would design a Vault Object for tracking Adverse Events in a pharmacovigilance system.</div><div class="iq-a">Object: Adverse Event (adverse_event__c). Object Types: Serious Adverse Event (SAE), Non-Serious Adverse Event (non-SAE), Adverse Drug Reaction (ADR). Key Fields: Patient ID (Text), Onset Date (DateTime — for Part 11), Reporter Name (Text), Severity (Picklist), Causality (Picklist), Outcome (Picklist), Is Expedited Report (Checkbox — triggers 15-day rule), Related Product (Lookup to Product), Related Study (Lookup to Study), Narrative (Long Text). Lifecycle: New → Under Assessment → Under Medical Review → Closed/Submitted to Regulator. Entry Action on "Submitted" state: set submission_date__c = NOW(), notify safety team. Validation Rules: prevent closing without narrative and causality assessment. Auto-number for case reference number.</div></div>
+    <div class="iq-block"><div class="iq-q">Q101. What are the key differences between Vault Object-level and Vault Lifecycle-level state security?</div><div class="iq-a">Object-level security: Controls CRUD operations on the object record itself — who can create, read, edit, or delete any record of this object regardless of state. This is the broadest security layer. Lifecycle-level state security: Controls what actions (specifically state transitions) can be performed when the record is in a SPECIFIC state. A user may have Edit permission at the object level but the lifecycle might prevent them from transitioning to "Approved" state unless they have the "Quality Approver" role. Both layers must be aligned for a coherent security model.</div></div>
+    <div class="iq-block"><div class="iq-q">Q102. How would you build a training tracking system using Vault Objects?</div><div class="iq-a">Objects: Training Item (curriculum, course, SOP) with fields: Title, Version, Effective Date, Training Type (Picklist). Training Assignment with Parent Lookup to Training Item and User Lookup to Assignee, plus fields: Assigned Date, Due Date, Assignment Status (Picklist). Training Completion (child of Assignment) with fields: Completion Date, Score, Completion Method, Verifier. Lifecycle on Assignment: Assigned → Completed → Verified → Expired. Validation Rule: Completion Date cannot be before Assigned Date. Entry Action on "Completed" state: send completion notification to the manager. Formula field on Training Item: "Completion Rate" = count of completed assignments / total assignments. This enables compliance training tracking and reporting.</div></div>
+
+    <hr class="divider">
+    <div class="info-box box-blue">
+      <div class="box-title">Key Takeaways — Core Concepts to Remember</div>
+      <ol style="padding-left:18px;">
+        <li>Vault Objects = structured data entities with fields, relationships, lifecycles, and business logic</li>
+        <li>__v = Veeva-managed (standard), __c = customer-managed (custom)</li>
+        <li>Object Types enable one object to serve multiple record categories with different behaviors</li>
+        <li>Field Types determine what data is stored and how it is validated</li>
+        <li>Lookup = soft FK (optional), Parent Lookup = hard FK (required, cascade)</li>
+        <li>Junction Objects = many-to-many relationships</li>
+        <li>Layouts control the UI presentation — assigned per Object Type + Profile</li>
+        <li>Validation Rules fire on TRUE — they describe the ERROR condition</li>
+        <li>Entry Actions automate steps when records enter lifecycle states</li>
+        <li>Audit Trail is tamper-proof and supports GxP/21 CFR Part 11 compliance</li>
+      </ol>
+    </div>
+
+    <p style="text-align:center;color:var(--gray-500);margin-top:48px;font-style:italic;">End of Document — Veeva Vault Objects Complete Learning Guide</p>
+  </div>
+
+<script>
+  const TAB_IDS = ['structure','fields','relationships','layouts','interview'];
+
+  function switchTab(tabId) {
+    TAB_IDS.forEach(function(id) {
+      document.getElementById('panel-' + id).classList.remove('active');
+      document.getElementById('hero-btn-' + id).classList.remove('active');
+      var sub = document.getElementById('sub-' + id);
+      if (sub) sub.classList.remove('open');
+    });
+    document.querySelectorAll('.sidebar-tab-link').forEach(function(b) { b.classList.remove('active'); });
+
+    document.getElementById('panel-' + tabId).classList.add('active');
+    document.getElementById('hero-btn-' + tabId).classList.add('active');
+    var sub = document.getElementById('sub-' + tabId);
+    if (sub) sub.classList.add('open');
+    var sBtn = document.querySelector('[data-tab="' + tabId + '"]');
+    if (sBtn) sBtn.classList.add('active');
+
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+
+  function switchTabAndScroll(tabId, sectionId, e) {
+    e.preventDefault();
+    switchTab(tabId);
+    setTimeout(function() {
+      var el = document.getElementById(sectionId);
+      if (el) el.scrollIntoView({behavior: 'smooth', block: 'start'});
+    }, 320);
+  }
+
+  // Scroll to top button visibility
+  window.addEventListener('scroll', () => {
+    document.getElementById('scroll-top').classList.toggle('visible', window.scrollY > 400);
+  });
+</script>
+</body>
+</html>
