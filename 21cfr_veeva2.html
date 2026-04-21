@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>21 CFR Part 11 + Veeva Vault</title>
+<style>
+  :root {
+    --bg: #0f1117; --surface: #1a1d27; --card: #21253a; --border: #2e3350;
+    --accent: #4f8ef7; --accent2: #7c5cfc; --green: #22d3a5; --yellow: #f5c542;
+    --red: #f76464; --orange: #f7954f; --text: #e4e8f5; --muted: #8b91b0; --radius: 10px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; line-height: 1.65; }
+  header { background: linear-gradient(135deg, #1a1d27 0%, #0d1633 100%); border-bottom: 1px solid var(--border); padding: 20px 24px; }
+  header h1 { font-size: 20px; font-weight: 700; color: #fff; }
+  header p { color: var(--muted); font-size: 13px; margin-top: 4px; }
+  nav { display: flex; gap: 6px; padding: 12px 24px; background: var(--surface); border-bottom: 1px solid var(--border); flex-wrap: wrap; overflow-x: auto; }
+  nav button { background: var(--card); border: 1px solid var(--border); color: var(--muted); padding: 6px 14px; border-radius: 20px; cursor: pointer; font-size: 12px; font-weight: 500; transition: all .2s; white-space: nowrap; }
+  nav button:hover, nav button.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  main { padding: 20px 24px; max-width: 980px; margin: 0 auto; }
+  .tab { display: none; }
+  .tab.active { display: block; }
+  h2 { font-size: 17px; color: var(--accent); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  h3 { font-size: 14px; color: var(--yellow); margin: 18px 0 8px; font-weight: 600; }
+  h4 { font-size: 13px; color: var(--green); margin: 10px 0 6px; font-weight: 600; }
+  p { color: var(--text); margin-bottom: 10px; }
+  ul { padding-left: 18px; margin-bottom: 10px; }
+  li { color: var(--text); margin-bottom: 4px; }
+  strong { color: #fff; }
+  em { color: var(--orange); font-style: normal; font-weight: 600; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 14px; }
+  .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+  .card-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+  @media(max-width:660px) { .card-grid, .card-grid-3 { grid-template-columns: 1fr; } }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; margin-right: 6px; }
+  .badge.basic { background: #1a3a1a; color: var(--green); border: 1px solid var(--green); }
+  .badge.intermediate { background: #3a2e0d; color: var(--yellow); border: 1px solid var(--yellow); }
+  .badge.advanced { background: #3a0d0d; color: var(--red); border: 1px solid var(--red); }
+  .badge.scenario { background: #1a1535; color: var(--accent2); border: 1px solid var(--accent2); }
+  .subpart { background: var(--surface); border-left: 3px solid var(--accent); border-radius: 0 var(--radius) var(--radius) 0; padding: 12px 14px; margin-bottom: 10px; }
+  .subpart-label { font-size: 11px; text-transform: uppercase; letter-spacing: .8px; color: var(--accent); margin-bottom: 4px; font-weight: 700; }
+  .qa-item { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 8px; overflow: hidden; }
+  .qa-q { padding: 12px 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+  .qa-q:hover { background: #252940; }
+  .qa-q-text { font-weight: 600; color: var(--text); flex: 1; line-height: 1.5; }
+  .qa-toggle { color: var(--accent); font-size: 18px; line-height: 1; flex-shrink: 0; margin-top: 2px; }
+  .qa-a { display: none; padding: 0 16px 14px; border-top: 1px solid var(--border); }
+  .qa-a.open { display: block; }
+  .qa-a p { margin-top: 10px; color: #c5cae9; }
+  .qa-a ul { color: #c5cae9; margin-top: 6px; }
+  .qa-a h4 { margin-top: 12px; }
+  .chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+  .chip { background: #1e2240; border: 1px solid var(--border); border-radius: 6px; padding: 4px 10px; font-size: 12px; color: var(--muted); }
+  .chip.hl { border-color: var(--accent2); color: var(--accent2); background: #1a1535; }
+  .chip.green { border-color: var(--green); color: var(--green); background: #0d2a1e; }
+  .chip.yellow { border-color: var(--yellow); color: var(--yellow); background: #2a1e00; }
+  .table-wrap { overflow-x: auto; margin-bottom: 14px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: #252940; color: var(--accent); text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); }
+  td { padding: 8px 10px; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: top; }
+  tr:hover td { background: #1e2240; }
+  .flow { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; margin: 10px 0; }
+  .flow-step { background: var(--accent2); color: #fff; border-radius: 6px; padding: 5px 12px; font-size: 12px; font-weight: 600; }
+  .flow-arrow { color: var(--muted); font-size: 16px; }
+  .notice { background: #0d2a1e; border: 1px solid var(--green); border-radius: var(--radius); padding: 10px 14px; margin-bottom: 12px; font-size: 13px; color: var(--green); }
+  .warn { background: #2a1e00; border: 1px solid var(--yellow); border-radius: var(--radius); padding: 10px 14px; margin-bottom: 12px; font-size: 13px; color: var(--yellow); }
+  .info { background: #0d1f40; border: 1px solid var(--accent); border-radius: var(--radius); padding: 10px 14px; margin-bottom: 12px; font-size: 13px; color: #a8c4f8; }
+  hr { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+  .module-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; margin-bottom: 12px; border-left: 4px solid var(--accent2); }
+  .module-card h4 { color: var(--accent); margin-top: 0; font-size: 14px; }
+  .tag { display: inline-block; background: #252940; border-radius: 4px; padding: 2px 7px; font-size: 11px; color: var(--muted); margin: 2px; }
+  .counter { color: var(--accent2); font-weight: 700; margin-right: 4px; }
+  .section-header { background: linear-gradient(90deg, #1a1d27, var(--card)); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 16px; margin: 20px 0 12px; display: flex; align-items: center; gap: 10px; }
+  .section-header span { font-size: 15px; font-weight: 700; color: var(--accent); }
+  .q-count { background: var(--accent); color: #fff; border-radius: 20px; padding: 2px 10px; font-size: 11px; font-weight: 700; margin-left: auto; }
+</style>
+</head>
+<body>
+<header>
+  <h1>📋 21 CFR Part 11 × Veeva Vault — Complete Master Guide</h1>
+  <p>Basics to Advanced | Pharma Deep-Dive | 50+ Interview Q&A | Module-by-Module Coverage</p>
+</header>
+<nav>
+  <button class="active" onclick="showTab('overview')">① Overview</button>
+  <button onclick="showTab('subparts')">② Subparts & Rules</button>
+  <button onclick="showTab('veeva-arch')">③ Vault Architecture</button>
+  <button onclick="showTab('modules')">④ Vault Modules</button>
+  <button onclick="showTab('config')">⑤ Configuration</button>
+  <button onclick="showTab('validation')">⑥ Validation & GAMP</button>
+  <button onclick="showTab('annex11')">⑦ Annex 11 & ALCOA+</button>
+  <button onclick="showTab('pharma-context')">⑧ Pharma Context</button>
+  <button onclick="showTab('interview')">⑨ Interview Q&A (50+)</button>
+</nav>
+<main>
+
+<!-- ===== TAB 1: OVERVIEW ===== -->
+<div id="tab-overview" class="tab active">
+  <h2>What is 21 CFR Part 11?</h2>
+  <div class="notice">21 CFR Part 11 is the U.S. FDA regulation that defines criteria for electronic records and electronic signatures (ERES) to be considered trustworthy, reliable, and equivalent to paper records and handwritten signatures. Issued in 1997 under Title 21 of the Code of Federal Regulations.</div>
+  <div class="card">
+    <h3>📜 Background & Purpose</h3>
+    <p>Before Part 11, FDA-regulated industries (pharma, biotech, medical devices, food safety) could only use paper records and wet-ink signatures to satisfy regulatory requirements. Part 11 created the legal framework for digital transformation — allowing electronic systems to replace paper <em>only if</em> specific controls are in place to ensure data integrity, authenticity, and non-repudiation.</p>
+    <p>It applies to all electronic records that are created, modified, maintained, archived, retrieved, or transmitted under any FDA regulation (the "predicate rule").</p>
+  </div>
+  <div class="card-grid">
+    <div class="card">
+      <h4>🏢 Who Must Comply?</h4>
+      <ul>
+        <li>Pharmaceutical manufacturers (21 CFR 211)</li>
+        <li>Biotech / biologics companies (21 CFR 600s)</li>
+        <li>Medical device manufacturers (21 CFR 820)</li>
+        <li>Clinical trial sponsors (21 CFR 312)</li>
+        <li>Food / dietary supplement companies</li>
+        <li>Contract Research Organizations (CROs)</li>
+        <li>Contract Manufacturing Organizations (CMOs)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>📌 What is a Predicate Rule?</h4>
+      <p>A predicate rule is the underlying FDA requirement to <em>keep a record</em>. Part 11 governs <em>how</em> that record is maintained electronically.</p>
+      <p><strong>Example:</strong> 21 CFR 211.68 (cGMP) requires batch records to be maintained. If kept electronically → Part 11 applies.</p>
+      <p><strong>Key Insight:</strong> Part 11 does not create new record-keeping obligations. If no predicate rule requires a record, Part 11 does not apply.</p>
+    </div>
+  </div>
+  <h3>🗂️ Structure of 21 CFR Part 11</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Subpart</th><th>Sections</th><th>Topic</th></tr>
+    <tr><td>A</td><td>§11.1 – §11.3</td><td>General Provisions: Scope & Definitions</td></tr>
+    <tr><td>B</td><td>§11.10</td><td>Controls for Closed Systems (11 requirements)</td></tr>
+    <tr><td>B</td><td>§11.30</td><td>Controls for Open Systems</td></tr>
+    <tr><td>C</td><td>§11.50 – §11.70</td><td>Electronic Signature Manifestations & Linking</td></tr>
+    <tr><td>C</td><td>§11.100 – §11.300</td><td>Electronic Signature Controls: General, Components, Biometrics</td></tr>
+  </table></div>
+  <h3>🔑 Core Pillars at a Glance</h3>
+  <div class="chip-row">
+    <span class="chip hl">System Validation</span><span class="chip hl">Audit Trails</span><span class="chip hl">E-Signatures</span>
+    <span class="chip hl">Access Controls</span><span class="chip hl">Record Integrity</span><span class="chip hl">User Authentication</span>
+    <span class="chip hl">Data Backup</span><span class="chip hl">Non-repudiation</span><span class="chip hl">Signature Linking</span><span class="chip hl">Training Records</span>
+  </div>
+  <h3>📅 2003 FDA Guidance — Risk-Based Approach</h3>
+  <div class="info">In 2003, FDA narrowed enforcement scope — focusing on genuine data integrity threats rather than procedural compliance with every technical requirement. The key shift: validate what matters for data integrity, and apply risk-based decisions for legacy systems. Audit trails and e-signatures remain non-negotiable.</div>
+</div>
+
+<!-- ===== TAB 2: SUBPARTS ===== -->
+<div id="tab-subparts" class="tab">
+  <h2>Subparts & Key Requirements (Deep Dive)</h2>
+  <h3>📌 Subpart A — Definitions (§11.3)</h3>
+  <div class="card-grid">
+    <div class="card"><h4>Closed System</h4><p>Access controlled by persons responsible for record content. Example: Veeva Vault with RBAC — only authorized internal users.</p></div>
+    <div class="card"><h4>Open System</h4><p>Access NOT controlled by those responsible for content. Example: internet, email. Requires encryption + digital signature for document transmission.</p></div>
+    <div class="card"><h4>Electronic Record</h4><p>Any combination of text, graphics, data, audio, pictorial, or other information in digital form created, modified, maintained, archived, retrieved, or distributed by a computer system.</p></div>
+    <div class="card"><h4>Electronic Signature</h4><p>Computer data compilation of any symbol or series of symbols executed, adopted, or authorized by an individual to be the legally binding equivalent of the individual's handwritten signature.</p></div>
+    <div class="card"><h4>Biometric</h4><p>Method of verifying identity based on measurement of a unique physical feature or repeatable action of an individual (e.g. fingerprint, retinal scan, voice pattern).</p></div>
+    <div class="card"><h4>Handwritten Signature</h4><p>The scripted name or legal mark of an individual handwritten by that individual and executed or adopted with the present intention to authenticate a document.</p></div>
+  </div>
+
+  <h3>📌 Subpart B — Controls for Closed Systems (§11.10) — ALL 11 Requirements</h3>
+  <div class="subpart"><div class="subpart-label">§11.10(a) — Validation</div><p>Systems must be validated to ensure <strong>accuracy, reliability, consistent intended performance</strong>, and the ability to discern invalid or altered records. Applies to the initial implementation and to changes (change control).</p></div>
+  <div class="subpart"><div class="subpart-label">§11.10(b) — Accurate & Complete Copies</div><p>Ability to generate accurate and complete copies of records in <strong>both human-readable and electronic form</strong> suitable for inspection, review, and copying by the FDA. Includes metadata.</p></div>
+  <div class="subpart"><div class="subpart-label">§11.10(c) — Record Protection</div><p>Records must be protected to enable their <strong>accurate and ready retrieval throughout the records retention period</strong>. Covers backup, archival, disaster recovery, and protection from unauthorized alteration or destruction.</p></div>
+  <div class="subpart"><div class="subpart-label">§11.10(d) — Limiting System Access</div><p>Access limited to <strong>authorized individuals only</strong>. Unique user IDs + passwords. No shared accounts. Role-based permissions restricting access to only what each user needs.</p></div>
+  <div class="subpart"><div class="subpart-label">§11.10(e) — Audit Trails</div><p>Computer-generated, tamper-evident audit trails that independently record: <strong>date and time of operator entries and actions</strong> that create, modify, or delete electronic records. Must capture <em>who, what, and when</em>. Old values retained on change. Cannot be disabled by any user. Retained as long as the record.</p></div>
+  <div class="subpart"><div class="subpart-label">§11.10(f) — Operational System Checks</div><p>Enforce <strong>permissible sequencing of steps and events</strong> as appropriate. A document cannot skip lifecycle states; approval cannot happen without prior review completion.</p></div>
+  <div class="subpart"><div class="subpart-label">§11.10(g) — Authority Checks</div><p>Use authority checks to ensure that only <strong>authorized individuals can use the system</strong>, electronically sign a record, access the operation or computer system input/output device, alter a record, or perform the operation at hand.</p></div>
+  <div class="subpart"><div class="subpart-label">§11.10(h) — Device Checks</div><p>Use appropriate checks to determine the <strong>validity and authenticity of the source of data</strong> entering the system (e.g., input devices, network connections, data feeds from instruments).</p></div>
+  <div class="subpart"><div class="subpart-label">§11.10(i) — Training</div><p>Personnel using systems must have the <strong>education, training, and experience</strong> to perform their assigned tasks. Training must be documented (training records are themselves an electronic record subject to Part 11).</p></div>
+  <div class="subpart"><div class="subpart-label">§11.10(j) — Written Policies</div><p>Establish and adhere to written policies that hold individuals accountable and responsible for actions initiated under their <strong>electronic signatures</strong>. Deter record and signature falsification.</p></div>
+  <div class="subpart"><div class="subpart-label">§11.10(k) — Controls for System Documentation</div><p>Use appropriate controls over <strong>systems documentation</strong>, including distribution/access/use of documentation for system operation and maintenance, and revision/change control procedures to maintain audit trails for document changes.</p></div>
+
+  <h3>📌 Subpart B — Open System Controls (§11.30)</h3>
+  <div class="card"><p>All §11.10 requirements apply PLUS: document encryption, use of established digital signatures (e.g., PKI), and additional measures to ensure authenticity, integrity, and confidentiality during electronic record transmission over public networks.</p></div>
+
+  <h3>📌 Subpart C — Electronic Signature Provisions</h3>
+  <div class="subpart"><div class="subpart-label">§11.50 — Signature Manifestations</div><p>Each e-signature must display: <strong>(1) Printed name of signer</strong>, <strong>(2) Date and time of signing</strong>, <strong>(3) Meaning of signature</strong> (e.g., "Authored," "Reviewed," "Approved," "Rejected"). Must be included in any human-readable form of the record.</p></div>
+  <div class="subpart"><div class="subpart-label">§11.70 — Signature/Record Linking</div><p>E-signatures must be <strong>cryptographically or logically linked</strong> to their respective records. Cannot be excised, copied, or transferred to falsify another electronic record by ordinary means.</p></div>
+  <div class="subpart"><div class="subpart-label">§11.100 — General E-Signature Requirements</div><p>Each e-signature must be <strong>unique to one individual</strong> and must not be reused by or reassigned to anyone else. Before using e-signatures, organizations must submit a written declaration to the FDA certifying intent to use e-signatures as legally binding.</p></div>
+  <div class="subpart"><div class="subpart-label">§11.200 — E-Signature Components & Controls</div><p><strong>Non-biometric:</strong> Minimum 2 identification components (e.g., user ID + password). First signing in a session: both components required. Subsequent signings in the same continuous session: at least one component required.<br><strong>Biometric:</strong> Designed so signatures cannot be used by anyone other than the genuine owner.</p></div>
+  <div class="subpart"><div class="subpart-label">§11.300 — Identification Code Controls</div><p>Non-biometric signature components must: be uniquely identified; be periodically checked, recalled, or revised; follow loss management procedures; and use transaction safeguards to detect unauthorized use.</p></div>
+</div>
+
+<!-- ===== TAB 3: VAULT ARCHITECTURE ===== -->
+<div id="tab-veeva-arch" class="tab">
+  <h2>Veeva Vault — Platform Architecture</h2>
+  <div class="notice">Veeva Vault is a true multi-tenant SaaS platform launched in 2011, built specifically for life sciences. As of FY2026, it serves 1,552+ customers and hosts over 600 million documents and 16 billion data records globally.</div>
+
+  <h3>🏗️ Platform Architecture</h3>
+  <div class="card">
+    <p>Unlike generic ECM platforms (SharePoint, Documentum) adapted for pharma, Vault was designed from the ground up for GxP regulated environments. The architecture has three layers:</p>
+    <div class="flow" style="flex-direction:column; align-items:flex-start; gap:10px; margin-top:10px">
+      <div class="card" style="width:100%; margin:0; border-left: 3px solid var(--accent)"><strong>Application Layer:</strong> Domain-specific apps (QMS, eTMF, RIM, PromoMats, Safety, etc.) built on the shared platform</div>
+      <div class="card" style="width:100%; margin:0; border-left: 3px solid var(--accent2)"><strong>Platform Layer:</strong> Core services — Document management, Object model, Lifecycle engine, Workflow engine, Security, Audit Trail, API, Reporting</div>
+      <div class="card" style="width:100%; margin:0; border-left: 3px solid var(--green)"><strong>Infrastructure Layer:</strong> AWS-hosted multi-tenant cloud, AES-256 at rest, TLS in transit, ISO 27001 + SOC 2 Type II certified data centers</div>
+    </div>
+  </div>
+
+  <h3>🔐 Security Architecture (Part 11 §11.10(d))</h3>
+  <div class="card">
+    <h4>Security Building Blocks (Layered Model)</h4>
+    <div class="table-wrap"><table>
+      <tr><th>Layer</th><th>Component</th><th>Part 11 Relevance</th></tr>
+      <tr><td>User Level</td><td>License Type (Full, External, Read-Only)</td><td>Controls which features a user can access</td></tr>
+      <tr><td>System Level</td><td>Security Profile</td><td>Controls which tabs, admin features, and system functions are visible</td></tr>
+      <tr><td>Permission Level</td><td>Permission Sets</td><td>Granular object-level permissions (create, read, edit, delete)</td></tr>
+      <tr><td>Role Level</td><td>Document/Object Roles</td><td>Contextual permissions on specific records (e.g., Owner, Reviewer, Approver)</td></tr>
+      <tr><td>Group Level</td><td>User Groups</td><td>Hierarchical group membership for scalable permission assignment</td></tr>
+      <tr><td>Document Level</td><td>Sharing Settings</td><td>Restrict who can view/edit specific documents or folders</td></tr>
+    </table></div>
+    <h4>Authentication Controls</h4>
+    <ul>
+      <li><strong>Unique user IDs:</strong> Email-based — system prevents duplicate accounts</li>
+      <li><strong>Password Policies:</strong> Configurable minimum length (e.g. 8+ chars), complexity, expiry (e.g. 90 days), history (e.g. last 5 passwords)</li>
+      <li><strong>MFA (Multi-Factor Authentication):</strong> Supported via SAML 2.0 SSO integration with identity providers (Okta, Azure AD, Ping)</li>
+      <li><strong>IP Restriction:</strong> Vault can be restricted to approved IP ranges — blocks access from unauthorized networks</li>
+      <li><strong>Session Timeout:</strong> Configurable auto-logout after inactivity (e.g., 15/30/60 minutes)</li>
+      <li><strong>Login Attempt Lockout:</strong> Account locked after configurable number of failed login attempts</li>
+    </ul>
+  </div>
+
+  <h3>📝 Audit Trail Architecture (Part 11 §11.10(e))</h3>
+  <div class="card">
+    <p>Vault maintains <strong>four distinct audit trail types</strong>, all computer-generated, immutable, and accessible only by authorized roles:</p>
+    <div class="table-wrap"><table>
+      <tr><th>Audit Trail Type</th><th>What It Captures</th><th>Key Fields</th></tr>
+      <tr><td><strong>Document Audit Trail</strong></td><td>All actions on documents: upload, view, edit, checkout/in, version create, state change, e-signature, download, delete</td><td>User, action, old state, new state, timestamp, IP</td></tr>
+      <tr><td><strong>Object Audit Trail</strong></td><td>All CRUD operations on Vault objects (e.g., CAPA record created, field updated, deleted)</td><td>User, field name, old value, new value, timestamp</td></tr>
+      <tr><td><strong>Login Audit Trail</strong></td><td>All login/logout events including failures; session creation and termination</td><td>User, success/failure, IP address, timestamp, browser/device</td></tr>
+      <tr><td><strong>System Audit Trail</strong></td><td>All admin-level configuration changes: user creation/deactivation, role changes, lifecycle edits, workflow changes</td><td>Admin user, object changed, old config, new config, timestamp</td></tr>
+    </table></div>
+    <div class="warn">Audit trails in Vault cannot be disabled, edited, or deleted by <em>any user</em>, including Vault Owners and Veeva support staff. This is a platform-enforced control, not a configurable one.</div>
+  </div>
+
+  <h3>✍️ Electronic Signature Architecture (Part 11 §11.50–§11.300)</h3>
+  <div class="card">
+    <p>Vault's e-signature implementation satisfies all Part 11 Subpart C requirements:</p>
+    <ul>
+      <li><strong>Re-authentication at signing:</strong> Users must re-enter their password (or PIN if configured) at the moment of signing — not just being logged in</li>
+      <li><strong>Signature Manifestation:</strong> Displayed directly on the document — includes full name, date/time (UTC), and configurable signature meaning</li>
+      <li><strong>Signature Meaning:</strong> Fully configurable per workflow step (e.g., "Approved as Presented," "Reviewed for Accuracy," "QA Certified")</li>
+      <li><strong>Cryptographic Linking:</strong> E-signatures are mathematically linked to the specific document version — a change to the document invalidates the signature</li>
+      <li><strong>Signature Panel:</strong> Vault renders a dedicated "Signature Panel" on PDFs showing all signatures applied, in order</li>
+      <li><strong>Sequential & Parallel Signing:</strong> Configurable — some workflows require sequential approval chains; others allow simultaneous signing</li>
+      <li><strong>Witness Signatures:</strong> Supported for GMP use cases like batch records requiring a second-person verification</li>
+      <li><strong>Delegation:</strong> Signature tasks can be delegated to a designee, with the delegation itself logged in the audit trail</li>
+    </ul>
+  </div>
+
+  <h3>📦 Version Control & Record Protection (§11.10(b)(c))</h3>
+  <div class="card">
+    <ul>
+      <li><strong>Versioning Scheme:</strong> Major versions (1.0, 2.0 — post-approval) and minor versions (0.1, 0.2 — draft stages)</li>
+      <li><strong>Complete Version History:</strong> All prior versions retained indefinitely, viewable, downloadable — never deleted on new approval</li>
+      <li><strong>Checkout/Check-in:</strong> Locks document to one editor at a time — prevents simultaneous conflicting edits</li>
+      <li><strong>Renditions:</strong> Vault auto-generates a PDF "Viewable Rendition" from source files — ensures human-readable copies always available per §11.10(b)</li>
+      <li><strong>Format Conversion:</strong> Vault converts Word/Excel/PPT to PDF on upload for standardized viewing</li>
+      <li><strong>Record Retention Policies:</strong> Configurable by document type — legal hold capability overrides standard retention</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===== TAB 4: MODULES ===== -->
+<div id="tab-modules" class="tab">
+  <h2>Veeva Vault Modules — Module-by-Module Coverage</h2>
+  <div class="info">All Vault modules share the same underlying platform (audit trail, e-signatures, access control, versioning) and are 21 CFR Part 11 compliant by design. Each module adds domain-specific functionality on top.</div>
+
+  <div class="module-card">
+    <h4>📄 Vault QualityDocs — Controlled Document Management</h4>
+    <p><strong>Purpose:</strong> GxP-compliant electronic document management system (eDMS) for SOPs, work instructions, policies, specifications, validation documents, and other controlled content.</p>
+    <h4>Key Features:</h4>
+    <ul>
+      <li><strong>Document Taxonomy:</strong> Pre-configured document types and sub-types (e.g., SOP → Manufacturing SOP, Lab SOP)</li>
+      <li><strong>Periodic Review:</strong> Automated review reminders based on document review period (e.g., every 2 years) with workflow initiation</li>
+      <li><strong>Effective Date Control:</strong> Documents automatically transition to "Effective" state at configured effective date</li>
+      <li><strong>Supersede Logic:</strong> On new version approval, prior version automatically moves to "Superseded" — only latest effective version is active</li>
+      <li><strong>Distribution Lists:</strong> Auto-notify relevant users when a document becomes effective</li>
+      <li><strong>Cross-References:</strong> Link related documents (e.g., SOP references its template and associated training record)</li>
+      <li><strong>External Distribution:</strong> Secure sharing of documents with external partners/CROs/CMOs with access controls and expiry</li>
+    </ul>
+    <div class="chip-row">
+      <span class="tag">21 CFR 211</span><span class="tag">ICH Q10</span><span class="tag">ISO 9001</span><span class="tag">EU GMP Annex 11</span>
+    </div>
+  </div>
+
+  <div class="module-card">
+    <h4>🔬 Vault QMS — Quality Management System</h4>
+    <p><strong>Purpose:</strong> Manages quality processes and events including CAPAs, deviations, change controls, complaints, audit management, and quality risk assessments.</p>
+    <h4>Key Objects & Processes:</h4>
+    <ul>
+      <li><strong>CAPA (Corrective and Preventive Action):</strong> Full lifecycle from root cause analysis to effectiveness check; linked to source event; e-signature on closure</li>
+      <li><strong>Deviation / Non-Conformance:</strong> Capture, investigation, impact assessment, disposition; links to batch records and CAPAs</li>
+      <li><strong>Change Control:</strong> Structured process for managing changes to validated systems, processes, or equipment; regulatory impact assessment; cross-links to RIM for variations</li>
+      <li><strong>Complaints Management:</strong> Product complaint intake, investigation, regulatory reporting (MDR, PSUR)</li>
+      <li><strong>Audit Management:</strong> Schedule internal/external audits, assign observations, track responses, link to CAPAs</li>
+      <li><strong>Supplier Management:</strong> Supplier qualification, approved supplier lists, periodic assessment records</li>
+      <li><strong>OOS/OOT Investigation:</strong> Out-of-specification and out-of-trend investigation workflows for lab data</li>
+    </ul>
+    <div class="chip-row">
+      <span class="tag">21 CFR 820</span><span class="tag">ICH Q9</span><span class="tag">ICH Q10</span><span class="tag">ISO 13485</span><span class="tag">EU GMP Chapter 9</span>
+    </div>
+  </div>
+
+  <div class="module-card">
+    <h4>🧪 Vault eTMF — Electronic Trial Master File</h4>
+    <p><strong>Purpose:</strong> FDA and ICH E6(R3)-compliant system for managing clinical trial documentation throughout the trial lifecycle and post-trial archival.</p>
+    <h4>Key Features:</h4>
+    <ul>
+      <li><strong>TMF Reference Model:</strong> Pre-configured taxonomy aligned with the industry-standard TMF Reference Model (zones, sections, artifacts)</li>
+      <li><strong>Completeness Tracking:</strong> Real-time TMF completeness metrics by site, country, and study — drives inspection readiness</li>
+      <li><strong>Active TMF:</strong> Documents filed in real time during the trial (not just at closeout) — enables live inspection readiness</li>
+      <li><strong>Site Connect:</strong> Investigator sites submit documents directly into the sponsor's eTMF via SiteVault — eliminates email/manual upload</li>
+      <li><strong>QC Workflows:</strong> Quality control review workflows for each artifact type with acceptable/rejected outcomes</li>
+      <li><strong>Trial Management:</strong> Study setup with countries, sites, subjects — site activation tracking</li>
+      <li><strong>FDA Inspection Mode:</strong> Read-only inspection view with full audit trail export</li>
+    </ul>
+    <div class="chip-row">
+      <span class="tag">21 CFR 312</span><span class="tag">ICH E6(R3)</span><span class="tag">EU CTR</span><span class="tag">FDA 21 CFR Part 11</span>
+    </div>
+  </div>
+
+  <div class="module-card">
+    <h4>📑 Vault RIM — Regulatory Information Management</h4>
+    <p><strong>Purpose:</strong> End-to-end management of global regulatory submissions, health authority interactions, registrations, and product lifecycle management.</p>
+    <h4>Key Features:</h4>
+    <ul>
+      <li><strong>Submissions (eCTD):</strong> Collaborative authoring, review, and approval of regulatory submission documents with eCTD-compliant publishing</li>
+      <li><strong>Registrations:</strong> Track product registrations globally — status, approval dates, renewal dates, health authority correspondence</li>
+      <li><strong>Submissions Archive:</strong> Secure repository of published submission dossiers with eCTD viewer</li>
+      <li><strong>Correspondence Management:</strong> Log and track all health authority questions, responses, and commitments</li>
+      <li><strong>Regulatory Intelligence:</strong> Integrated with regulatory data standards (IDMP, SPL, FHIR)</li>
+      <li><strong>Integration with QMS:</strong> Change controls in QMS automatically trigger variation management in RIM</li>
+    </ul>
+    <div class="chip-row">
+      <span class="tag">21 CFR 314</span><span class="tag">eCTD ICH M8</span><span class="tag">EU CTD</span><span class="tag">IDMP</span>
+    </div>
+  </div>
+
+  <div class="module-card">
+    <h4>📢 Vault PromoMats — Promotional Materials & MLR</h4>
+    <p><strong>Purpose:</strong> End-to-end management of promotional and medical content — from creation through Medical, Legal, Regulatory (MLR) review to distribution and withdrawal.</p>
+    <h4>Key Features:</h4>
+    <ul>
+      <li><strong>MLR Workflow:</strong> Configurable Medical/Legal/Regulatory review workflow with parallel and serial task assignment</li>
+      <li><strong>Claims Management:</strong> Library of pre-approved claims linked to supporting references — ensures only approved claims used</li>
+      <li><strong>Annotation Tools:</strong> Color-coded annotation sets per reviewer role — linked to specific text in the document</li>
+      <li><strong>FDA 2253 Submission:</strong> Submit promotional materials to FDA OPDP (Office of Prescription Drug Promotion) directly from Vault</li>
+      <li><strong>Digital Asset Management (DAM):</strong> Store and manage creative assets (images, videos, templates) with usage rights tracking</li>
+      <li><strong>Veeva Approved Email:</strong> Integration with CRM for compliant HCP email campaigns using Vault-approved content</li>
+    </ul>
+    <div class="chip-row">
+      <span class="tag">21 CFR 202</span><span class="tag">FDA 2253</span><span class="tag">OPDP</span><span class="tag">ABPI Code (EU)</span>
+    </div>
+  </div>
+
+  <div class="module-card">
+    <h4>⚗️ Vault Safety — Pharmacovigilance</h4>
+    <p><strong>Purpose:</strong> End-to-end pharmacovigilance case management, from intake through narrative writing, MedDRA coding, regulatory submission (CIOMS, ICSRs), and aggregate reporting.</p>
+    <h4>Key Features:</h4>
+    <ul>
+      <li><strong>Case Intake:</strong> Multi-channel adverse event intake (email, literature, spontaneous reports)</li>
+      <li><strong>MedDRA Coding:</strong> Integrated MedDRA browser for standardized event coding</li>
+      <li><strong>E2B Submissions:</strong> ICH E2B(R3)-compliant electronic submissions to regulatory authorities</li>
+      <li><strong>Vault SafetyDocs:</strong> Manages PSMF, RMPs, aggregate reports (PSUR/PBRER), and signal investigation documents</li>
+      <li><strong>Signal Management:</strong> Workflow for tracking and evaluating potential safety signals</li>
+      <li><strong>Part 11 Note:</strong> All case records, narrative versions, and regulatory submissions are fully audited with immutable audit trails</li>
+    </ul>
+    <div class="chip-row">
+      <span class="tag">21 CFR 314.81</span><span class="tag">ICH E2B(R3)</span><span class="tag">GVP Module VI</span><span class="tag">PBRER</span>
+    </div>
+  </div>
+
+  <div class="module-card">
+    <h4>🎓 Vault Training — Learning Management</h4>
+    <p><strong>Purpose:</strong> GxP-compliant Learning Management System (LMS) tightly integrated with QualityDocs — training assignments automatically triggered when SOPs are approved or updated.</p>
+    <h4>Key Features:</h4>
+    <ul>
+      <li><strong>Auto-Assignment:</strong> When a new SOP version is approved in QualityDocs, training is automatically assigned to relevant users</li>
+      <li><strong>Curriculum Management:</strong> Group training requirements by role, site, job function</li>
+      <li><strong>Completion Methods:</strong> Read-and-acknowledge, quiz, instructor-led, on-the-job training (OJT)</li>
+      <li><strong>Training Matrix:</strong> Real-time view of training status by person, role, or document</li>
+      <li><strong>Part 11 Note:</strong> Training completion records are e-signed acknowledgements — fully Part 11 compliant</li>
+      <li><strong>Overdue Escalation:</strong> Automated escalation to managers for overdue training assignments</li>
+    </ul>
+    <div class="chip-row">
+      <span class="tag">21 CFR 211.68</span><span class="tag">21 CFR 820.25</span><span class="tag">ICH Q10</span>
+    </div>
+  </div>
+
+  <div class="module-card">
+    <h4>🔬 Vault LIMS — Laboratory Information Management</h4>
+    <p><strong>Purpose:</strong> Cloud-based LIMS integrated with Vault Quality for GMP lab sample management, test results, and batch release (launched 2024).</p>
+    <h4>Key Features:</h4>
+    <ul>
+      <li>Sample registration, specification management, test scheduling</li>
+      <li>OOS/OOT investigation integration with QMS</li>
+      <li>Instrument calibration and qualification tracking</li>
+      <li>Batch release workflows with e-signature</li>
+      <li>Full audit trail on all lab data entries and modifications</li>
+    </ul>
+    <div class="chip-row"><span class="tag">21 CFR 211.68</span><span class="tag">21 CFR 211.194</span><span class="tag">GLP 21 CFR Part 58</span></div>
+  </div>
+</div>
+
+<!-- ===== TAB 5: CONFIGURATION ===== -->
+<div id="tab-config" class="tab">
+  <h2>Vault Configuration — Key Concepts</h2>
+
+  <h3>📐 Document Lifecycles</h3>
+  <div class="card">
+    <p>A lifecycle defines the states a document (or object record) can be in, and the transitions between states. It is the core mechanism enforcing §11.10(f) sequencing controls.</p>
+    <h4>Typical QualityDocs SOP Lifecycle:</h4>
+    <div class="flow">
+      <span class="flow-step">Draft</span><span class="flow-arrow">→</span>
+      <span class="flow-step">In Review</span><span class="flow-arrow">→</span>
+      <span class="flow-step">Pending Approval</span><span class="flow-arrow">→</span>
+      <span class="flow-step">Approved</span><span class="flow-arrow">→</span>
+      <span class="flow-step">Effective</span><span class="flow-arrow">→</span>
+      <span class="flow-step">Superseded / Obsolete</span>
+    </div>
+    <h4>Key Lifecycle Concepts:</h4>
+    <ul>
+      <li><strong>State Entry Criteria:</strong> Conditions that must be met before entering a state (e.g., all required fields populated)</li>
+      <li><strong>State Actions:</strong> Actions enabled in a state (e.g., in Draft: Edit allowed; in Approved: Edit forbidden)</li>
+      <li><strong>Transitions:</strong> Defined paths between states (e.g., only QA Manager role can transition to Approved)</li>
+      <li><strong>Atomic Security:</strong> Permissions can be set at the state level — different roles have different permissions in different states</li>
+      <li><strong>Steady States vs. Intermediate States:</strong> Effective is a steady state; In Review is intermediate (document is locked)</li>
+      <li><strong>System Locked:</strong> A special state that makes content read-only and prevents all user modifications</li>
+    </ul>
+  </div>
+
+  <h3>⚙️ Workflows</h3>
+  <div class="card">
+    <p>Workflows are the business processes that drive documents/objects through lifecycle transitions. They enforce §11.10(f) sequencing and §11.10(g) authority checks.</p>
+    <div class="card-grid">
+      <div class="card"><h4>Participant Groups</h4><p>Defined sets of users assigned tasks — can be by role (e.g., all users in "QA Approver" group) or dynamic (specific user selected at workflow start)</p></div>
+      <div class="card"><h4>Serial vs. Parallel</h4><p>Serial: tasks assigned one after another. Parallel: multiple reviewers assigned simultaneously — "Join" task collects all before proceeding</p></div>
+      <div class="card"><h4>Due Dates & SLAs</h4><p>Configurable deadlines per workflow step — overdue escalation to managers with automated reminders</p></div>
+      <div class="card"><h4>E-Signature at Step</h4><p>Specific workflow steps can be configured to require e-signature (password re-entry) before the step can be completed</p></div>
+    </div>
+  </div>
+
+  <h3>🏷️ Metadata & Document Fields</h3>
+  <div class="card">
+    <ul>
+      <li><strong>Document Type Hierarchy:</strong> Type → Sub-Type → Classification (e.g., Quality Document → SOP → Manufacturing SOP)</li>
+      <li><strong>System Fields:</strong> Auto-populated by Vault (document ID, version, created by, created date, modified date)</li>
+      <li><strong>Custom Fields:</strong> Configured per document type (e.g., Site, Department, Effective Date, Review Period)</li>
+      <li><strong>Picklist Fields:</strong> Dropdown lists — controlled vocabulary prevents free-text errors</li>
+      <li><strong>Object Lookup Fields:</strong> Link a document to a Vault object (e.g., link an SOP to a product or site record)</li>
+      <li><strong>Required Fields:</strong> Fields can be made mandatory — state entry criteria can require field completion</li>
+      <li><strong>Part 11 Note:</strong> All metadata changes are captured in the audit trail with before/after values</li>
+    </ul>
+  </div>
+
+  <h3>📊 Reports & Dashboards</h3>
+  <div class="card">
+    <ul>
+      <li><strong>Standard Reports:</strong> Pre-built reports (e.g., Documents by State, Overdue Workflows, Training Compliance Matrix)</li>
+      <li><strong>Custom Reports:</strong> Ad-hoc report builder using document fields, object fields, and audit trail data</li>
+      <li><strong>Audit Trail Reports:</strong> Exportable (CSV) filtered by user, date range, action type, document — critical for FDA inspection support</li>
+      <li><strong>Dashboards:</strong> Visual summaries of key metrics (e.g., CAPA aging, submission status, TMF completeness)</li>
+      <li><strong>Scheduled Reports:</strong> Auto-run and email reports on defined schedules (daily/weekly/monthly)</li>
+    </ul>
+  </div>
+
+  <h3>🔗 Vault Connections & Spark Messaging</h3>
+  <div class="card">
+    <p>Vault modules communicate via <strong>Spark</strong> — Veeva's inter-vault messaging framework:</p>
+    <ul>
+      <li>QMS Change Control → triggers Variation in RIM (RIM Connection)</li>
+      <li>QualityDocs SOP approved → triggers Training assignment in Vault Training</li>
+      <li>SiteVault (investigator site) → pushes documents directly into Sponsor's eTMF (Site Connect)</li>
+      <li>RIM product data → flows into PromoMats for MLR review context</li>
+      <li>External integrations via REST API (SAP, Salesforce, Oracle, etc.)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===== TAB 6: VALIDATION ===== -->
+<div id="tab-validation" class="tab">
+  <h2>System Validation, GAMP 5 & CSV</h2>
+  <div class="notice">§11.10(a) requires that systems be validated to ensure accuracy, reliability, and consistent intended performance. This is Computer System Validation (CSV) — a core GxP requirement for all computerized systems used in regulated activities.</div>
+
+  <h3>📐 GAMP 5 — Software Categories</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Category</th><th>Software Type</th><th>Example</th><th>Validation Approach</th></tr>
+    <tr><td>Cat 1</td><td>Infrastructure</td><td>OS, network, servers</td><td>IT qualification protocols</td></tr>
+    <tr><td>Cat 3</td><td>Non-configured COTS</td><td>MS Word, Adobe Reader</td><td>Light vendor assessment + test</td></tr>
+    <tr><td><strong>Cat 4</strong></td><td><strong>Configured COTS</strong></td><td><strong>Veeva Vault (standard config)</strong></td><td><strong>URS + FRA + IQ/OQ (Veeva) + PQ/UAT (customer)</strong></td></tr>
+    <tr><td>Cat 5</td><td>Custom / bespoke</td><td>Custom Vault SDK code, integrations</td><td>Full validation lifecycle: FS + DS + code review + all Q's</td></tr>
+  </table></div>
+  <div class="info">Vault standard configuration = GAMP Category 4. Any custom Vault SDK code, custom integrations, or bespoke scripts = Category 5 requiring additional validation rigor.</div>
+
+  <h3>🧪 Validation Lifecycle (V-Model)</h3>
+  <div class="card">
+    <div class="table-wrap"><table>
+      <tr><th>Stage</th><th>Document</th><th>Owner</th><th>Content</th></tr>
+      <tr><td>Requirements</td><td>URS (User Requirements Spec)</td><td>Customer</td><td>What the system must do — business and regulatory requirements</td></tr>
+      <tr><td>Risk</td><td>FRA (Functional Risk Assessment)</td><td>Customer</td><td>Risk-based prioritization of which functions to validate</td></tr>
+      <tr><td>System Design</td><td>Configuration Specification</td><td>Customer/SI</td><td>How Vault will be configured to meet URS</td></tr>
+      <tr><td>Installation</td><td>IQ (Installation Qualification)</td><td><strong>Veeva</strong></td><td>Platform installed correctly; infrastructure verified</td></tr>
+      <tr><td>Operational</td><td>OQ (Operational Qualification)</td><td><strong>Veeva</strong></td><td>System functions per design; Veeva provides per release</td></tr>
+      <tr><td>Performance</td><td>PQ / UAT</td><td><strong>Customer</strong></td><td>System performs per customer's specific config and SOPs</td></tr>
+      <tr><td>Summary</td><td>Validation Summary Report</td><td>Customer</td><td>Compilation of all evidence; final sign-off; declaration of validated state</td></tr>
+    </table></div>
+  </div>
+
+  <h3>📦 Veeva's Master Validation Package (MVP)</h3>
+  <div class="card">
+    <p>Veeva provides an MVP with every major release containing:</p>
+    <ul>
+      <li>Release Notes (changes in this release)</li>
+      <li>IQ documentation (infrastructure qualification evidence)</li>
+      <li>OQ documentation (functional qualification evidence)</li>
+      <li>Pre-built UAT test scripts (customer adapts for PQ)</li>
+      <li>Traceability Matrix (URS → test case mapping)</li>
+      <li>Risk Assessment documentation</li>
+      <li>Security Assessment / Penetration Test results</li>
+    </ul>
+    <div class="warn">Customers own PQ/UAT. You must adapt Veeva's test scripts to your specific configuration and execute them in your QA sandbox before each production release.</div>
+  </div>
+
+  <h3>🔄 Change Control in Validated Systems</h3>
+  <div class="card">
+    <p>Any change to a validated Vault configuration must go through formal Change Control (§11.10(k)):</p>
+    <div class="flow">
+      <span class="flow-step">Change Request</span><span class="flow-arrow">→</span>
+      <span class="flow-step">Impact Assessment</span><span class="flow-arrow">→</span>
+      <span class="flow-step">Test Planning</span><span class="flow-arrow">→</span>
+      <span class="flow-step">UAT in Sandbox</span><span class="flow-arrow">→</span>
+      <span class="flow-step">QA Approval</span><span class="flow-arrow">→</span>
+      <span class="flow-step">Production Deploy</span><span class="flow-arrow">→</span>
+      <span class="flow-step">Val Doc Update</span>
+    </div>
+    <h4>Change Classification:</h4>
+    <ul>
+      <li><strong>Minor:</strong> Low-risk cosmetic changes (e.g., rename a picklist value) — document but no re-testing required</li>
+      <li><strong>Moderate:</strong> Functional changes to non-critical workflows — targeted regression testing</li>
+      <li><strong>Major:</strong> Changes to audit trail configuration, e-signature settings, security model, or core lifecycles — full re-validation of affected areas</li>
+    </ul>
+  </div>
+
+  <h3>🏗️ Vault Environments</h3>
+  <div class="card-grid-3">
+    <div class="card"><h4>Dev / Config Sandbox</h4><p>Build and test new configurations. Not validated — free to experiment. No regulated data.</p></div>
+    <div class="card"><h4>QA / Validation Sandbox (UAT)</h4><p>Mirror of production. Execute validation test scripts here. Obtain QA sign-off before promoting to production.</p></div>
+    <div class="card"><h4>Production Vault</h4><p>Live validated system containing regulated data. Changes only via approved Change Control process.</p></div>
+  </div>
+
+  <h3>🔁 Biannual Release Management</h3>
+  <div class="card">
+    <p>Veeva releases major platform updates twice yearly (e.g., 25R1, 25R2). Process:</p>
+    <ul>
+      <li>Pre-release: Review Veeva's Release Notes + Impact Assessment 8–12 weeks before release</li>
+      <li>Risk-classify each change (minor/moderate/major)</li>
+      <li>Download updated MVP from Veeva support portal</li>
+      <li>Execute UAT in sandbox for moderate/major impacted areas</li>
+      <li>Document results in Validation Summary Report with QA sign-off</li>
+      <li>Vault auto-updates on release date; document validated state maintained</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===== TAB 7: ANNEX 11 ===== -->
+<div id="tab-annex11" class="tab">
+  <h2>EU GMP Annex 11 vs 21 CFR Part 11 + ALCOA+</h2>
+  <div class="table-wrap"><table>
+    <tr><th>Aspect</th><th>21 CFR Part 11 (FDA / USA)</th><th>EU GMP Annex 11 (EMA / Europe)</th></tr>
+    <tr><td>Jurisdiction</td><td>United States (FDA-regulated activities)</td><td>European Union + UK (GMP)</td></tr>
+    <tr><td>Scope</td><td>Electronic records & e-signatures specifically</td><td>Broader: all computerized systems in GMP environment</td></tr>
+    <tr><td>Validation</td><td>§11.10(a) — required</td><td>Sections 4–7 — required; GAMP explicitly referenced</td></tr>
+    <tr><td>Audit Trails</td><td>Computer-generated, tamper-evident (§11.10(e))</td><td>Section 9 — required for GMP-relevant data; frequency of review specified</td></tr>
+    <tr><td>Electronic Signatures</td><td>Detailed Subpart C (§11.50–§11.300)</td><td>Section 12 — addressed at high level</td></tr>
+    <tr><td>Data Integrity</td><td>Implied through ALCOA principles</td><td>ALCOA+ explicitly referenced in Annex 11 and data integrity guidelines</td></tr>
+    <tr><td>Cloud/SaaS</td><td>No specific cloud guidance (general principles apply)</td><td>Section 3 — explicitly addresses supplier/vendor qualification for cloud SaaS; 2025 draft revision further expands</td></tr>
+    <tr><td>Backup</td><td>§11.10(c) — protect records</td><td>Section 7.2 — explicit backup testing requirement; verify backup can be restored</td></tr>
+    <tr><td>Supplier Qualification</td><td>Implied in validation</td><td>Section 3 — explicit formal supplier/vendor assessment required</td></tr>
+    <tr><td>Disaster Recovery</td><td>Not specifically addressed</td><td>Section 16 — business continuity for GMP systems required</td></tr>
+    <tr><td>Access Control</td><td>§11.10(d)</td><td>Section 12.1 — physical and logical access controls</td></tr>
+    <tr><td>Print Output</td><td>§11.10(b)</td><td>Section 8 — printouts must be clear, signed, dated</td></tr>
+  </table></div>
+
+  <h3>📊 ALCOA+ Framework (Data Integrity)</h3>
+  <div class="card-grid">
+    <div class="card"><h4>A — Attributable</h4><p>Data linked to the person who created/modified it. <em>Vault:</em> Every action attributed to unique user ID in audit trail.</p></div>
+    <div class="card"><h4>L — Legible</h4><p>Data readable now and in the future. <em>Vault:</em> PDF renditions, format-independent viewing, long-term retention.</p></div>
+    <div class="card"><h4>C — Contemporaneous</h4><p>Recorded at time of activity. <em>Vault:</em> System-generated UTC timestamps at moment of action — cannot be backdated.</p></div>
+    <div class="card"><h4>O — Original</h4><p>First recorded value preserved. <em>Vault:</em> Version history retains all original values; prior values in audit trail on change.</p></div>
+    <div class="card"><h4>A — Accurate</h4><p>Correct representation. <em>Vault:</em> Data validation rules, required fields, controlled vocabularies prevent inaccurate entry.</p></div>
+    <div class="card"><h4>+ Complete</h4><p>All data retained including repeats and anomalies. <em>Vault:</em> No record deletion without audit trail; legal hold capability.</p></div>
+    <div class="card"><h4>+ Consistent</h4><p>Events in expected sequence with time stamps. <em>Vault:</em> Lifecycle sequencing, workflow ordering, UTC timestamps across all events.</p></div>
+    <div class="card"><h4>+ Enduring</h4><p>Preserved for required retention period. <em>Vault:</em> Configurable retention policies, geo-redundant backup, legal hold.</p></div>
+    <div class="card"><h4>+ Available</h4><p>Accessible when needed for review/audit. <em>Vault:</em> 99.9%+ SLA, inspection mode, exportable audit trails, FDA-accessible records.</p></div>
+  </div>
+
+  <h3>🆕 EU Annex 11 2025 Draft Revision</h3>
+  <div class="warn">The most significant overhaul of Annex 11 in 14+ years — public consultation ran July–October 2025, with final implementation expected ~2027. Key additions: explicitly covers IaaS, PaaS, and SaaS; mandates continuous validation for dynamic SaaS systems; requires immutable audit logs; expands cloud supplier qualification requirements. Vault's architecture already aligns with these forthcoming requirements.</div>
+</div>
+
+<!-- ===== TAB 8: PHARMA CONTEXT ===== -->
+<div id="tab-pharma-context" class="tab">
+  <h2>Pharma Industry Context</h2>
+
+  <h3>🏭 GxP Regulations Where Part 11 Applies</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Regulation</th><th>Area</th><th>Vault Module</th></tr>
+    <tr><td>21 CFR Part 211</td><td>cGMP for Finished Pharmaceuticals</td><td>QualityDocs, QMS, LIMS, Training</td></tr>
+    <tr><td>21 CFR Part 312</td><td>IND — Investigational New Drug</td><td>eTMF, RIM Submissions</td></tr>
+    <tr><td>21 CFR Part 314</td><td>NDA — New Drug Application</td><td>RIM, Submissions Archive</td></tr>
+    <tr><td>21 CFR Part 820</td><td>QSR — Medical Device Quality System</td><td>QMS (CAPA, change control)</td></tr>
+    <tr><td>21 CFR Part 58</td><td>GLP — Good Laboratory Practice</td><td>LIMS, QualityDocs</td></tr>
+    <tr><td>21 CFR Part 202</td><td>Prescription Drug Advertising</td><td>PromoMats (FDA 2253)</td></tr>
+    <tr><td>ICH E6(R3)</td><td>GCP — Good Clinical Practice</td><td>eTMF, SiteVault</td></tr>
+    <tr><td>ICH Q10</td><td>Pharmaceutical Quality System</td><td>QMS, QualityDocs</td></tr>
+  </table></div>
+
+  <h3>🔍 FDA Inspection Scenarios & Vault's Role</h3>
+  <div class="card">
+    <h4>Pre-Approval Inspection (PAI)</h4>
+    <p>FDA inspects manufacturing facility before approving an NDA/ANDA. Inspectors verify that batch records, SOPs, equipment qualification, and laboratory data are complete and compliant. Vault provides: electronic batch record completeness, SOP version history, equipment calibration records in QMS, all with full audit trails.</p>
+    <h4>For-Cause Inspection</h4>
+    <p>Triggered by a complaint, adverse event, or 483 observation. Inspectors may drill into specific documents, specific user actions, and specific time periods. Vault's filterable audit trails allow immediate export of exactly what the inspector requests.</p>
+    <h4>Data Integrity Inspection</h4>
+    <p>FDA focuses on whether data integrity controls are working. Key checks: Are audit trails enabled and reviewed? Are there any data gaps? Can any user delete or alter records? Vault's immutable audit trails and role-based controls directly address these concerns.</p>
+    <h4>Form 483 & Warning Letter Context</h4>
+    <p>Common data integrity 483 observations include: audit trails disabled or not reviewed, shared user accounts, unsigned/undated records, backdating. All of these are prevented by Vault's architecture when properly configured.</p>
+  </div>
+
+  <h3>🏆 Key Pharma Use Cases in Vault</h3>
+  <div class="card-grid">
+    <div class="card"><h4>SOP Control Lifecycle</h4><p>Author → SME Review → QA Review → Approval (e-sig) → Effective → Training auto-assignment → Periodic review reminder → New version supersedes old</p></div>
+    <div class="card"><h4>CAPA Process</h4><p>Deviation identified → CAPA initiated → Root cause analysis → Corrective action → Preventive action → Effectiveness check → QA closure (e-sig) → Metrics reporting</p></div>
+    <div class="card"><h4>Batch Record Review</h4><p>Electronic batch record template → Manufacturing completion → QC analyst review (e-sig) → QA approval (e-sig) → Batch disposition → Archive</p></div>
+    <div class="card"><h4>Regulatory Submission</h4><p>eCTD document authoring → Cross-functional review → QC check → Publishing → Health authority submission → Response management → Registration tracking</p></div>
+    <div class="card"><h4>Clinical Trial Filing</h4><p>TMF Reference Model taxonomy → Site activation documents → Investigator site submissions via SiteConnect → QC review → Completeness monitoring → Inspection-ready archive</p></div>
+    <div class="card"><h4>Change Control</h4><p>Change request → Risk assessment → Cross-functional review → Regulatory impact → Validation re-assessment → Implementation approval (e-sig) → Effectiveness check</p></div>
+  </div>
+
+  <h3>📈 Industry Adoption Facts</h3>
+  <div class="card">
+    <ul>
+      <li>450+ companies (including all top 20 pharma) use Vault eTMF</li>
+      <li>450+ companies (including 19 of top 20 pharma) use Vault RIM for global regulatory management</li>
+      <li>180+ companies (including 10 of top 20 pharma) use Vault Quality applications</li>
+      <li>Over 600 million documents and 16 billion data records hosted as of FY2026</li>
+      <li>1,552 total customers globally as of FY2026 revenue of $3.2 billion</li>
+      <li>Veeva AI Agents launched December 2025 — Safety and Quality agents planned April 2026</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===== TAB 9: INTERVIEW ===== -->
+<div id="tab-interview" class="tab">
+  <h2>Interview Questions — Pharma & Vault (50+ Questions)</h2>
+  <p style="color:var(--muted);margin-bottom:16px">Click any question to reveal the detailed answer. Organized from Basic → Intermediate → Advanced → Scenario-Based.</p>
+
+  <!-- BASIC -->
+  <div class="section-header">
+    <span class="badge basic">Basic</span>
+    <span>Foundational Knowledge</span>
+    <span class="q-count">Q1–Q12</span>
+  </div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q1.</span> What is 21 CFR Part 11 and why does it matter in pharma?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>21 CFR Part 11 is the FDA regulation defining criteria for electronic records and electronic signatures (ERES) to be trusted equivalents to paper records and wet-ink signatures. In pharma it matters because: GMP regulations (21 CFR 211), GCP (ICH E6), and GLP (21 CFR 58) all require records to be maintained. When those records are electronic, Part 11 applies. Non-compliance can result in FDA Form 483 observations, warning letters, import alerts, or consent decrees. Veeva Vault was designed specifically to provide a pre-validated, Part 11-compliant platform so pharma companies can focus on science rather than building compliance infrastructure.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q2.</span> What is a predicate rule? Give two pharma examples.</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>A predicate rule is the underlying FDA regulation that creates the original record-keeping requirement. Part 11 does not create new obligations — it governs how electronic records fulfil existing ones. Example 1: 21 CFR 211.188 requires batch production and control records for pharmaceutical manufacturing. If kept electronically in Vault, Part 11 applies. Example 2: 21 CFR 312.62 requires sponsors to maintain adequate records for IND investigations. If the eTMF is electronic in Vault, Part 11 applies. Critically: if no predicate rule requires the record, Part 11 does not apply. The 2003 FDA guidance reaffirmed this narrowing of scope.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q3.</span> What three things must appear in every electronic signature manifestation?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>Per §11.50: (1) Printed name of the signer, (2) Date and time of signing, and (3) The meaning of the signature — also called "signature meaning" or "reason for signing" (e.g., "Approved," "Reviewed," "Authored," "QA Certified"). In Vault, these are displayed directly on the document's Signature Panel and in the PDF rendition. The meaning is configurable per workflow step — so a QA approver's signature shows "Approved by QA" while a reviewer's shows "Reviewed for Accuracy."</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q4.</span> Explain the difference between closed and open systems in Part 11.</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>A closed system (§11.10) is one where access is controlled by the persons responsible for the content of electronic records — e.g., Vault with RBAC where only authorized internal users can access the system. An open system (§11.30) is one where access is not controlled by those responsible — e.g., email or internet-based systems. Open systems require ALL §11.10 controls PLUS additional measures such as document encryption and digital signatures to ensure authenticity and integrity during transmission. In practice, Vault operates as a closed system, but when documents are shared externally (e.g., sent to a CRO via an external partner portal), open-system considerations may apply.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q5.</span> What is an audit trail and what are its non-negotiable requirements?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>An audit trail is a secure, computer-generated, time-stamped record that independently records operator entries and actions that create, modify, or delete electronic records. Non-negotiable requirements per §11.10(e): (1) Computer-generated — cannot be manually created or edited, (2) Tamper-evident — no user, including admins, can modify or delete audit trail entries, (3) Captures who, what, and when — user identity, action type, date/time, (4) Retains old values — when a record is changed, the prior value is preserved, (5) Cannot be disabled — the audit trail function cannot be turned off, (6) Retained as long as the record itself. In Vault, audit trails are a platform-enforced feature — even Vault Owners and Veeva support staff cannot alter them.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q6.</span> What does "validation" mean in the context of 21 CFR Part 11 and Vault?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>Validation (§11.10(a)) is the documented evidence that a computerized system consistently does what it is intended to do. For Vault specifically: Veeva handles IQ (Installation Qualification) and OQ (Operational Qualification) for the platform infrastructure — they provide a Master Validation Package (MVP) with each release. Customers are responsible for PQ (Performance Qualification) / UAT — testing their own specific Vault configuration, workflows, lifecycles, and SOPs to prove the system works correctly for their regulated use. Validation is not a one-time event: it must be maintained through change control whenever the system configuration changes.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q7.</span> What is a Vault document lifecycle? Give a GMP example.</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>A document lifecycle in Vault defines the allowable states a document can be in and the transitions between those states. It enforces §11.10(f) operational system checks — ensuring documents move through the correct sequence. GMP SOP lifecycle example: Draft (author can edit) → In Review (locked, reviewers add comments) → Pending QA Approval (locked, QA applies e-signature) → Effective (locked, auto-distributed) → Superseded (when new version approved) → Obsolete (archived). Key controls: only specific roles can trigger specific transitions; the document is locked (read-only) in certain states; e-signature required at the Approval transition. This ensures no SOP can be approved without going through the defined review process.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q8.</span> What is GAMP 5 and how does it apply to Veeva Vault?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>GAMP 5 (Good Automated Manufacturing Practice, 5th edition) is the ISPE industry framework for validating computerized systems in GxP environments using a risk-based, lifecycle approach. It categorizes software into 5 types. Vault in its standard configuration is GAMP Category 4 (Configured Commercial Off-The-Shelf software). This means: standard platform features are pre-validated by Veeva; customers need to validate their own configuration (workflows, lifecycles, custom fields). Any custom Vault SDK code or bespoke integrations = Category 5, requiring higher validation rigor including functional specifications, design specifications, and code review.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q9.</span> How does Vault enforce unique user IDs as required by §11.10(d) and §11.100?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>Vault enforces unique user IDs by: (1) Requiring a unique email address for each user account — the system rejects duplicate email registrations, (2) Preventing shared accounts — each human user must have their own login, (3) Logging every system action (document actions, state transitions, e-signatures, logins) against that specific user ID, ensuring attribution in the audit trail, (4) Service/integration accounts are separate from human accounts, (5) When a user leaves, their account is deactivated — never deleted (to preserve audit trail integrity) — and their user ID is never reassigned to another person (per §11.100). §11.100 explicitly states e-signatures must be unique to one individual and not reused or reassigned.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q10.</span> What is a Security Profile in Vault and what Part 11 requirement does it address?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>A Security Profile is a collection of permissions that controls which system tabs, administrative functions, and platform features a user can access — independent of document-level or object-level permissions. It directly addresses §11.10(d) (limiting system access to authorized individuals) and §11.10(g) (authority checks). For example: an end user's security profile gives access to the Library and Inbox tabs but not the Admin tab. A Vault Admin has a security profile granting access to Admin configuration. This ensures users can only see and interact with parts of the system appropriate to their role. Security profiles are assigned per user and documented in system validation records.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q11.</span> What is version control in Vault and why is it critical for GMP compliance?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>Vault's version control maintains a complete, immutable history of every version of every document — addressing §11.10(b) (accurate copies) and §11.10(c) (record protection). For GMP compliance: (1) Only the current effective version is used in manufacturing — the system prevents access to superseded versions for new activities while preserving the history, (2) Versioning scheme: major versions (1.0, 2.0) for approved versions; minor versions (0.1, 0.2) for drafts — clear distinction between draft and approved content, (3) FDA inspectors can request "show me the SOP that was in effect on date X" — Vault's version history allows retrieval of any historical version, (4) Checkin/checkout prevents concurrent editing conflicts — only one user edits at a time.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q12.</span> What is ALCOA+ and how does Vault implement each principle?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>ALCOA+ is the data integrity standard: Attributable (Vault: every action tied to unique user ID + timestamp in audit trail), Legible (Vault: PDF renditions, format-independent viewer, long-term accessibility), Contemporaneous (Vault: system-generated UTC timestamps at moment of action — no backdating possible), Original (Vault: all original values preserved in version history and audit trail), Accurate (Vault: required fields, controlled picklists, data validation rules). The "+" additions: Complete (Vault: no record deletion without audit; legal hold), Consistent (Vault: lifecycle sequencing enforces correct order; system timestamps), Enduring (Vault: configurable retention policies, geo-redundant backup), Available (Vault: 99.9%+ uptime SLA, exportable records, inspection-ready mode).</p></div></div>
+
+  <!-- INTERMEDIATE -->
+  <div class="section-header">
+    <span class="badge intermediate">Intermediate</span>
+    <span>Applied & Configuration Knowledge</span>
+    <span class="q-count">Q13–Q28</span>
+  </div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q13.</span> Walk through IQ, OQ, and PQ for a Vault QMS implementation.</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p><strong>IQ (Installation Qualification) — Veeva's responsibility:</strong> Verifies Vault is installed and running correctly in the cloud environment. Veeva's IQ documentation (included in MVP) covers: server infrastructure specifications, software version confirmation, network security configuration, data center certifications (ISO 27001, SOC 2 Type II). Customer reviews and approves Veeva's IQ documentation.<br><strong>OQ (Operational Qualification) — Veeva's responsibility:</strong> Verifies the platform functions as designed. Veeva's OQ documents cover: login/logout functionality, audit trail generation, workflow engine, lifecycle transitions, e-signature capture. Customer reviews Veeva's OQ documentation per release.<br><strong>PQ (Performance Qualification / UAT) — Customer's responsibility:</strong> Verifies the specific Vault QMS configuration works for the customer's regulated processes. Customer tests: CAPA workflow end-to-end (from initiation to closure with e-sigs); deviation lifecycle; change control workflow; audit trail review; role-based access (confirm Author cannot approve); report generation. Test scripts documented, executed in QA sandbox, results reviewed by QA, summary report signed off before production deployment.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q14.</span> What is an MDR (Medical Device Report) and how does Vault support Part 11 compliance for MDR submissions?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>An MDR (Medical Device Report) is a mandatory report to FDA under 21 CFR Part 803 when a device may have caused or contributed to a serious injury, death, or malfunction. For Part 11 compliance in Vault QMS: (1) The complaint record initiating the MDR is created electronically in Vault — fully audited, (2) The investigation workflow is documented with timestamped user actions, (3) The MDR determination (reportable vs. non-reportable) is e-signed by the responsible QA/RA individual, (4) The submitted MDR and associated documents are stored in Vault with version control and audit trail, (5) The 30-day and 5-day reporting deadlines are tracked with Vault workflow due dates and escalation rules. The complete chain of evidence from complaint intake to regulatory submission is in one place, inspection-ready.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q15.</span> How does Vault Training integrate with QualityDocs for Part 11 compliance?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>The integration between Vault Training and QualityDocs is critical for GMP compliance: (1) When a new SOP version reaches "Effective" state in QualityDocs, a Spark event triggers automatic training assignment to all users in the assigned curriculum or role group, (2) Users receive a "Read and Acknowledge" task in their Vault inbox — they must open the document, read it, and submit their e-acknowledgement (which constitutes an e-signature under §11.100), (3) The training completion record is a Part 11 electronic record: it captures user ID, document version, completion timestamp, and method of completion, (4) The Training Matrix provides real-time visibility of who is trained on current SOP versions — critical for FDA inspection, (5) Overdue assignments escalate to managers. For FDA: if an inspector asks "prove this batch record operator was trained on the current SOP," the Training Matrix provides instant, audited evidence.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q16.</span> What is a TMF Reference Model and how does Vault eTMF implement it?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>The TMF Reference Model is the industry-standard taxonomy for clinical trial documentation, defining Zones (e.g., Zone 1: Trial Management, Zone 8: Investigational Medicinal Product) and Artifacts (the specific document types within each zone). It was developed by a consortium of pharma companies and CROs and is referenced by ICH E6(R3). Vault eTMF implements it by: (1) Pre-configuring the document taxonomy to match the TMF Reference Model structure — all zones, sections, and artifact types are built in, (2) Each document uploaded is classified against an artifact type — mandatory metadata fields align with the model, (3) Completeness scoring: Vault tracks which required artifacts are filed vs. expected for each study/country/site, giving a real-time TMF completeness percentage, (4) Active TMF: documents are filed in real time (not just at trial closeout) — enabling inspection readiness throughout the trial, (5) QC workflows are pre-configured per artifact type for quality review.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q17.</span> Explain the concept of "Atomic Security" in Vault and its compliance importance.</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>Atomic Security refers to Vault's ability to define different permissions for the same role in different lifecycle states. For example: an Author has Edit permission in the Draft state but Read-Only permission in the In Review state and no access in the Approved state. This granular, state-dependent access control is critical for §11.10(d) (limiting access) and §11.10(f) (operational system checks). Compliance importance: (1) Prevents a document author from modifying content once it has been submitted for review, (2) Ensures approvers can only approve — not author — documents they are approving, (3) Prevents unauthorized access to sensitive content in certain states (e.g., only QA can view documents in the Confidential QA Review state). This is a major advantage over generic document management systems that apply the same permissions regardless of state.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q18.</span> What is eCTD and how does Vault RIM support it?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>eCTD (electronic Common Technical Document) is the international standard for regulatory submissions to health authorities (FDA, EMA, PMDA) — a structured XML backbone containing the NDA/BLA/MAA content organized by ICH M4. Vault RIM supports eCTD through: (1) Submission planning: map authoring responsibilities across functional teams (nonclinical, clinical, CMC, regulatory), (2) Document authoring and review in Vault with Part 11-compliant e-signatures and audit trails, (3) Submissions Publishing module: assembles, validates, and publishes the eCTD submission dossier with STF validation tool, (4) Submissions Archive: stores the published eCTD with a built-in eCTD viewer for review and inspection, (5) Version management: amendments and variations maintain complete history of all prior submissions, (6) All documents in the submission have traceable version history and audit trails — critical for FDA's ability to inspect the submission history.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q19.</span> What is an FDA Form 483 and what common Vault misconfigurations can lead to one?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>An FDA Form 483 is a document issued to company management at the conclusion of an FDA inspection, listing observations of conditions the inspector believes may violate GMP or other FDA regulations. Common Vault misconfigurations that could lead to 483 observations: (1) Audit trail not reviewed periodically — no Audit Trail Review SOP or documented ATR records, (2) Shared user accounts — multiple users using one login (violates §11.10(d) and §11.100), (3) E-signature without re-authentication — if configured to allow signing without password re-entry, (4) Lifecycle misconfiguration — a document can transition from Draft directly to Effective, bypassing the review/approval states, (5) Incomplete training records — training not auto-assigned when new SOP versions are approved, (6) Unvalidated configuration changes — Vault configuration changed without going through Change Control and UAT, (7) System admin with access to all records — admin role should not have unrestricted document-level access.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q20.</span> What is the difference between a Vault document and a Vault object? Give Part 11 examples.</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>A Vault document is a file-based record (SOP PDF, batch record, clinical protocol) with version control, lifecycle, and renditions. A Vault object is a structured data record (like a database row) with fields, relationships, and a lifecycle but no file attachment (though documents can be linked to it). Part 11 applies to both: Document examples: SOP (QualityDocs), clinical protocol (eTMF), NDA module (RIM) — all have audit trails, version history, and e-signatures. Object examples: CAPA record (QMS), deviation record (QMS), change request (QMS), product registration (RIM) — these are structured data records with field-level audit trails (captures field name, old value, new value, user, timestamp), lifecycle states, and e-signatures at key steps (e.g., CAPA closure e-signature). Both document and object audit trails are immutable and exportable.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q21.</span> How does Vault handle the scenario where a user's account must be deactivated (e.g., employee leaving)?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>When a user leaves, Vault best practice and Part 11 compliance requires: (1) Deactivate (not delete) the user account — all their historical audit trail entries remain attributed to their username and user ID; deleting would break the audit trail attribution chain, (2) Reassign any open workflow tasks to another authorized user — the reassignment itself is logged in the audit trail, (3) Reassign document ownership to another user where needed, (4) The deactivated user's license is freed and can be reassigned to a new user — but the new user gets a new, unique user ID — never the same ID, (5) The deactivated user cannot log in — their session is immediately invalidated, (6) The deactivation event is logged in the system audit trail with date/time and the admin who performed the action, (7) SOPs should define the offboarding process with a target timeframe (e.g., deactivate within 24 hours of departure). This supports §11.100 (unique to one individual, not reused).</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q22.</span> What is Vault's Spark messaging infrastructure and how does it relate to data integrity?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>Spark is Veeva's inter-Vault messaging framework that enables event-driven communication between Vault applications. For example: when a QMS Change Control reaches "Approved" state, Spark sends a message to RIM to initiate a variation record; when QualityDocs SOP reaches "Effective," Spark triggers Training assignment. Data integrity implications: (1) Spark messages are logged — the source event and resulting action are both audited in their respective Vaults, (2) This eliminates manual handoffs between systems — no risk of a QA person "forgetting" to initiate training after an SOP is approved, (3) Cross-Vault traceability: you can trace from the approved SOP (QualityDocs) to the training assignment (Training) to the training completion record — full chain of custody, (4) From a validation perspective, Spark integrations must be included in the validation scope — test cases should verify that trigger events correctly fire the intended downstream actions.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q23.</span> Explain the MLR review process in Vault PromoMats and its Part 11 controls.</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>MLR (Medical, Legal, Regulatory) review is the cross-functional review of promotional materials before they can be distributed or used. In Vault PromoMats: (1) A promotional piece (detail aid, patient brochure, email) is uploaded or authored in Vault, (2) MLR workflow initiated — tasks assigned to Medical reviewer, Legal reviewer, and Regulatory Affairs reviewer (in parallel or series), (3) Each reviewer applies color-coded annotations directly on the document in Vault's viewer — no external email, (4) Regulatory Affairs reviewer checks claims against the Claims Library — only pre-approved claims are used, (5) Each reviewer completes their task with an e-signature (Part 11 §11.50 — printed name, date/time, "Reviewed"), (6) After all reviews complete, a final Approver applies the "Approved" e-signature, (7) For FDA-regulated prescription drugs, the approved piece can be submitted to FDA's OPDP directly from Vault (FDA 2253), (8) Complete audit trail of all reviewer annotations, dates, and signature meanings — inspection-ready.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q24.</span> What is Vault's approach to data migration during system implementation? What Part 11 risks exist?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>Data migration is one of the highest-risk activities in a Vault implementation. Part 11 risks and mitigations: (1) Risk: Original metadata (created by, created date) is lost during migration → Mitigation: Use "Imported Document" lifecycle state with a special note indicating the migrated-from system, date of migration, and who performed it; preserve original metadata in dedicated fields, (2) Risk: Version history not fully migrated → Mitigation: Migrate all historical versions or document which versions were migrated and which are archived offline, (3) Risk: Migration scripts not validated → Mitigation: Treat the migration tool as a Cat 4/5 system; validate with test migration in sandbox; reconcile record counts and checksums, (4) Risk: Electronic signatures from the legacy system not recognized → Mitigation: The migrated document shows who approved it and when (as metadata) but the original e-sig is from the legacy system — both legacy approval evidence and Vault import record are retained, (5) Post-migration verification: execute sample-based reconciliation — random sample of migrated records compared to source system for completeness and accuracy.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q25.</span> What is the difference between a periodic review and a change-triggered revision in QualityDocs?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>Periodic review: Vault automatically initiates a review workflow based on the document's "Review Period" field (e.g., every 2 years for SOPs). The document goes through the full review and re-approval workflow even if no content changes are made. If the document is found to be still current, it is re-approved as-is (same content, new effective date) — this counts as a new version in some configurations or just a periodic review record in others. The re-approval e-signature and date are logged. Change-triggered revision: Initiated when the content of the SOP needs updating. A new minor/major version is created from the effective version, modified in Draft state, sent through the review/approval workflow with full e-signature capture, and upon approval the old version is superseded. Part 11 note: both processes leave a complete audit trail showing who reviewed, who approved, what the previous version said, and when each version became effective — critical for FDA reconstructing the history of a controlled document.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q26.</span> What is Computer System Validation (CSV) and how does it differ from software testing?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>CSV is the formal, documented process of proving that a computerized system does what it is intended to do, consistently and reliably, in a GxP-regulated environment. It is broader than software testing: CSV includes: (1) Requirements gathering (URS), (2) Risk-based approach (FRA), (3) Validation planning (VMP), (4) Installation, Operational, and Performance Qualification (IQ/OQ/PQ), (5) Formal test scripts with expected results, pass/fail criteria, and tester signatures, (6) Deviation handling (test failures documented, investigated, resolved), (7) Validation Summary Report (VSR) with formal QA sign-off, (8) Ongoing maintenance through change control. Software testing (QA testing) focuses on finding bugs. CSV focuses on proving fitness for regulated purpose — a test that passes must be documented with evidence suitable for FDA review. The key question in CSV is not just "does it work?" but "can I prove to the FDA that it works correctly for this GxP purpose?"</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q27.</span> How do you perform an Audit Trail Review (ATR) in Vault and what are you looking for?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>Audit Trail Review (ATR) is a GMP/Part 11 requirement to periodically review audit trails to detect data integrity anomalies. In Vault: (1) Access: Admin → Audit Trails → select type (Document, Object, Login, System), (2) Filter by: date range, user, action type, document/object, (3) Export to CSV for formal review documentation. What to look for: (a) Unauthorized access attempts — failed login spikes or access to documents outside user's role, (b) Unusual off-hours activity — logins and document changes at 2am, (c) Data deletions — who deleted what and why, (d) Backdating attempts — timestamps inconsistent with workflow sequence, (e) Privilege escalation — admin account changes to user permissions, (f) Repeated modifications to the same record — potential data manipulation, (g) Electronic signatures without prior authentication event. ATR frequency: per applicable SOPs and risk level (lab data may need daily ATR; change control records may need weekly/monthly). All ATR activities must themselves be documented with date, reviewer, and findings.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q28.</span> What is CAPA management in Vault QMS and how does Part 11 apply to each step?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>CAPA (Corrective and Preventive Action) is a fundamental GMP quality process. In Vault QMS, Part 11 applies at every step: (1) CAPA Initiation: object record created by authorized user — audit trail captures creator, date/time, initial description; (2) Root Cause Analysis: investigation documented in Vault fields — all updates captured with who changed what and when; (3) Action Plan: corrective and preventive actions assigned to owners with due dates — workflow tasks with e-signature upon acceptance; (4) Implementation: each action implementation evidence uploaded as linked document — upload event audited; (5) Effectiveness Check: follow-up review with documented evidence; (6) CAPA Closure: QA approver applies e-signature with meaning "CAPA Closed — Verified Effective" per §11.50; (7) Reports: CAPA aging, on-time closure metrics from Vault reports — fully audited data backing every metric. FDA can reconstruct the complete CAPA history from initiation to closure with full attribution of every decision and action.</p></div></div>
+
+  <!-- ADVANCED -->
+  <div class="section-header">
+    <span class="badge advanced">Advanced</span>
+    <span>Expert-Level Technical Knowledge</span>
+    <span class="q-count">Q29–Q40</span>
+  </div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q29.</span> How does Vault's REST API interact with Part 11 controls, and what validation is needed for API integrations?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>Vault REST API allows external systems to interact with Vault programmatically. Part 11 considerations: (1) API access uses service accounts — unique user IDs, not shared with human users; all API actions are attributed to the service account in the audit trail, (2) API credentials (client ID + secret) must be stored securely (e.g., in a secret manager like AWS Secrets Manager or HashiCorp Vault) with regular rotation, (3) All API-driven document creation, update, state transition, or deletion is audited exactly like a user action — indistinguishable in the audit trail except for the service account attribution, (4) Validation scope: the integration itself (the code calling the API) is a Category 5 custom system — requires functional specification, design specification, integration test scripts, and validation documentation, (5) Data flowing INTO Vault via API must include all required metadata fields — missing required fields will cause API calls to fail (Vault enforces required field validation), (6) Electronic signatures cannot be triggered via API by a human-in-the-loop action — auto-signing via API is a high compliance risk requiring explicit regulatory justification; in most cases, only human-initiated e-signatures meet §11.200 requirements.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q30.</span> Explain Vault's "Rendition" concept and its importance for §11.10(b) compliance.</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>A rendition in Vault is a read-only, human-readable representation of a document — typically a PDF. It directly supports §11.10(b) (accurate and complete copies for inspection). When a document is uploaded (e.g., Word .docx), Vault automatically generates a PDF "Viewable Rendition." Compliance importance: (1) Ensures a human-readable version exists regardless of whether the original authoring software is available — addresses the regulatory requirement for readable records during the retention period, (2) The rendition captures the document as it was at that version — it is version-controlled alongside the source file, (3) E-signature manifestations are rendered in the PDF as a Signature Panel — visible in the human-readable form per §11.50, (4) Renditions are what FDA inspectors view during inspections — they are complete, accurate representations of the approved record, (5) If the source format becomes obsolete (e.g., .doc files from 2005), the PDF rendition remains readable, (6) Vault can also store "additional renditions" (e.g., flattened PDF with signature overlays) for specific use cases like batch records.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q31.</span> How would you design a Vault implementation for a CMO (Contract Manufacturing Organization) with multiple sponsor clients, each with separate Part 11 requirements?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>This is a multi-tenant complexity challenge. Approach: (1) Vault Architecture: Use separate Vault instances per sponsor relationship OR use a single Vault with strict document-level security using Sharing Settings and security labels to prevent cross-client visibility — separate instances are cleaner from a validation perspective, (2) Access segregation: Role-based groups per sponsor (e.g., "Sponsor_A_External" group) with view-only access to their own documents only — atomic security ensures they cannot see other sponsors' content, (3) External user licenses: Sponsor personnel get External User licenses with limited security profiles, (4) Audit trail separation: each sponsor can export their own document audit trails — no commingling of data, (5) Validation: the CMO maintains one validated Vault but must demonstrate to each sponsor (during audits) that their data is segregated and their Part 11 requirements are met — the CMO's CSV documentation covers the platform; each sponsor may require their own supplier qualification of the CMO's Vault, (6) Change control: any configuration change must assess impact on all sponsor relationships — change control covers all in-scope configurations, (7) QAA (Quality Agreement): each sponsor should have a Quality Agreement with the CMO documenting the validated state of the system and responsibilities.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q32.</span> What is a Validation Master Plan (VMP) and what does it cover for Vault?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>A Validation Master Plan (VMP) is the top-level document that defines the overall philosophy, strategy, and scope of validation activities for a system. For Vault, the VMP covers: (1) Scope: which Vault applications and configurations are in scope (e.g., Vault QualityDocs, Vault QMS, Vault Training — Vault RIM excluded from this VMP), (2) System classification: GAMP Category 4 for standard configuration; Category 5 for custom code, (3) Roles and responsibilities: who owns IQ/OQ (Veeva), who owns PQ/UAT (customer QA and system owner), who signs off (QA Head), (4) Validation approach: risk-based per GAMP 5 — higher risk functions (audit trail, e-sig) get more test coverage, (5) Reference to Veeva's MVP and how it is incorporated, (6) Environment strategy: Dev / UAT / Production, (7) Release management process: how Veeva biannual releases are handled, (8) Change control procedure: reference to the change control SOP, (9) Deviation management: how test failures during UAT are handled and resolved, (10) Ongoing maintenance: periodic review of validated state, re-validation triggers.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q33.</span> How does Part 11 apply to pharmacovigilance (PV) in Vault Safety?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>Pharmacovigilance records are subject to 21 CFR 314.81 (post-marketing reporting) and ICH E2A/E2B. Part 11 applies because these are electronic records under FDA regulation. In Vault Safety: (1) Case records (ICSRs — Individual Case Safety Reports) are electronic objects in Vault — every field update, every narrative revision is captured in the object audit trail with who changed what, when, (2) MedDRA coding sessions — coder identity and timestamp attributed to each coding event, (3) E2B(R3) XML submissions to regulators — the submitted file is stored as a document in Vault with full audit trail and version history, (4) PSUR/PBRER aggregate reports in Vault SafetyDocs — full review/approval workflow with e-signatures, (5) Signal management: all signal evaluation steps documented with user attribution and timestamps, (6) 15-day expedited reporting deadlines tracked in Vault workflows — audit trail captures when report was completed, approved, and submitted, (7) QA for PV: sampling and review of case quality is documented in Vault — the review itself is an audited activity.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q34.</span> What is the impact of the EU Annex 11 2025 draft revision on Vault implementations?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>The 2025 Annex 11 draft revision (public consultation July–October 2025, final implementation expected ~2027) is the most significant update in 14+ years. Key impacts on Vault: (1) Explicitly covers IaaS, PaaS, and SaaS — Vault as a SaaS platform is now directly addressed, not just implied, (2) Continuous validation for dynamic SaaS systems — Vault's biannual release management process must be formally documented as part of an ongoing validation program, not just point-in-time validation, (3) Mandates immutable audit logs — Vault already satisfies this; organizations must document how Vault's audit logs meet immutability requirements, (4) Expanded cloud supplier qualification — formal Veeva supplier assessment (SOC 2 reports, ISO 27001 certificates, security assessments) must be documented and periodically re-performed, (5) Data integrity monitoring — may require more formal ATR frequency documentation, (6) Business continuity more explicitly required — Vault's DR capabilities (RTO/RPO) must be documented and tested. Organizations should begin gap assessment now and update their Vault VMP and CSV documentation accordingly.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q35.</span> How does Vault support a hybrid paper/electronic environment during transition, and what are the data integrity risks?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>During transition from paper to Vault: Phase 1 (parallel operation) risks: (1) Same record exists in both paper and electronic form — need SOPs defining which is the "record of truth," (2) Paper signatures are not Part 11 e-signatures — the scanned image in Vault is an electronic record of a paper signature, not an e-signature, (3) Risk of version mismatch between paper and electronic copies — strict issuance controls required. Mitigation strategies: (1) Define a "go-live" date per document type — before that date, paper is record of truth; after that date, Vault is, (2) For scanned historical documents: use an "Imported" lifecycle state with import attestation (e-signed by the importer confirming completeness and accuracy), (3) Document migration SOP should specify: who scans, who verifies, who attests, (4) Paper originals: define retention policy — destroy only after verification in Vault and per legal retention requirements, (5) Training: train all users on the new electronic process before go-live — document the training (ironic self-reference: train on Vault using Vault Training), (6) Maintain paper process documentation until the transition SOP is formally retired.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q36.</span> Explain Vault's Lifecycle Entry/Steady State/User Action States and their GMP significance.</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>Vault lifecycles have several state types with different behaviors: (1) Steady States: the document can remain here indefinitely until someone actively triggers a transition (e.g., "Effective" — the SOP is in use; "Obsolete" — archived). In steady states, periodic review reminders can be triggered, (2) Entry/Intermediate States: transitional states the document moves through during a workflow (e.g., "In Review" — intermediate; the document moves to "Pending Approval" after all reviewers complete their tasks). Documents are typically locked (read-only) in intermediate states, (3) User Action States: require a specific user action to exit (e.g., a user must click "Complete" to move from "Pending QA Review" to "Approved"), (4) System Locked: content is completely immutable — no user, including admins, can edit the content. Used for "Superseded" and "Obsolete" states to prevent post-hoc modification of historical records. GMP significance: the distinction between steady states and intermediate states reflects real GMP process controls — a document in "Effective" state is being actively used and must be retrievable; a document in "In Review" is temporarily locked to prevent concurrent modification. These controls directly support §11.10(f) sequencing requirements.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q37.</span> What are Vault's cross-Vault (multi-Vault) data integrity considerations for large pharma?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>Large pharma may operate multiple Vault instances (e.g., separate Vaults for Quality, Clinical, Regulatory, Commercial). Cross-Vault considerations: (1) Data duplication risk: the same document might exist in QualityDocs Vault and eTMF Vault — need cross-reference links rather than copies to ensure the same version is referenced, (2) Spark inter-Vault messaging: events in one Vault trigger actions in another — each event is logged in its originating Vault; cross-Vault traceability requires both audit trails to be reviewed together during inspection, (3) Access control: a user with roles in multiple Vaults — their permissions in each Vault are independent; an admin in Clinical Vault should not automatically be admin in Quality Vault, (4) Change control: a configuration change in one Vault may have ripple effects on Spark integrations with other Vaults — impact assessment must cover cross-Vault dependencies, (5) Validation: each Vault instance is independently validated — the VMP for each Vault covers that instance's scope; inter-Vault integrations (via Spark or API) require additional integration-level validation, (6) Disaster recovery: if one Vault goes down, all cross-Vault workflows dependent on it are also impacted — DR plans must account for dependencies.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q38.</span> How would you demonstrate Vault's Part 11 compliance to an FDA inspector who has never seen Vault before?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>Structure the demonstration as a walkthrough of the 11 §11.10 requirements: (1) Validation (§11.10(a)): Present the Validation Summary Report and IQ/OQ/PQ documentation binder; show Veeva's MVP for the current release, (2) Accurate copies (§11.10(b)): Open a document in Vault, show the PDF rendition, export it — show it matches the approved record exactly, (3) Record protection (§11.10(c)): Show retention policy configuration; demonstrate that superseded records remain accessible; show backup documentation, (4) Access controls (§11.10(d)): Show User Management — demonstrate unique emails, security profile assignment; attempt to log in with a deactivated account (fails), (5) Audit trails (§11.10(e)): Pull up the audit trail for a specific document — filter by date range; show who, what, when; export to CSV; show a record modification with before/after values, (6) Sequencing (§11.10(f)): Show the lifecycle configuration; attempt to transition a document from Draft directly to Effective without going through Review — show it is blocked, (7) Authority checks (§11.10(g)): Log in as an Author-only user; attempt to approve a document — show it is blocked, (8) Training (§11.10(i)): Show Training records for a user — show completed training on current SOP version, (9) E-signatures: Open a signed document; show the Signature Panel with name, date/time, and meaning; show that the e-signature was captured with password re-entry in the audit trail.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q39.</span> What is a Traceability Matrix and how is it used in Vault validation?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>A Traceability Matrix (also called Requirements Traceability Matrix or RTM) is a document that links each User Requirement (from the URS) to the specific test case(s) that verify it is met. For Vault validation: (1) Columns typically include: URS Requirement ID, Requirement description, Risk level, Configuration Specification reference, Test case ID(s), Test result (Pass/Fail), Deviation reference (if applicable), (2) Ensures every requirement has at least one test case — no requirements are untested, (3) Demonstrates risk-based coverage — high-risk requirements (e-signature, audit trail) have multiple test cases; low-risk requirements may have fewer, (4) Veeva provides a pre-built Traceability Matrix in their MVP linking their OQ tests to platform functions — customers augment this with their PQ test cases linked to their specific configuration requirements, (5) During FDA inspection: the Traceability Matrix is primary evidence that the validation was systematic and risk-based — not just ad-hoc testing, (6) After each change: the Traceability Matrix is updated to reflect which requirements are impacted by the change and which test cases were re-executed.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q40.</span> Explain Vault's handling of time zones for audit trails and e-signatures — why does this matter for pharma?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>Vault stores all timestamps in UTC (Coordinated Universal Time) internally, while displaying them in the user's configured local time zone. Why this matters for pharma: (1) Consistency: UTC ensures a single, unambiguous time reference across global teams — no ambiguity about "which 14:00" when users are in Tokyo, Frankfurt, and Chicago, (2) Audit trail integrity: all audit trail entries use UTC — when investigating an event sequence, you can correctly reconstruct the order of events regardless of time zones, (3) E-signature manifestations display local time to the signer for usability, but the audit trail captures UTC — this is a known dual-representation that must be understood by auditors, (4) Daylight saving time: UTC avoids DST ambiguity — a document approved "at 2:00am" during a DST transition is unambiguous in UTC, (5) FDA and regulatory implications: if an inspector challenges the timestamp of an approval (e.g., "this was signed at 11:58pm and the batch was released at 11:55pm — how?"), the UTC audit trail can resolve time-zone discrepancies, (6) Documentation: SOPs should document that Vault uses UTC for audit trails and explain how to convert to local time for review purposes.</p></div></div>
+
+  <!-- SCENARIO-BASED -->
+  <div class="section-header">
+    <span class="badge scenario">Scenario</span>
+    <span>Real-World Problem Solving</span>
+    <span class="q-count">Q41–Q52</span>
+  </div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q41.</span> An FDA inspector arrives unannounced and asks for all records related to Batch #2024-X-001. How do you use Vault to respond?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>(1) Navigate to Vault QMS and use the Batch object or cross-reference field to pull all records linked to that batch: deviation records, CAPA records, OOS investigations, (2) Navigate to Vault QualityDocs and pull the batch record document for that batch — present the full audit trail showing who authored, reviewed, and approved it, (3) Pull the equipment qualification records for equipment used in manufacturing (linked via the Equipment object in QMS), (4) Pull training records for all personnel involved (from Vault Training) — confirm they were trained on current SOPs at time of manufacture, (5) Export all relevant audit trails (filtered by document and date range) to CSV for the inspector, (6) Use Vault's "Inspection Mode" read-only view if configured — restricts to view-only access during inspection, (7) If OOS was investigated: pull the complete OOS record with all field-level audit trail showing every update, (8) Present all evidence in a well-organized inspection binder (physical or electronic) with an index. The entire response can be completed in Vault within 30–60 minutes if the system is properly configured and maintained.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q42.</span> Your company receives an FDA 483 observation: "Audit trails were not reviewed for the electronic system used to manage batch production records." How do you respond and remediate?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>Immediate response to inspector: Acknowledge the observation; commit to CAPA with specific timeline. CAPA actions: (1) Root cause analysis: likely missing SOP for Audit Trail Review (ATR) and/or no dedicated role assigned to perform ATR, (2) Immediate corrective action: perform a retrospective ATR for the past 12 months in Vault — document findings, (3) Preventive actions: (a) Author and approve an ATR SOP defining: frequency (e.g., monthly for batch records), scope (which audit trail types), criteria for anomalies, escalation path, documentation format, (b) Assign ATR responsibility to a named QA role with backup, (c) Configure a Vault scheduled report to auto-run the relevant audit trail report and email it to the ATR owner on the defined schedule, (d) Create a Vault Training assignment for the ATR SOP for all relevant QA personnel, (e) Create a periodic ATR review task in Vault (or external calendar) with sign-off record, (4) Effectiveness check: after 3 months, verify ATR has been performed monthly with no missed reviews and with documented findings and sign-off, (5) Response to FDA: provide the CAPA record, ATR SOP, evidence of completed ATRs, and effectiveness check timeline.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q43.</span> During a Vault implementation, your UAT reveals that documents can skip the QA Review state and go directly to Approved. What do you do?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>This is a critical lifecycle configuration defect that violates §11.10(f) (sequencing controls). Steps: (1) Fail the test case with documented description of the defect — record in the UAT deviation log, (2) Do NOT proceed to production deployment — the system is NOT in a validated state, (3) Raise a formal defect/deviation in the validation documentation with severity rating (Critical — direct impact on GMP compliance), (4) Engage the Vault administrator/configurator to identify root cause: likely an incorrectly configured lifecycle transition that allows jumping from Draft or In Review directly to Approved without passing through QA Review, (5) Remediation: correct the lifecycle configuration in the development/config sandbox — remove the erroneous transition or add proper entry criteria, (6) Re-execute the failed test case plus regression testing of all lifecycle transitions in the UAT sandbox, (7) QA sign-off on the corrected configuration, (8) Update the deviation log with root cause, fix, and retest results, (9) Only after clean UAT results and QA sign-off: proceed with change control to deploy to production, (10) Document in the Validation Summary Report: note the defect, remediation, and retest — show the system is fit for purpose.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q44.</span> A quality manager complains that someone changed their CAPA record without their knowledge. How do you investigate using Vault?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>(1) Go to Admin → Audit Trails → Object Audit Trail, (2) Filter by the specific CAPA record ID and the time period in question, (3) The audit trail will show: every field that was changed, the old value, the new value, who made the change, and the exact UTC timestamp, (4) If the quality manager's credentials were used: pull the Login Audit Trail filtered by their user ID — check IP address, device fingerprint, and whether MFA was satisfied, (5) If a different user made the change: verify whether that user had edit permissions on the CAPA record in its current lifecycle state — if they should not have had permission, this is a security misconfiguration (access control violation), (6) If the change was authorized but the QM was not notified: determine if a notification workflow or subscription should have alerted them — configure Vault subscriptions or email notifications, (7) If unauthorized access is confirmed: initiate a formal data integrity incident — CAPA raised to investigate, impacted record placed under review, potential regulatory notification depending on severity, (8) Outcome: either access control CAPA (fix permissions + train on not sharing credentials) or process CAPA (add notification workflow). All findings documented.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q45.</span> Your Vault eTMF is undergoing an FDA inspection for a clinical trial. The inspector requests proof that the TMF is complete and that all documents are authentic. How do you respond?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>(1) Open the TMF Completeness Dashboard in Vault eTMF — show the real-time completeness metrics by zone, section, and artifact type for the study; ideally completeness is ≥95%, (2) Show the TMF Reference Model taxonomy — demonstrate that the filing structure aligns with the ICH E6(R3) and TMF Reference Model, (3) For a sample of key artifacts (e.g., ICD, CV, Delegation Log): open each document and show the document audit trail — demonstrates that each document was uploaded by an authorized user on a specific date, not backdated, (4) Show the QC review records: for each artifact type, demonstrate QC was performed (reviewed and accepted), (5) For site-submitted documents: show the SiteConnect log — documents were received directly from the investigator site, not modified after receipt, (6) E-signatures: for documents requiring e-signature (e.g., Monitoring Visit Reports), show the signature manifestation with name/date/meaning, (7) Export the complete document inventory report for the study — list of all documents with metadata, (8) Show that superseded document versions are retained with clear version history, (9) If the inspector asks about a specific document: pull up the document, audit trail, and QC review simultaneously. The Active TMF approach in Vault is specifically designed to make this inspection response immediate rather than a weeks-long paper chase.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q46.</span> Your company is migrating from Documentum to Vault. Describe your Part 11 migration strategy.</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>Phase 1 — Planning: (1) Inventory source system: document types, total record count, version history depth, metadata schema, lifecycle states, existing audit trails, (2) Define migration scope: what is being migrated (current effective + historical), what stays in Documentum as read-only archive, (3) Define migration tool: Veeva Migration Loader or custom scripts — treat as Cat 4/5 for validation, (4) Map metadata: Documentum fields → Vault fields (many-to-one mapping document required), (5) Define target lifecycle state: all migrated documents land in "Imported" steady state with a specific "Source System" field = "Documentum" and "Migration Date" field. Phase 2 — Validation: (6) Develop migration test scripts: verify correct document type assignment, metadata mapping accuracy, version count, file integrity (checksum), (7) Execute test migration in sandbox with representative sample (all document types, edge cases), (8) Reconcile: source record count = target record count; sample QC by human review. Phase 3 — Execution: (9) Execute production migration during a controlled maintenance window, (10) Post-migration reconciliation, (11) Validate that Documentum audit trails are archived and accessible (keep Documentum in read-only mode for the retention period), (12) SOPs and training updated for Vault, (13) Documentum decommissioning follows a formal decommissioning plan with QA sign-off.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q47.</span> A Veeva biannual release includes a change to the audit trail format. What is your re-validation approach?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>A change to the audit trail format is HIGH risk — audit trail is one of the most critical Part 11 controls. Full re-validation approach for affected area: (1) Review Veeva's Release Notes: understand exactly what changed in the audit trail format — is it cosmetic (field label changed) or functional (a new field added, field removed, timestamp format changed)? (2) Review Veeva's updated OQ documentation for the audit trail function, (3) Risk classification: Major — audit trail changes always warrant full re-validation of the audit trail function, (4) Update test scripts: revise UAT scripts for audit trail testing — test all audit trail types (document, object, login, system) to verify: all required fields still present, old/new values captured correctly, immutability confirmed (attempt to modify — confirm rejection), export works correctly, (5) Execute UAT in sandbox BEFORE production release, (6) If Vault auto-updates: coordinate with Veeva on release timing — request sandbox update 2–4 weeks before production, (7) Upon passing UAT: document in Validation Summary Report, update the Traceability Matrix, QA sign-off, (8) Update audit trail SOP if display format has changed, (9) Notify audit trail reviewers of any format change — update ATR SOP if needed, (10) Post-production verification: after release, confirm audit trail is still functioning in production by checking a known recent action.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q48.</span> How would you implement role-based access for a global pharma company with 10 sites in Vault QualityDocs, ensuring Part 11 compliance?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>Architecture approach: (1) Define global vs. site-specific roles: Global roles (Global QA Head, Global SOP Author) access all site documents; Site roles (Site QA Manager, Site Operator) access only their site's documents, (2) Use Vault's Group hierarchy: Global groups at top level; Site groups as sub-groups — permissions inherited down but can be restricted at site level, (3) Use a "Site" document field + Sharing Rules to restrict document visibility: Site X users can only see documents where Site = "Site X" or Site = "Global", (4) Security labels (if available in your Vault configuration): apply labels to confidential documents (e.g., "Site_A_Confidential") that only Site A roles can access, (5) Lifecycle roles: use dynamic role assignment — the "Site QA Manager" role on a document is auto-assigned based on the Site field value, (6) E-signature authority: only "Global QA Head" can approve Global SOPs; only "Site QA Manager" can approve Site-specific SOPs — enforced by Lifecycle transition permissions, (7) Validation: test all 10 site permission combinations during UAT — test cases include "Site A user cannot see Site B document," "Global user can see all," "Site A QA can approve Site A SOP but not Site B SOP," (8) Access recertification: quarterly review of user access (user access review), documented in Vault — confirms Part 11 §11.10(d) ongoing compliance.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q49.</span> A clinical trial was completed 2 years ago. The FDA requests records from that trial. How does Vault eTMF support this retrieval?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>Post-trial archival is a critical Part 11/ICH E6 requirement. In Vault eTMF: (1) Study remains in Vault in "Archived" or "Closed" status — all documents retained per applicable retention periods (typically 2 years post-NDA approval, or longer depending on regulation), (2) All documents are locked (System Locked lifecycle state) after trial closure — no modifications possible, preserving their integrity as they were at closeout, (3) Retrieve the study from the Vault library — search by study ID, sponsor, or protocol number, (4) Generate the TMF inventory report for the study — complete list of all documents with metadata (document type, version, upload date, QC status), (5) For specific documents: pull individual documents with their full audit trail — shows every action from initial upload to final archival, (6) Show e-signatures on key documents (protocols, amendments, Investigator Brochure revisions, monitoring reports), (7) Export all relevant records as a package (PDF + metadata export) for FDA review, (8) Login audit trail can show who accessed the archived records (and confirm no unauthorized access occurred during archival), (9) Document the FDA request and response in a new Vault record (e.g., a "Regulatory Inquiry" object) for audit trail purposes. The entire retrieval from an inspection request to evidence package can be completed in hours, not weeks.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q50.</span> Your company's Vault instance experienced an unplanned downtime lasting 4 hours. What are the Part 11 and GMP implications?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>Immediate steps: (1) Document the incident: start time, end time, duration, cause (per Veeva's incident report), affected functionality, (2) Assess impact: were any GMP-critical activities in progress? (e.g., batch record approvals pending, CAPA deadlines missed, electronic batch record sign-offs delayed), (3) Implement contingency procedure: the computerized system contingency SOP (required per Annex 11 §16) should have been pre-defined — likely a paper backup process for critical activities during downtime, Part 11 implications: (4) Any records created on paper during the downtime must be entered into Vault post-restoration with appropriate notation that the record was created during system downtime per the contingency SOP, (5) The downtime event itself must be recorded in the system audit trail / system incident log, (6) Verify data integrity: confirm that no data corruption occurred — check audit trails for any anomalies at the time of the incident, (7) Verify backup integrity: confirm that all data up to the point of failure is recoverable, Long-term: (8) Root cause analysis: document what caused the downtime, (9) CAPA if Veeva SLA was breached: contractual and regulatory implications, (10) Update Business Continuity Plan if gaps were identified, (11) If the downtime affected a regulated product release (e.g., QC results could not be entered), notify QA and potentially delay product release until all records are complete and verified.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q51.</span> What is the role of a Quality Agreement (QAA) between a pharma company and Veeva in the context of Part 11?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>A Quality Agreement (QAA) or Technical Agreement defines the responsibilities of both the pharma company and Veeva as the SaaS vendor for maintaining a GxP-compliant system. For Part 11, the QAA typically covers: (1) Validation responsibilities: Veeva performs IQ/OQ for the platform; customer performs PQ/UAT for their configuration, (2) Change notification: Veeva commits to providing advance notice of platform changes (releases, patches) and associated MVP documentation — typically 8–12 weeks ahead, (3) Audit rights: the pharma company's right to audit Veeva's systems, processes, and security controls (or review their third-party audit reports — SOC 2, ISO 27001), (4) Incident notification: Veeva's obligations to notify customers of security incidents, data breaches, or unplanned downtime within defined timeframes (e.g., 72 hours for GDPR-covered incidents), (5) Data ownership and portability: confirmation that the customer owns their Vault data; process for data export and format on contract termination, (6) Audit trail immutability: Veeva's contractual commitment that audit trails cannot be modified by any party, including Veeva personnel, (7) Data center security: Veeva's maintenance of ISO 27001, SOC 2 Type II certifications; physical security controls, (8) Backup and DR: Veeva's commitments on RTO/RPO and backup frequency. The QAA is a critical document in the validation file — it formally documents the shared responsibility model.</p></div></div>
+
+  <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)"><span class="qa-q-text"><span class="counter">Q52.</span> How are Veeva AI Agents (launched Dec 2025) relevant to 21 CFR Part 11 compliance in Vault?</span><span class="qa-toggle">+</span></div>
+  <div class="qa-a"><p>Veeva AI Agents (launched December 2025 with CRM and PromoMats agents; Safety and Quality agents planned April 2026) introduce AI-assisted workflows within Vault. Part 11 implications: (1) AI-generated content: if AI drafts a document (e.g., a PSUR narrative or SOP), the human author/approver is still responsible — the e-signature of the approving person means they have reviewed and taken accountability for the AI-generated content. The AI is a tool, not an author in the Part 11 sense, (2) AI actions in the system: any AI-initiated action in Vault (e.g., AI agent submitting a workflow task) is logged in the audit trail under the AI agent's service account — attribution is maintained, (3) Validation: AI agents represent new system functionality — they must be included in validation scope; new UAT test cases needed to verify AI agent actions are correctly attributed, logged, and do not bypass lifecycle controls, (4) Algorithm validation: in GxP contexts (e.g., a Quality AI agent recommending CAPA closure), the AI algorithm itself may need validation per emerging AI/ML regulatory guidance (FDA's 2021 AI/ML Action Plan), (5) Human oversight: Part 11 requires that e-signatures represent a genuine human decision — AI-assisted review must not erode the human accountability requirement. SOPs must be updated to define the human review requirement for AI-assisted outputs before any e-signature. This is an evolving area; organizations should monitor FDA guidance on AI in GxP systems.</p></div></div>
+
+</div><!-- end interview tab -->
+</main>
+
+<script>
+function showTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+function toggleQA(el) {
+  const ans = el.nextElementSibling;
+  const tog = el.querySelector('.qa-toggle');
+  const isOpen = ans.classList.contains('open');
+  ans.classList.toggle('open', !isOpen);
+  tog.textContent = isOpen ? '+' : '−';
+}
+</script>
+</body>
+</html>
